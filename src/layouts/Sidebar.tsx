@@ -13,6 +13,10 @@ export interface SidebarNavItem {
   children?: SidebarNavItem[];
   /** Hide the item for users without permission. Apps compute this. */
   hidden?: boolean;
+  /** Controlled expansion for a group. Omit to let the group manage its own state. */
+  expanded?: boolean;
+  /** Called with the next expanded value when a group is toggled. */
+  onExpandedChange?: (expanded: boolean) => void;
   /** Count shown as a red pill on the right. Hidden when 0 or missing. */
   badge?: number;
   /** Runs on click, for example to switch a tab. Works with or without href. */
@@ -78,7 +82,13 @@ function defaultLink({ href, className, children, ...rest }: LinkProps) {
 function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collapsed: boolean; renderLink: NonNullable<SidebarProps["renderLink"]> }) {
   const hasChildren = !!item.children?.length;
   const childActive = item.children?.some((c) => c.active || c.children?.some((g) => g.active)) ?? false;
-  const [open, setOpen] = React.useState(childActive);
+  // Uncontrolled unless the app passes `expanded`; then the app owns the state.
+  const [localOpen, setLocalOpen] = React.useState(childActive);
+  const open = item.expanded ?? localOpen;
+  const toggle = () => {
+    item.onExpandedChange?.(!open);
+    if (item.expanded === undefined) setLocalOpen(!open);
+  };
   const isActive = !!item.active;
 
   if (hasChildren) {
@@ -87,7 +97,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
         <button
           type="button"
           aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
+          onClick={toggle}
           className={cn(linkBase, childActive && "text-sidebar-item")}
           title={collapsed ? item.label : undefined}
         >

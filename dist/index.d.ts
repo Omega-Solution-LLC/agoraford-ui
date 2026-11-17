@@ -529,6 +529,10 @@ interface SidebarNavItem {
     children?: SidebarNavItem[];
     /** Hide the item for users without permission. Apps compute this. */
     hidden?: boolean;
+    /** Controlled expansion for a group. Omit to let the group manage its own state. */
+    expanded?: boolean;
+    /** Called with the next expanded value when a group is toggled. */
+    onExpandedChange?: (expanded: boolean) => void;
     /** Count shown as a red pill on the right. Hidden when 0 or missing. */
     badge?: number;
     /** Runs on click, for example to switch a tab. Works with or without href. */

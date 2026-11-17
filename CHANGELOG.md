@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.3
+
+- `SidebarNavItem` gains controlled group expansion: `expanded` and `onExpandedChange`. Omit both for the uncontrolled default.
+
 ## 0.1.2
 
 - Sidebar, topbar and card values measured from the live mojaboard UI: sidebar 220px, topbar 56px, nav items 36px with 2px gap, active item `#262B3F`, 20px cards with 16px radius.

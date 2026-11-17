@@ -1017,7 +1017,12 @@ function defaultLink({ href, className, children, ...rest }) {
 function NavRow({ item, collapsed, renderLink }) {
   const hasChildren = !!item.children?.length;
   const childActive = item.children?.some((c) => c.active || c.children?.some((g) => g.active)) ?? false;
-  const [open, setOpen] = React7.useState(childActive);
+  const [localOpen, setLocalOpen] = React7.useState(childActive);
+  const open = item.expanded ?? localOpen;
+  const toggle = () => {
+    item.onExpandedChange?.(!open);
+    if (item.expanded === void 0) setLocalOpen(!open);
+  };
   const isActive = !!item.active;
   if (hasChildren) {
     return /* @__PURE__ */ jsxs("li", { children: [
@@ -1026,7 +1031,7 @@ function NavRow({ item, collapsed, renderLink }) {
         {
           type: "button",
           "aria-expanded": open,
-          onClick: () => setOpen((o) => !o),
+          onClick: toggle,
           className: cn(linkBase, childActive && "text-sidebar-item"),
           title: collapsed ? item.label : void 0,
           children: [
