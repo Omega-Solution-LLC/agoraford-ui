@@ -3,7 +3,7 @@ import * as React7 from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { extendTailwindMerge } from 'tailwind-merge';
 import { Check, X, LoaderCircle, ChevronDown, ChevronRight, ChevronLeft, MoreHorizontal, ArrowUp, ArrowDown, ArrowUpDown, Search, Inbox, AlertTriangle, CalendarDays, Upload, Menu } from 'lucide-react';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import * as SelectPrimitive from '@radix-ui/react-select';
@@ -25,6 +25,13 @@ import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 
 // src/primitives/Button.tsx
+var twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: ["title", "subtitle", "body", "control", "small", "caption"] }]
+    }
+  }
+});
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
