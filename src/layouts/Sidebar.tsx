@@ -131,7 +131,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
 export function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }: SidebarProps) {
   return (
-    <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className)}>
+    <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "border-r border-sidebar-border transition-[width] duration-150", className)}>
       {brand ? <div className="flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4">{brand}</div> : null}
       <nav aria-label={label} className="flex-1 overflow-y-auto p-2">
         {sections ? (

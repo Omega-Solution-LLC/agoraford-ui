@@ -59,6 +59,15 @@ const statToneClass: Record<StatTone, string> = {
   info: "border-info/40 bg-info/5",
 };
 
+const statIconClass: Record<StatTone, string> = {
+  neutral: "bg-surface-muted text-muted-foreground",
+  brand: "bg-brand/10 text-brand",
+  success: "bg-success/10 text-success",
+  warning: "bg-warning/10 text-warning",
+  danger: "bg-danger/10 text-danger",
+  info: "bg-info/10 text-info",
+};
+
 export interface StatCardProps {
   /** Accent for the live dashboard KPI tiles. Defaults to neutral. */
   tone?: StatTone;
@@ -75,10 +84,14 @@ export interface StatCardProps {
 /** KPI tile: label, large value, optional icon and hint. */
 export function StatCard({ tone = "neutral", label, value, hint, icon, loading, className }: StatCardProps) {
   return (
-    <Card padding="comfortable" className={cn("flex flex-col gap-2", statToneClass[tone], className)}>
-      <div className="flex items-center justify-between gap-2">
-        <Text variant="small">{label}</Text>
-        {icon ? <span className="text-brand" aria-hidden="true">{icon}</span> : null}
+    <Card padding="comfortable" className={cn("flex flex-col gap-3", statToneClass[tone], className)}>
+      <div className="flex items-center gap-3">
+        {icon ? (
+          <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-control [&_svg]:size-5", statIconClass[tone])} aria-hidden="true">
+            {icon}
+          </span>
+        ) : null}
+        <Text variant="small" className="min-w-0 truncate">{label}</Text>
       </div>
       {loading ? <Skeleton className="h-8 w-24" /> : <Text variant="title" as="span">{value}</Text>}
       {hint ? <Text variant="caption">{hint}</Text> : null}

@@ -2,6 +2,13 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.4
+
+- Font is the system `sans-serif`, as on the live mojaboard (was Poppins, which mojaboard never applied).
+- Sidebar has the right-hand border used by the live app.
+- `TopbarSearch` is 320px wide from the `sm` breakpoint.
+- `StatCard` shows the icon in a tinted 40px tile beside the label, with the value and hint below.
+
 ## 0.1.3
 
 - `SidebarNavItem` gains controlled group expansion: `expanded` and `onExpandedChange`. Omit both for the uncontrolled default.

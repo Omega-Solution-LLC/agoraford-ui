@@ -18,7 +18,7 @@ export interface TopbarSearchProps {
 /** Topbar search pill: 36px, 320px wide on desktop, matches the live mojaboard search. */
 export function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className }: TopbarSearchProps) {
   const shell = cn(
-    "flex h-9 w-full max-w-80 items-center gap-2 rounded-control border border-sidebar-border bg-sidebar-active px-3 font-sans text-body text-sidebar-muted transition-colors hover:border-sidebar-muted focus-within:ring-2 focus-within:ring-brand",
+    "flex h-9 w-full items-center gap-2 sm:w-80 rounded-control border border-sidebar-border bg-sidebar-active px-3 font-sans text-body text-sidebar-muted transition-colors hover:border-sidebar-muted focus-within:ring-2 focus-within:ring-brand",
     className,
   );
   if (onOpen) {

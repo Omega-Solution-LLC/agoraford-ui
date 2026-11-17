@@ -727,11 +727,19 @@ var statToneClass = {
   danger: "border-danger/40 bg-danger/5",
   info: "border-info/40 bg-info/5"
 };
+var statIconClass = {
+  neutral: "bg-surface-muted text-muted-foreground",
+  brand: "bg-brand/10 text-brand",
+  success: "bg-success/10 text-success",
+  warning: "bg-warning/10 text-warning",
+  danger: "bg-danger/10 text-danger",
+  info: "bg-info/10 text-info"
+};
 function StatCard({ tone = "neutral", label, value, hint, icon, loading, className }) {
-  return /* @__PURE__ */ jsxs(Card, { padding: "comfortable", className: cn("flex flex-col gap-2", statToneClass[tone], className), children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2", children: [
-      /* @__PURE__ */ jsx(Text, { variant: "small", children: label }),
-      icon ? /* @__PURE__ */ jsx("span", { className: "text-brand", "aria-hidden": "true", children: icon }) : null
+  return /* @__PURE__ */ jsxs(Card, { padding: "comfortable", className: cn("flex flex-col gap-3", statToneClass[tone], className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3", children: [
+      icon ? /* @__PURE__ */ jsx("span", { className: cn("flex size-10 shrink-0 items-center justify-center rounded-control [&_svg]:size-5", statIconClass[tone]), "aria-hidden": "true", children: icon }) : null,
+      /* @__PURE__ */ jsx(Text, { variant: "small", className: "min-w-0 truncate", children: label })
     ] }),
     loading ? /* @__PURE__ */ jsx(Skeleton, { className: "h-8 w-24" }) : /* @__PURE__ */ jsx(Text, { variant: "title", as: "span", children: value }),
     hint ? /* @__PURE__ */ jsx(Text, { variant: "caption", children: hint }) : null
@@ -752,7 +760,7 @@ function Timeline({ items, className }) {
 }
 function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className }) {
   const shell = cn(
-    "flex h-9 w-full max-w-80 items-center gap-2 rounded-control border border-sidebar-border bg-sidebar-active px-3 font-sans text-body text-sidebar-muted transition-colors hover:border-sidebar-muted focus-within:ring-2 focus-within:ring-brand",
+    "flex h-9 w-full items-center gap-2 sm:w-80 rounded-control border border-sidebar-border bg-sidebar-active px-3 font-sans text-body text-sidebar-muted transition-colors hover:border-sidebar-muted focus-within:ring-2 focus-within:ring-brand",
     className
   );
   if (onOpen) {
@@ -1055,7 +1063,7 @@ function NavRow({ item, collapsed, renderLink }) {
   ] }) });
 }
 function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }) {
-  return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className), children: [
+  return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "border-r border-sidebar-border transition-[width] duration-150", className), children: [
     brand ? /* @__PURE__ */ jsx("div", { className: "flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4", children: brand }) : null,
     /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex-1 overflow-y-auto p-2", children: sections ? /* @__PURE__ */ jsx("div", { className: "flex flex-col gap-4", children: sections.map((section) => /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-0.5", children: [
       !collapsed ? /* @__PURE__ */ jsx("span", { className: "px-3 pb-1 font-sans text-caption font-medium uppercase tracking-wide text-sidebar-muted", children: section.label }) : null,
