@@ -428,12 +428,14 @@ interface ProgressCardProps {
     title: React$1.ReactNode;
     subtitle?: React$1.ReactNode;
     rows: ProgressRow[];
+    /** Right-aligned action in the card header, e.g. a drill-down link. */
+    action?: React$1.ReactNode;
     /** Shown when there are no rows. Translated by the app. */
     emptyLabel?: React$1.ReactNode;
     className?: string;
 }
 /** Labelled progress bars inside a SectionCard, for SLA and status breakdowns. */
-declare function ProgressCard({ title, subtitle, rows, emptyLabel, className }: ProgressCardProps): React$1.JSX.Element;
+declare function ProgressCard({ title, subtitle, rows, action, emptyLabel, className }: ProgressCardProps): React$1.JSX.Element;
 
 declare const noticeVariants: (props?: ({
     tone?: "danger" | "neutral" | "brand" | "success" | "warning" | null | undefined;

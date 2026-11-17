@@ -51,15 +51,17 @@ export interface ProgressCardProps {
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   rows: ProgressRow[];
+  /** Right-aligned action in the card header, e.g. a drill-down link. */
+  action?: React.ReactNode;
   /** Shown when there are no rows. Translated by the app. */
   emptyLabel?: React.ReactNode;
   className?: string;
 }
 
 /** Labelled progress bars inside a SectionCard, for SLA and status breakdowns. */
-export function ProgressCard({ title, subtitle, rows, emptyLabel, className }: ProgressCardProps) {
+export function ProgressCard({ title, subtitle, rows, action, emptyLabel, className }: ProgressCardProps) {
   return (
-    <SectionCard title={title} subtitle={subtitle} className={className}>
+    <SectionCard title={title} subtitle={subtitle} action={action} className={className}>
       {rows.length === 0 ? (
         <Text variant="small">{emptyLabel}</Text>
       ) : (

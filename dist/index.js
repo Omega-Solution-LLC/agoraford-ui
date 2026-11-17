@@ -811,8 +811,8 @@ var barTone = {
   danger: "bg-danger",
   info: "bg-info"
 };
-function ProgressCard({ title, subtitle, rows, emptyLabel, className }) {
-  return /* @__PURE__ */ jsx(SectionCard, { title, subtitle, className, children: rows.length === 0 ? /* @__PURE__ */ jsx(Text, { variant: "small", children: emptyLabel }) : /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-4", children: rows.map((row) => {
+function ProgressCard({ title, subtitle, rows, action, emptyLabel, className }) {
+  return /* @__PURE__ */ jsx(SectionCard, { title, subtitle, action, className, children: rows.length === 0 ? /* @__PURE__ */ jsx(Text, { variant: "small", children: emptyLabel }) : /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-4", children: rows.map((row) => {
     const pct = row.total > 0 ? Math.min(100, Math.round(row.value / row.total * 100)) : 0;
     return /* @__PURE__ */ jsxs("li", { className: "flex flex-col gap-2", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3", children: [
