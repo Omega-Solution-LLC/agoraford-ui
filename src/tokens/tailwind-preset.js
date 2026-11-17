@@ -51,6 +51,7 @@ export default {
         control: ["var(--ui-text-control)", { lineHeight: "20px", fontWeight: "var(--ui-weight-control)" }],
         small: ["var(--ui-text-small)", { lineHeight: "16px" }],
         caption: ["var(--ui-text-caption)", { lineHeight: "14px" }],
+        section: ["var(--ui-text-section)", { lineHeight: "28px", fontWeight: "var(--ui-weight-section)" }],
       },
       borderRadius: {
         control: "var(--ui-radius-control)",

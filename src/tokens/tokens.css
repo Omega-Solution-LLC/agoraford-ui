@@ -52,6 +52,8 @@
   --ui-text-control: 14px;        /* weight 500, line 20 */
   --ui-text-small: 12.8px;        /* weight 400, line 16 */
   --ui-text-caption: 11.5px;      /* weight 400, line 14 */
+  --ui-text-section: 22px;        /* weight 700, line 28. Section headings inside long-form pages (manual, policy text) */
+  --ui-weight-section: 700;
   --ui-weight-title: 800;
   --ui-weight-control: 600;
 

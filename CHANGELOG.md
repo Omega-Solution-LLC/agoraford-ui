@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.9
+
+- New type role `section` (`22px`, weight `700`, line `28px`) for section headings inside long-form pages. Add it as `text-section`. Chapter titles keep `title`.
+
 ## 0.1.8
 
 - Tokens: `--ui-weight-control` is now `600`, and dark mode defines `--ui-sidebar-active` (`#343A40`) and `--ui-sidebar-border` (`#383D43`).
