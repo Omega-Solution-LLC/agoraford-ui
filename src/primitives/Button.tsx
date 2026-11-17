@@ -5,19 +5,19 @@ import { cn } from "../lib/cn";
 import { Spinner } from "./Spinner";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-sans text-control font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-sans text-body transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary: "bg-brand text-white hover:bg-brand-hover",
-        secondary: "bg-brand-soft text-brand hover:bg-brand/20",
-        outline: "border border-border-strong bg-surface text-foreground hover:bg-surface-muted",
-        ghost: "text-foreground hover:bg-surface-muted",
-        danger: "bg-danger text-white hover:bg-danger/90",
-        link: "text-brand underline-offset-4 hover:underline",
+        primary: "bg-brand font-semibold text-white hover:bg-brand-hover",
+        secondary: "bg-brand-soft font-medium text-brand hover:bg-brand/20",
+        outline: "border border-border-strong bg-surface font-medium text-foreground hover:bg-surface-muted",
+        ghost: "font-medium text-foreground hover:bg-surface-muted",
+        danger: "bg-danger font-semibold text-white hover:bg-danger/90",
+        link: "font-medium text-brand underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-control-sm px-3 text-small font-semibold",
+        sm: "h-control-sm px-3 text-small",
         md: "h-control-md px-4",
         lg: "h-control-lg px-5",
         icon: "h-control-md w-control-md p-0",

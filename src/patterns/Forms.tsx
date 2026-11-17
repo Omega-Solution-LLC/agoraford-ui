@@ -152,6 +152,57 @@ export interface StepWizardStep {
   icon?: React.ReactNode;
 }
 
+export interface StepperProps {
+  steps: StepWizardStep[];
+  /** Index of the active step, 0-based. */
+  current: number;
+  /** Optional step click handler for completed/accessible steps. */
+  onStepClick?: (index: number) => void;
+  /** Accessible label for the step list. */
+  label?: string;
+  className?: string;
+}
+
+/** Horizontal circle stepper matching live mojaboard. */
+export function Stepper({ steps, current, onStepClick, label = "Progress steps", className }: StepperProps) {
+  return (
+    <nav aria-label={label} className={className}>
+      <ol className="flex items-start justify-between gap-2 overflow-x-auto">
+        {steps.map((step, i) => {
+          const done = i < current;
+          const active = i === current;
+          return (
+            <React.Fragment key={step.id}>
+              <li className="flex shrink-0 flex-col items-center gap-2 text-center" aria-current={active ? "step" : undefined}>
+                <button
+                  type="button"
+                  disabled={!onStepClick || (!done && !active)}
+                  onClick={() => onStepClick?.(i)}
+                  className={cn(
+                    "flex size-10 items-center justify-center rounded-pill border-2 font-sans text-small font-semibold transition-colors [&_svg]:size-4",
+                    done && "border-success bg-success text-white",
+                    active && "border-brand bg-brand text-white",
+                    !active && !done && "border-border-strong bg-surface-muted text-muted-foreground",
+                    onStepClick && (done || active) ? "cursor-pointer" : "cursor-default",
+                  )}
+                >
+                  {done ? <Check aria-hidden="true" /> : step.icon ?? i + 1}
+                </button>
+                <span className={cn("max-w-24 font-sans text-small leading-tight", active || done ? "font-semibold text-foreground" : "text-muted-foreground")}>
+                  {step.label}
+                </span>
+              </li>
+              {i < steps.length - 1 ? (
+                <li aria-hidden="true" className={cn("mt-5 h-0.5 min-w-4 flex-1", done ? "bg-success" : "bg-border")} />
+              ) : null}
+            </React.Fragment>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
 export interface StepWizardProps {
   steps: StepWizardStep[];
   /** Index of the active step, 0-based. */
@@ -162,6 +213,8 @@ export interface StepWizardProps {
   title?: React.ReactNode;
   /** Optional subtitle under the header title. */
   subtitle?: React.ReactNode;
+  /** Optional trailing actions in the header band (e.g. draft status badge). */
+  headerActions?: React.ReactNode;
   /** Optional back handler rendered on the left of the header band. */
   onBack?: () => void;
   /** Optional step click handler for completed/accessible steps. */
@@ -171,63 +224,35 @@ export interface StepWizardProps {
 }
 
 /** Multi-step wizard card with horizontal circle stepper matching live mojaboard. */
-export function StepWizard({ steps, current, stepLabel, title, subtitle, onBack, onStepClick, children, className }: StepWizardProps) {
+export function StepWizard({ steps, current, stepLabel, title, subtitle, headerActions, onBack, onStepClick, children, className }: StepWizardProps) {
   const activeStep = steps[current];
   return (
     <div className={cn("overflow-hidden rounded-card border border-border bg-surface shadow-sm dark:shadow-none", className)}>
       {title ? (
-        <div className="flex items-center gap-3 bg-brand px-6 py-4 text-white">
-          {onBack ? (
-            <button
-              type="button"
-              onClick={onBack}
-              aria-label="Back"
-              className="inline-flex size-8 shrink-0 items-center justify-center rounded-control text-white/90 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <ChevronLeft className="size-5" aria-hidden="true" />
-            </button>
-          ) : null}
-          <div className="flex min-w-0 flex-col gap-0.5">
-            <h2 className="font-sans text-control font-bold text-white">{title}</h2>
-            <p className="font-sans text-small text-white/85">
-              {subtitle ?? `${stepLabel} ${current + 1} / ${steps.length}${activeStep ? `: ${activeStep.label}` : ""}`}
-            </p>
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-brand px-6 py-4 text-white">
+          <div className="flex min-w-0 items-center gap-3">
+            {onBack ? (
+              <button
+                type="button"
+                onClick={onBack}
+                aria-label="Back"
+                className="inline-flex size-8 shrink-0 items-center justify-center rounded-control text-white/90 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <ChevronLeft className="size-5" aria-hidden="true" />
+              </button>
+            ) : null}
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <h2 className="font-sans text-control font-bold text-white">{title}</h2>
+              <p className="font-sans text-small text-white/85">
+                {subtitle ?? `${stepLabel} ${current + 1} of ${steps.length}${activeStep ? `: ${activeStep.label}` : ""}`}
+              </p>
+            </div>
           </div>
+          {headerActions ? <div className="flex shrink-0 items-center gap-2">{headerActions}</div> : null}
         </div>
       ) : null}
       <div className="border-b border-border px-6 py-5">
-        <ol className="flex items-start justify-between gap-2 overflow-x-auto">
-          {steps.map((step, i) => {
-            const done = i < current;
-            const active = i === current;
-            return (
-              <React.Fragment key={step.id}>
-                <li className="flex shrink-0 flex-col items-center gap-2 text-center" aria-current={active ? "step" : undefined}>
-                  <button
-                    type="button"
-                    disabled={!onStepClick || (!done && !active)}
-                    onClick={() => onStepClick?.(i)}
-                    className={cn(
-                      "flex size-10 items-center justify-center rounded-pill border-2 font-sans text-small font-semibold transition-colors [&_svg]:size-4",
-                      done && "border-success bg-success text-white",
-                      active && "border-brand bg-brand text-white",
-                      !active && !done && "border-border-strong bg-surface-muted text-muted-foreground",
-                      onStepClick && (done || active) ? "cursor-pointer" : "cursor-default",
-                    )}
-                  >
-                    {done ? <Check aria-hidden="true" /> : step.icon ?? i + 1}
-                  </button>
-                  <span className={cn("max-w-24 font-sans text-small leading-tight", active || done ? "font-semibold text-foreground" : "text-muted-foreground")}>
-                    {step.label}
-                  </span>
-                </li>
-                {i < steps.length - 1 ? (
-                  <li aria-hidden="true" className={cn("mt-5 h-0.5 min-w-4 flex-1", done ? "bg-success" : "bg-border")} />
-                ) : null}
-              </React.Fragment>
-            );
-          })}
-        </ol>
+        <Stepper steps={steps} current={current} onStepClick={onStepClick} />
         {!title ? (
           <Text variant="caption" as="span" className="mt-3 block text-center">{`${stepLabel} ${current + 1} / ${steps.length}`}</Text>
         ) : null}

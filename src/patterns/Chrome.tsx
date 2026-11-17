@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Search } from "lucide-react";
+import { Bell, Check, Search } from "lucide-react";
 import { cn } from "../lib/cn";
 import { Avatar } from "../primitives/Avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../primitives/DropdownMenu";
 
 export interface TopbarSearchProps {
   /** Accessible name and placeholder, translated by the app. */
@@ -81,4 +82,116 @@ export function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, cl
   }
   return <div className={shell}>{content}</div>;
 }
+
+export interface LanguageOption {
+  code: string;
+  label: string;
+  short?: string;
+}
+
+export interface LanguageSwitcherProps {
+  options: LanguageOption[];
+  value: string;
+  onValueChange: (code: string) => void;
+  /** Accessible name for the trigger button. */
+  label?: string;
+  /** "inverse" for the dark topbar/auth surfaces, "default" for light surfaces. */
+  tone?: "inverse" | "default";
+  className?: string;
+}
+
+/** Topbar language switcher button (`EN`) with dropdown menu, matching the live mojaboard header. */
+export function LanguageSwitcher({
+  options,
+  value,
+  onValueChange,
+  label = "Select language",
+  tone = "inverse",
+  className,
+}: LanguageSwitcherProps) {
+  const active = options.find((opt) => opt.code === value) ?? options[0];
+  const shortCode = (active?.short ?? active?.code ?? value).toUpperCase();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label={label}
+          title={label}
+          className={cn(
+            "inline-flex h-9 min-w-9 items-center justify-center rounded-control px-2.5 font-sans text-body font-medium uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+            tone === "inverse"
+              ? "text-sidebar-muted hover:bg-sidebar-active hover:text-sidebar-item"
+              : "text-muted-foreground hover:bg-surface-muted hover:text-foreground",
+            className,
+          )}
+        >
+          <span>{shortCode}</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-40">
+        {options.map((opt) => {
+          const selected = opt.code === value;
+          return (
+            <DropdownMenuItem key={opt.code} onSelect={() => onValueChange(opt.code)}>
+              <span className="flex w-4 shrink-0 items-center justify-center">
+                {selected ? <Check className="size-4 text-brand" aria-hidden="true" /> : null}
+              </span>
+              <span className="flex-1">{opt.label}</span>
+              <span className="text-caption font-semibold uppercase text-muted-foreground">
+                {opt.short ?? opt.code}
+              </span>
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+export interface NotificationBellButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  unreadCount?: number;
+  /** Accessible name for the button. */
+  label?: string;
+  tone?: "inverse" | "default";
+}
+
+/** Notification bell icon button with top-right unread count badge, matching the live mojaboard header. */
+export const NotificationBellButton = React.forwardRef<HTMLButtonElement, NotificationBellButtonProps>(
+  ({ unreadCount = 0, label, tone = "inverse", className, ...props }, ref) => {
+    const ariaLabel = label ?? (unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications");
+    const badge = unreadCount > 99 ? "99+" : String(unreadCount);
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        aria-label={ariaLabel}
+        title="Notifications"
+        className={cn(
+          "relative inline-flex size-9 shrink-0 items-center justify-center rounded-control transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+          tone === "inverse"
+            ? "text-sidebar-muted hover:bg-sidebar-active hover:text-sidebar-item"
+            : "text-muted-foreground hover:bg-surface-muted hover:text-foreground",
+          className,
+        )}
+        {...props}
+      >
+        <Bell className="size-5" strokeWidth={1.7} aria-hidden="true" />
+        {unreadCount > 0 ? (
+          <span
+            className={cn(
+              "absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-danger px-1 font-sans text-caption font-bold leading-none text-white ring-2",
+              tone === "inverse" ? "ring-sidebar" : "ring-surface",
+            )}
+          >
+            {badge}
+          </span>
+        ) : null}
+      </button>
+    );
+  },
+);
+NotificationBellButton.displayName = "NotificationBellButton";
 

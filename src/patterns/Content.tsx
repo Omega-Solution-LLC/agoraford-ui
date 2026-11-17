@@ -35,15 +35,15 @@ export interface FormSectionProps {
   className?: string;
 }
 
-/** Titled group of form fields. Fields inside are spaced 16px apart. */
+/** Titled group of form fields. Fields inside are spaced 20px apart. */
 export function FormSection({ title, description, children, className }: FormSectionProps) {
   return (
-    <section className={cn("flex flex-col gap-4", className)}>
+    <section className={cn("flex flex-col gap-5", className)}>
       <div className="flex flex-col gap-1">
-        <Text variant="control" as="h2" className="font-semibold">{title}</Text>
+        <Text variant="subtitle" as="h2" className="font-semibold text-foreground">{title}</Text>
         {description ? <Text variant="small">{description}</Text> : null}
       </div>
-      <div className="grid gap-4">{children}</div>
+      <div className="grid gap-5">{children}</div>
     </section>
   );
 }

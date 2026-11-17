@@ -9,6 +9,24 @@ const rgb = (name) => `rgb(var(--ui-${name}) / <alpha-value>)`;
 export default {
   darkMode: "class",
   theme: {
+    // Replaces Tailwind's default radius scale so every rounded-* class in every app
+    // resolves to the shared tokens. Do not add raw radii in apps.
+    borderRadius: {
+      none: "0px",
+      xs: "var(--ui-radius-xs)",
+      sm: "var(--ui-radius-xs)",
+      DEFAULT: "var(--ui-radius-xs)",
+      md: "var(--ui-radius-control)",
+      lg: "var(--ui-radius-card)",
+      xl: "var(--ui-radius-card)",
+      "2xl": "var(--ui-radius-card)",
+      "3xl": "var(--ui-radius-card)",
+      control: "var(--ui-radius-control)",
+      card: "var(--ui-radius-card)",
+      panel: "var(--ui-radius-panel)",
+      pill: "var(--ui-radius-pill)",
+      full: "var(--ui-radius-pill)",
+    },
     extend: {
       colors: {
         brand: {
@@ -52,12 +70,6 @@ export default {
         small: ["var(--ui-text-small)", { lineHeight: "16px" }],
         caption: ["var(--ui-text-caption)", { lineHeight: "14px" }],
         section: ["var(--ui-text-section)", { lineHeight: "28px", fontWeight: "var(--ui-weight-section)" }],
-      },
-      borderRadius: {
-        control: "var(--ui-radius-control)",
-        card: "var(--ui-radius-card)",
-        panel: "var(--ui-radius-panel)",
-        pill: "var(--ui-radius-pill)",
       },
       height: {
         topbar: "var(--ui-topbar-height)",

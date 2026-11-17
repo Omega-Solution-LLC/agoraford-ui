@@ -26,6 +26,10 @@ export function Topbar({ leading, trailing, className }: TopbarProps) {
 export interface AppShellProps {
   sidebar: Omit<SidebarProps, "className">;
   topbar?: React.ReactNode;
+  /** Breadcrumb + back link bar rendered above the main content card. */
+  breadcrumb?: React.ReactNode;
+  /** Wrap main page content in the MojaBoard white surface card. Defaults to "card". */
+  contentSurface?: "card" | "plain";
   /** Label on the mobile menu button. Translated by the app. */
   menuLabel: string;
   children: React.ReactNode;
@@ -34,9 +38,10 @@ export interface AppShellProps {
 
 /**
  * Full app layout: fixed sidebar on desktop, drawer on mobile, topbar, scrolling content.
+ * Renders an optional breadcrumb bar above a white surface card (`contentSurface="card"`).
  * Routes and data stay in the app; this only places the chrome.
  */
-export function AppShell({ sidebar, topbar, menuLabel, children, className }: AppShellProps) {
+export function AppShell({ sidebar, topbar, breadcrumb, contentSurface = "card", menuLabel, children, className }: AppShellProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
@@ -59,7 +64,14 @@ export function AppShell({ sidebar, topbar, menuLabel, children, className }: Ap
             }
             trailing={topbar}
           />
-          <main className="min-h-0 flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
+          <main className="min-h-0 flex-1 overflow-y-auto p-4 md:p-6">
+            {breadcrumb ? <div className="mb-3">{breadcrumb}</div> : null}
+            {contentSurface === "card" ? (
+              <div className="rounded-card border border-border bg-surface p-4 shadow-card md:p-6">{children}</div>
+            ) : (
+              children
+            )}
+          </main>
         </div>
       </div>
     </Sheet>
@@ -68,15 +80,28 @@ export function AppShell({ sidebar, topbar, menuLabel, children, className }: Ap
 
 export interface PageContainerProps {
   children: React.ReactNode;
+  /** Optional breadcrumb + back bar rendered above the content card. */
+  breadcrumb?: React.ReactNode;
+  /** Wrap content in the MojaBoard white surface card. Defaults to "card". */
+  surface?: "card" | "plain";
   /** Max width for the content column. */
   width?: "md" | "lg" | "xl" | "full";
   className?: string;
 }
 
-/** Content column with consistent max width and gap between page sections (24px). */
-export function PageContainer({ children, width = "full", className }: PageContainerProps) {
+/** Content column with optional breadcrumb bar, white surface card, consistent max width, and 24px section gap. */
+export function PageContainer({ children, breadcrumb, surface = "card", width = "full", className }: PageContainerProps) {
   const max = { md: "max-w-3xl", lg: "max-w-5xl", xl: "max-w-7xl", full: "max-w-none" }[width];
-  return <div className={cn("mx-auto flex w-full flex-col gap-6", max, className)}>{children}</div>;
+  return (
+    <div className={cn("mx-auto flex w-full flex-col gap-3", max, className)}>
+      {breadcrumb}
+      {surface === "card" ? (
+        <div className="flex flex-col gap-6 rounded-card border border-border bg-surface p-4 shadow-card md:p-6">{children}</div>
+      ) : (
+        <div className="flex flex-col gap-6">{children}</div>
+      )}
+    </div>
+  );
 }
 
 export interface AuthLayoutProps {

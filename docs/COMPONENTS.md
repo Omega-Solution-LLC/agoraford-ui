@@ -48,6 +48,13 @@ Layers: tokens → primitives → patterns → layouts. Every label is a prop. T
 - `MultiSelect`, `DateTimePicker`, `LanguageSwitcher`: add as Select and DatePicker variants.
 - `BrandLogo`: per app (brand data), not in the library.
 
+## Page Shell Layout Standard (All Apps)
+
+Every authenticated page inside `AppShell` must follow the MojaBoard layout:
+
+1. **Breadcrumb + Back Bar above the card:** Render `Breadcrumb` with `backAction` (`Back to <Previous Page>`) above the main content card. Parent links and the back link use `text-brand`; the active/current item uses `text-foreground font-medium`.
+2. **White Surface Content Card:** Wrap the page's header, KPI cards, filters, tables, and forms inside a white surface card (`rounded-card border border-border bg-surface p-4 md:p-6 shadow-card`) over the `bg-background` canvas (`AppShell` `contentSurface="card"` or `PageContainer` `surface="card"`).
+
 ## Rules for adding a component
 
 1. No business logic, no API calls, no router imports.

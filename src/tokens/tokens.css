@@ -57,10 +57,13 @@
   --ui-weight-title: 800;
   --ui-weight-control: 600;
 
-  /* Radius (live: buttons 8px, cards 16px) */
-  --ui-radius-control: 8px;
-  --ui-radius-card: 16px;
-  --ui-radius-panel: 16px;
+  /* Radius scale. The only radii allowed in any app. Matches live mojaboard.
+     xs: chips, kbd, inner highlights. control: buttons, inputs, selects, tabs.
+     card: cards, tables, panels, dialogs, popovers. pill: badges, avatars, toggles, progress bars. */
+  --ui-radius-xs: 4px;
+  --ui-radius-control: 6px;
+  --ui-radius-card: 8px;
+  --ui-radius-panel: 8px;
   --ui-radius-pill: 9999px;
 
   /* Control heights (unverified: blueprint values, check live) */

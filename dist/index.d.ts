@@ -38,6 +38,8 @@ declare function Spinner({ label, size, className, ...props }: SpinnerProps): Re
 interface FieldProps {
     /** Label text. The library never hard-codes labels; apps pass translated text. */
     label?: React$1.ReactNode;
+    /** Optional metadata aligned to the right of the label row (e.g. "Optional", character counter). */
+    labelRight?: React$1.ReactNode;
     hint?: React$1.ReactNode;
     error?: React$1.ReactNode;
     required?: boolean;
@@ -45,13 +47,23 @@ interface FieldProps {
     className?: string;
     children: React$1.ReactNode;
 }
-/** Label, control and hint or error text. Label-to-control gap is 6px. */
-declare function Field({ label, hint, error, required, htmlFor, className, children }: FieldProps): React$1.JSX.Element;
+/** Label (with optional hover help icon and right-aligned metadata), control, and error text. */
+declare function Field({ label, labelRight, hint, error, required, htmlFor, className, children }: FieldProps): React$1.JSX.Element;
 
 type InputProps = React$1.InputHTMLAttributes<HTMLInputElement>;
 declare const Input: React$1.ForwardRefExoticComponent<InputProps & React$1.RefAttributes<HTMLInputElement>>;
 type TextareaProps = React$1.TextareaHTMLAttributes<HTMLTextAreaElement>;
 declare const Textarea: React$1.ForwardRefExoticComponent<TextareaProps & React$1.RefAttributes<HTMLTextAreaElement>>;
+
+interface PasswordInputProps extends Omit<InputProps, "type"> {
+    /** Accessible label for the visibility toggle button. Translated by the app. */
+    toggleLabel?: {
+        show: string;
+        hide: string;
+    };
+}
+/** Password input with a visibility toggle button. */
+declare const PasswordInput: React$1.ForwardRefExoticComponent<PasswordInputProps & React$1.RefAttributes<HTMLInputElement>>;
 
 interface SelectOption {
     value: string;
@@ -171,16 +183,26 @@ declare const PopoverTrigger: React$1.ForwardRefExoticComponent<PopoverPrimitive
 declare const PopoverClose: React$1.ForwardRefExoticComponent<PopoverPrimitive.PopoverCloseProps & React$1.RefAttributes<HTMLButtonElement>>;
 declare const PopoverContent: React$1.ForwardRefExoticComponent<Omit<PopoverPrimitive.PopoverContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
+type TabsVariant = "underline" | "segmented";
 declare const Tabs: React$1.ForwardRefExoticComponent<TabsPrimitive.TabsProps & React$1.RefAttributes<HTMLDivElement>>;
-declare const TabsList: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.TabsListProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
-/** Underline tab. Active tab uses the brand color and a 2px underline. */
-declare const TabsTrigger: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.TabsTriggerProps & React$1.RefAttributes<HTMLButtonElement>, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
+interface TabsListProps extends React$1.ComponentPropsWithoutRef<typeof TabsPrimitive.List> {
+    variant?: TabsVariant;
+}
+declare const TabsList: React$1.ForwardRefExoticComponent<TabsListProps & React$1.RefAttributes<HTMLDivElement>>;
+interface TabsTriggerProps extends React$1.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+    icon?: React$1.ReactNode;
+    count?: number | string;
+}
+/** Tab trigger: underline (default) or segmented pill matching the live mojaboard design. */
+declare const TabsTrigger: React$1.ForwardRefExoticComponent<TabsTriggerProps & React$1.RefAttributes<HTMLButtonElement>>;
 declare const TabsContent: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.TabsContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
 interface SegmentedOption<T extends string> {
     value: T;
-    label: React$1.ReactNode;
+    label?: React$1.ReactNode;
+    icon?: React$1.ReactNode;
     count?: number;
+    ariaLabel?: string;
 }
 interface SegmentedControlProps<T extends string> {
     options: SegmentedOption<T>[];
@@ -188,10 +210,13 @@ interface SegmentedControlProps<T extends string> {
     onValueChange: (value: T) => void;
     /** Accessible name for the group. Apps pass translated text. */
     label: string;
+    /** "brand" uses solid primary blue for active tab; "subtle" uses muted surface (e.g. view-mode switchers). */
+    variant?: "brand" | "subtle";
+    size?: "sm" | "md";
     className?: string;
 }
-/** Rectangular segmented switcher (8px radius), matching the live mojaboard range tabs. */
-declare function SegmentedControl<T extends string>({ options, value, onValueChange, label, className }: SegmentedControlProps<T>): React$1.JSX.Element;
+/** Rectangular segmented switcher on the control radius token (`rounded-control`). */
+declare function SegmentedControl<T extends string>({ options, value, onValueChange, label, variant, size, className, }: SegmentedControlProps<T>): React$1.JSX.Element;
 
 declare const cardVariants: (props?: ({
     padding?: "sm" | "md" | "none" | "comfortable" | null | undefined;
@@ -230,15 +255,23 @@ declare function Toaster(): React$1.JSX.Element;
 interface BreadcrumbItem {
     label: React$1.ReactNode;
     href?: string;
+    onClick?: () => void;
+}
+interface BreadcrumbBackAction {
+    label: React$1.ReactNode;
+    href?: string;
+    onClick?: () => void;
 }
 interface BreadcrumbProps extends React$1.HTMLAttributes<HTMLElement> {
     items: BreadcrumbItem[];
     /** Accessible name for the nav landmark. Apps pass translated text. */
     label: string;
+    /** Optional "Back to <Previous Page>" link/button rendered inline after the trail. */
+    backAction?: BreadcrumbBackAction;
     /** Link component for router-agnostic rendering, e.g. next/link or react-router Link. */
     renderLink?: (item: BreadcrumbItem, children: React$1.ReactNode) => React$1.ReactNode;
 }
-declare function Breadcrumb({ items, label, renderLink, className, ...props }: BreadcrumbProps): React$1.JSX.Element;
+declare function Breadcrumb({ items, label, backAction, renderLink, className, ...props }: BreadcrumbProps): React$1.JSX.Element;
 interface PaginationProps {
     page: number;
     pageCount: number;
@@ -353,7 +386,7 @@ interface FormSectionProps {
     children: React$1.ReactNode;
     className?: string;
 }
-/** Titled group of form fields. Fields inside are spaced 16px apart. */
+/** Titled group of form fields. Fields inside are spaced 20px apart. */
 declare function FormSection({ title, description, children, className }: FormSectionProps): React$1.JSX.Element;
 type StatTone = "neutral" | "brand" | "success" | "warning" | "danger" | "info";
 interface StatCardProps {
@@ -409,6 +442,31 @@ interface UserMenuProps {
 }
 /** Avatar with name and role, as shown at the right of the live topbar. */
 declare function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }: UserMenuProps): React$1.JSX.Element;
+interface LanguageOption {
+    code: string;
+    label: string;
+    short?: string;
+}
+interface LanguageSwitcherProps {
+    options: LanguageOption[];
+    value: string;
+    onValueChange: (code: string) => void;
+    /** Accessible name for the trigger button. */
+    label?: string;
+    /** "inverse" for the dark topbar/auth surfaces, "default" for light surfaces. */
+    tone?: "inverse" | "default";
+    className?: string;
+}
+/** Topbar language switcher button (`EN`) with dropdown menu, matching the live mojaboard header. */
+declare function LanguageSwitcher({ options, value, onValueChange, label, tone, className, }: LanguageSwitcherProps): React$1.JSX.Element;
+interface NotificationBellButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement> {
+    unreadCount?: number;
+    /** Accessible name for the button. */
+    label?: string;
+    tone?: "inverse" | "default";
+}
+/** Notification bell icon button with top-right unread count badge, matching the live mojaboard header. */
+declare const NotificationBellButton: React$1.ForwardRefExoticComponent<NotificationBellButtonProps & React$1.RefAttributes<HTMLButtonElement>>;
 
 interface SectionCardProps extends Omit<React$1.HTMLAttributes<HTMLDivElement>, "title"> {
     title: React$1.ReactNode;
@@ -530,6 +588,18 @@ interface StepWizardStep {
     label: string;
     icon?: React$1.ReactNode;
 }
+interface StepperProps {
+    steps: StepWizardStep[];
+    /** Index of the active step, 0-based. */
+    current: number;
+    /** Optional step click handler for completed/accessible steps. */
+    onStepClick?: (index: number) => void;
+    /** Accessible label for the step list. */
+    label?: string;
+    className?: string;
+}
+/** Horizontal circle stepper matching live mojaboard. */
+declare function Stepper({ steps, current, onStepClick, label, className }: StepperProps): React$1.JSX.Element;
 interface StepWizardProps {
     steps: StepWizardStep[];
     /** Index of the active step, 0-based. */
@@ -540,6 +610,8 @@ interface StepWizardProps {
     title?: React$1.ReactNode;
     /** Optional subtitle under the header title. */
     subtitle?: React$1.ReactNode;
+    /** Optional trailing actions in the header band (e.g. draft status badge). */
+    headerActions?: React$1.ReactNode;
     /** Optional back handler rendered on the left of the header band. */
     onBack?: () => void;
     /** Optional step click handler for completed/accessible steps. */
@@ -548,7 +620,64 @@ interface StepWizardProps {
     className?: string;
 }
 /** Multi-step wizard card with horizontal circle stepper matching live mojaboard. */
-declare function StepWizard({ steps, current, stepLabel, title, subtitle, onBack, onStepClick, children, className }: StepWizardProps): React$1.JSX.Element;
+declare function StepWizard({ steps, current, stepLabel, title, subtitle, headerActions, onBack, onStepClick, children, className }: StepWizardProps): React$1.JSX.Element;
+
+interface SearchableSelectProps {
+    options: SelectOption[];
+    value?: string;
+    onValueChange?: (value: string) => void;
+    placeholder?: string;
+    searchPlaceholder?: string;
+    emptyText?: string;
+    clearLabel?: string;
+    clearable?: boolean;
+    disabled?: boolean;
+    invalid?: boolean;
+    /** Hide search input when total options <= searchThreshold. Defaults to 0 (always show). */
+    searchThreshold?: number;
+    id?: string;
+    "aria-label"?: string;
+    className?: string;
+}
+/**
+ * Filterable single-value select built on Popover.
+ * Labels and empty text are passed as props so the app owns translations.
+ */
+declare function SearchableSelect({ options, value, onValueChange, placeholder, searchPlaceholder, emptyText, clearLabel, clearable, disabled, invalid, searchThreshold, id, "aria-label": ariaLabel, className, }: SearchableSelectProps): React$1.JSX.Element;
+
+interface BulkActionBarProps {
+    /** Number of selected items. When 0, the bar is hidden. */
+    selectedCount: number;
+    /** Singular/plural label, e.g. "3 selected". App owns formatting/i18n. */
+    selectedLabel?: string;
+    /** Clear selection callback. */
+    onClear?: () => void;
+    clearLabel?: string;
+    /** Action buttons rendered on the right. */
+    children?: React$1.ReactNode;
+    className?: string;
+}
+/** Floating action bar anchored to the bottom of the viewport for multi-row selection. */
+declare function BulkActionBar({ selectedCount, selectedLabel, onClear, clearLabel, children, className, }: BulkActionBarProps): React$1.JSX.Element | null;
+
+interface ViewModeSwitcherOption<T extends string = string> {
+    value: T;
+    label: string;
+    icon: React$1.ReactNode;
+}
+interface ViewModeSwitcherProps<T extends string = "table" | "cards"> {
+    value: T;
+    onValueChange: (value: T) => void;
+    options?: ViewModeSwitcherOption<T>[];
+    label?: string;
+    size?: "sm" | "md";
+    className?: string;
+}
+/**
+ * Compact view-mode toggle (list/table vs cards/grid) matching MojaBoard's
+ * muted track with elevated white active surface.
+ */
+declare function ViewModeSwitcher<T extends string = "table" | "cards">({ value, onValueChange, options, label, size, className, }: ViewModeSwitcherProps<T>): React$1.JSX.Element;
 
 interface SidebarNavItem {
     id: string;
@@ -618,6 +747,10 @@ declare function Topbar({ leading, trailing, className }: TopbarProps): React$1.
 interface AppShellProps {
     sidebar: Omit<SidebarProps, "className">;
     topbar?: React$1.ReactNode;
+    /** Breadcrumb + back link bar rendered above the main content card. */
+    breadcrumb?: React$1.ReactNode;
+    /** Wrap main page content in the MojaBoard white surface card. Defaults to "card". */
+    contentSurface?: "card" | "plain";
     /** Label on the mobile menu button. Translated by the app. */
     menuLabel: string;
     children: React$1.ReactNode;
@@ -625,17 +758,22 @@ interface AppShellProps {
 }
 /**
  * Full app layout: fixed sidebar on desktop, drawer on mobile, topbar, scrolling content.
+ * Renders an optional breadcrumb bar above a white surface card (`contentSurface="card"`).
  * Routes and data stay in the app; this only places the chrome.
  */
-declare function AppShell({ sidebar, topbar, menuLabel, children, className }: AppShellProps): React$1.JSX.Element;
+declare function AppShell({ sidebar, topbar, breadcrumb, contentSurface, menuLabel, children, className }: AppShellProps): React$1.JSX.Element;
 interface PageContainerProps {
     children: React$1.ReactNode;
+    /** Optional breadcrumb + back bar rendered above the content card. */
+    breadcrumb?: React$1.ReactNode;
+    /** Wrap content in the MojaBoard white surface card. Defaults to "card". */
+    surface?: "card" | "plain";
     /** Max width for the content column. */
     width?: "md" | "lg" | "xl" | "full";
     className?: string;
 }
-/** Content column with consistent max width and gap between page sections (24px). */
-declare function PageContainer({ children, width, className }: PageContainerProps): React$1.JSX.Element;
+/** Content column with optional breadcrumb bar, white surface card, consistent max width, and 24px section gap. */
+declare function PageContainer({ children, breadcrumb, surface, width, className }: PageContainerProps): React$1.JSX.Element;
 interface AuthLayoutProps {
     /** Brand block shown above the form. */
     brand?: React$1.ReactNode;
@@ -656,5 +794,5 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 /** Merge class names, resolving Tailwind conflicts. Use for every component. */
 declare function cn(...inputs: ClassValue[]): string;
 
-export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
-export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LinkProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants };
+export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbBackAction, BreadcrumbItem, BreadcrumbProps, BulkActionBarProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LanguageOption, LanguageSwitcherProps, LinkProps, NoticeBannerProps, NotificationBellButtonProps, PageContainerProps, PageHeaderProps, PaginationProps, PasswordInputProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SearchableSelectProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, StepperProps, SwitchProps, TabsListProps, TabsTriggerProps, TabsVariant, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps, ViewModeSwitcherOption, ViewModeSwitcherProps };

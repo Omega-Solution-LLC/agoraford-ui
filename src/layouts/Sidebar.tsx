@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { cn } from "../lib/cn";
 
 export interface SidebarNavItem {
@@ -60,8 +60,8 @@ export interface SidebarProps {
 }
 
 const linkBase =
-  "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand [&_svg]:size-4 [&_svg]:shrink-0";
-const linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
+  "mx-2 flex w-[calc(100%-1rem)] items-center justify-between gap-3 rounded-control px-3 py-2 font-sans text-body font-normal leading-5 text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand [&_svg]:size-[17px] [&_svg]:shrink-0";
+const linkActive = "bg-sidebar-active text-sidebar-item";
 
 export interface LinkProps {
   href: string;
@@ -101,9 +101,11 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
           className={cn(linkBase, childActive && "text-sidebar-item")}
           title={collapsed ? item.label : undefined}
         >
-          {item.icon}
-          {!collapsed ? <span className="flex-1 text-left">{item.label}</span> : null}
-          {!collapsed ? <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} aria-hidden="true" /> : null}
+          <span className="flex min-w-0 items-center gap-3">
+            {item.icon}
+            {!collapsed ? <span className="truncate text-left">{item.label}</span> : null}
+          </span>
+          {!collapsed ? <ChevronRight className={cn("!size-3.5 text-sidebar-muted transition-transform", open && "rotate-90")} aria-hidden="true" /> : null}
         </button>
         {open && !collapsed ? (
           <ul className="ml-5 mt-1 flex flex-col gap-0.5 border-l border-sidebar-border pl-3">
@@ -116,13 +118,22 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
     );
   }
 
-  const className = cn(linkBase, isActive && linkActive);
+  const className = cn(linkBase, collapsed && "justify-center px-0", isActive && linkActive);
+  const content = (
+    <>
+      <span className="flex min-w-0 items-center gap-3">
+        {item.icon}
+        {!collapsed ? <span className="truncate">{item.label}</span> : <span className="sr-only">{item.label}</span>}
+      </span>
+      {!collapsed && item.badge && item.badge > 0 ? <Badge count={item.badge} /> : null}
+    </>
+  );
   return (
     <li>
       {item.href ? (
-        renderLink({ href: item.href, className, onClick: item.onSelect, children: <>{item.icon}{!collapsed ? <span className="flex-1 truncate">{item.label}</span> : <span className="sr-only">{item.label}</span>}{!collapsed && item.badge && item.badge > 0 ? <Badge count={item.badge} /> : null}</>, "aria-current": isActive ? "page" : undefined })
+        renderLink({ href: item.href, className, onClick: item.onSelect, children: content, "aria-current": isActive ? "page" : undefined })
       ) : (
-        <button type="button" onClick={item.onSelect} className={className}>{item.icon}{!collapsed ? <span className="flex-1 truncate">{item.label}</span> : null}</button>
+        <button type="button" onClick={item.onSelect} className={className}>{content}</button>
       )}
     </li>
   );
@@ -133,7 +144,7 @@ export function Sidebar({ brand, items = [], sections, footer, collapsed = false
   return (
     <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "border-r border-sidebar-border transition-[width] duration-150", className)}>
       {brand ? <div className="flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4">{brand}</div> : null}
-      <nav aria-label={label} className="flex-1 overflow-y-auto p-2">
+      <nav aria-label={label} className="flex-1 overflow-y-auto py-3">
         {sections ? (
           <div className="flex flex-col gap-4">
             {sections.map((section) => (
