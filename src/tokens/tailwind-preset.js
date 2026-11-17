@@ -3,7 +3,7 @@
  * Apps use: import agoraforduiPreset from "@agoraford/ui/tailwind-preset";
  * Reads every value from tokens.css. Do not hard-code values here.
  */
-const rgb = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+const rgb = (name) => `rgb(var(--ui-${name}) / <alpha-value>)`;
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -42,46 +42,46 @@ export default {
         info: rgb("info"),
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
+        sans: ["var(--ui-font-sans)"],
       },
       fontSize: {
-        title: ["var(--text-title)", { lineHeight: "36px", fontWeight: "var(--weight-title)" }],
-        subtitle: ["var(--text-subtitle)", { lineHeight: "20px" }],
-        body: ["var(--text-body)", { lineHeight: "20px" }],
-        control: ["var(--text-control)", { lineHeight: "20px", fontWeight: "var(--weight-control)" }],
-        small: ["var(--text-small)", { lineHeight: "16px" }],
-        caption: ["var(--text-caption)", { lineHeight: "14px" }],
+        title: ["var(--ui-text-title)", { lineHeight: "36px", fontWeight: "var(--ui-weight-title)" }],
+        subtitle: ["var(--ui-text-subtitle)", { lineHeight: "20px" }],
+        body: ["var(--ui-text-body)", { lineHeight: "20px" }],
+        control: ["var(--ui-text-control)", { lineHeight: "20px", fontWeight: "var(--ui-weight-control)" }],
+        small: ["var(--ui-text-small)", { lineHeight: "16px" }],
+        caption: ["var(--ui-text-caption)", { lineHeight: "14px" }],
       },
       borderRadius: {
-        control: "var(--radius-control)",
-        card: "var(--radius-card)",
-        panel: "var(--radius-panel)",
-        pill: "var(--radius-pill)",
+        control: "var(--ui-radius-control)",
+        card: "var(--ui-radius-card)",
+        panel: "var(--ui-radius-panel)",
+        pill: "var(--ui-radius-pill)",
       },
       height: {
-        topbar: "var(--topbar-height)",
-        "control-sm": "var(--control-sm)",
-        "control-md": "var(--control-md)",
-        "control-lg": "var(--control-lg)",
+        topbar: "var(--ui-topbar-height)",
+        "control-sm": "var(--ui-control-sm)",
+        "control-md": "var(--ui-control-md)",
+        "control-lg": "var(--ui-control-lg)",
       },
       width: {
-        sidebar: "var(--sidebar-width)",
-        "control-sm": "var(--control-sm)",
-        "control-md": "var(--control-md)",
-        "control-lg": "var(--control-lg)",
+        sidebar: "var(--ui-sidebar-width)",
+        "control-sm": "var(--ui-control-sm)",
+        "control-md": "var(--ui-control-md)",
+        "control-lg": "var(--ui-control-lg)",
       },
       transitionDuration: {
-        DEFAULT: "var(--motion-duration)",
+        DEFAULT: "var(--ui-motion-duration)",
       },
       transitionTimingFunction: {
-        DEFAULT: "var(--motion-easing)",
+        DEFAULT: "var(--ui-motion-easing)",
       },
       zIndex: {
-        dropdown: "var(--z-dropdown)",
-        sticky: "var(--z-sticky)",
-        overlay: "var(--z-overlay)",
-        modal: "var(--z-modal)",
-        toast: "var(--z-toast)",
+        dropdown: "var(--ui-z-dropdown)",
+        sticky: "var(--ui-z-sticky)",
+        overlay: "var(--ui-z-overlay)",
+        modal: "var(--ui-z-modal)",
+        toast: "var(--ui-z-toast)",
       },
     },
   },

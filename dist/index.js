@@ -788,7 +788,7 @@ function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className
   ] });
   const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
   if (onClick) {
-    return /* @__PURE__ */ jsx("button", { type: "button", onClick, "aria-label": ariaLabel ?? name, className: shell, children: content });
+    return /* @__PURE__ */ jsx("button", { type: "button", onClick, "aria-label": ariaLabel ?? name, title: ariaLabel ?? name, className: shell, children: content });
   }
   return /* @__PURE__ */ jsx("div", { className: shell, children: content });
 }
@@ -1006,6 +1006,9 @@ function StepWizard({ steps, current, stepLabel, children, className }) {
     children
   ] });
 }
+function Badge2({ count }) {
+  return /* @__PURE__ */ jsx("span", { className: "inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-pill bg-danger px-1.5 font-sans text-caption font-semibold leading-none text-white", children: count > 99 ? "99+" : count });
+}
 var linkBase = "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
 var linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
 function defaultLink({ href, className, children, ...rest }) {
@@ -1037,12 +1040,13 @@ function NavRow({ item, collapsed, renderLink }) {
     ] });
   }
   const className = cn(linkBase, isActive && linkActive);
-  return /* @__PURE__ */ jsx("li", { children: item.href ? renderLink({ href: item.href, className, children: /* @__PURE__ */ jsxs(Fragment, { children: [
+  return /* @__PURE__ */ jsx("li", { children: item.href ? renderLink({ href: item.href, className, onClick: item.onSelect, children: /* @__PURE__ */ jsxs(Fragment, { children: [
     item.icon,
-    !collapsed ? /* @__PURE__ */ jsx("span", { children: item.label }) : /* @__PURE__ */ jsx("span", { className: "sr-only", children: item.label })
-  ] }), "aria-current": isActive ? "page" : void 0 }) : /* @__PURE__ */ jsxs("span", { className, children: [
+    !collapsed ? /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: item.label }) : /* @__PURE__ */ jsx("span", { className: "sr-only", children: item.label }),
+    !collapsed && item.badge && item.badge > 0 ? /* @__PURE__ */ jsx(Badge2, { count: item.badge }) : null
+  ] }), "aria-current": isActive ? "page" : void 0 }) : /* @__PURE__ */ jsxs("button", { type: "button", onClick: item.onSelect, className, children: [
     item.icon,
-    !collapsed ? /* @__PURE__ */ jsx("span", { children: item.label }) : null
+    !collapsed ? /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: item.label }) : null
   ] }) });
 }
 function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }) {

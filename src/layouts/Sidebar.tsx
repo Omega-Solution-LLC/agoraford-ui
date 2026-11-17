@@ -13,6 +13,18 @@ export interface SidebarNavItem {
   children?: SidebarNavItem[];
   /** Hide the item for users without permission. Apps compute this. */
   hidden?: boolean;
+  /** Count shown as a red pill on the right. Hidden when 0 or missing. */
+  badge?: number;
+  /** Runs on click, for example to switch a tab. Works with or without href. */
+  onSelect?: () => void;
+}
+
+function Badge({ count }: { count: number }) {
+  return (
+    <span className="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-pill bg-danger px-1.5 font-sans text-caption font-semibold leading-none text-white">
+      {count > 99 ? "99+" : count}
+    </span>
+  );
 }
 
 /** A labelled group of nav items, e.g. a tier or module area. */
@@ -37,7 +49,7 @@ export interface SidebarProps {
    * Renders a link. Keeps the library router-agnostic.
    * Default renders a plain anchor. Apps pass next/link or react-router Link.
    */
-  renderLink?: (props: { href: string; className: string; children: React.ReactNode; "aria-current"?: "page" }) => React.ReactNode;
+  renderLink?: (props: LinkProps) => React.ReactNode;
   /** Accessible name for the nav landmark. Translated by the app. */
   label: string;
   className?: string;
@@ -47,7 +59,15 @@ const linkBase =
   "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
 const linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
 
-function defaultLink({ href, className, children, ...rest }: { href: string; className: string; children: React.ReactNode; "aria-current"?: "page" }) {
+export interface LinkProps {
+  href: string;
+  className: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  "aria-current"?: "page";
+}
+
+function defaultLink({ href, className, children, ...rest }: LinkProps) {
   return (
     <a href={href} className={className} {...rest}>
       {children}
@@ -90,9 +110,9 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
   return (
     <li>
       {item.href ? (
-        renderLink({ href: item.href, className, children: <>{item.icon}{!collapsed ? <span>{item.label}</span> : <span className="sr-only">{item.label}</span>}</>, "aria-current": isActive ? "page" : undefined })
+        renderLink({ href: item.href, className, onClick: item.onSelect, children: <>{item.icon}{!collapsed ? <span className="flex-1 truncate">{item.label}</span> : <span className="sr-only">{item.label}</span>}{!collapsed && item.badge && item.badge > 0 ? <Badge count={item.badge} /> : null}</>, "aria-current": isActive ? "page" : undefined })
       ) : (
-        <span className={className}>{item.icon}{!collapsed ? <span>{item.label}</span> : null}</span>
+        <button type="button" onClick={item.onSelect} className={className}>{item.icon}{!collapsed ? <span className="flex-1 truncate">{item.label}</span> : null}</button>
       )}
     </li>
   );

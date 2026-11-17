@@ -2,6 +2,7 @@
  * @agoraford/ui — design tokens. SINGLE SOURCE OF TRUTH.
  *
  * Change a value here and every app that imports the library updates.
+ * Names are prefixed --ui- so they never collide with an app's own CSS variables.
  * Colors are RGB channels ("R G B") so Tailwind opacity modifiers (bg-brand/50) work.
  * Values come from the LIVE mojaboard UI (see CHANGELOG.md, 0.1.0). Values marked
  * "unverified" were not measured on live and must be checked against live.
@@ -9,82 +10,82 @@
 
 :root {
   /* Brand */
-  --brand: 32 92 252;          /* #205CFC */
-  --brand-hover: 27 78 217;    /* #1B4ED9 */
-  --brand-soft: 238 242 255;   /* #EEF2FF */
-  --brand-strong: 17 46 146;   /* #112E92, table header */
+  --ui-brand: 32 92 252;          /* #205CFC */
+  --ui-brand-hover: 27 78 217;    /* #1B4ED9 */
+  --ui-brand-soft: 238 242 255;   /* #EEF2FF */
+  --ui-brand-strong: 17 46 146;   /* #112E92, table header */
 
   /* The three fills that paint a region (canvas, surface, muted) */
-  --background: 248 250 252;   /* #F8FAFC, page canvas (live main) */
-  --surface: 255 255 255;      /* #FFFFFF, cards, tables, inputs, dialogs */
-  --surface-muted: 241 245 249;/* #F1F5F9, table footer, hover, disabled */
+  --ui-background: 248 250 252;   /* #F8FAFC, page canvas (live main) */
+  --ui-surface: 255 255 255;      /* #FFFFFF, cards, tables, inputs, dialogs */
+  --ui-surface-muted: 241 245 249;/* #F1F5F9, table footer, hover, disabled */
 
   /* Text */
-  --foreground: 17 24 39;      /* #111827 */
-  --muted-foreground: 75 85 99;/* #4B5563, live subtitle */
+  --ui-foreground: 17 24 39;      /* #111827 */
+  --ui-muted-foreground: 75 85 99;/* #4B5563, live subtitle */
 
   /* Borders */
-  --border: 229 231 235;       /* #E5E7EB */
-  --border-strong: 209 213 219;/* #D1D5DB */
+  --ui-border: 229 231 235;       /* #E5E7EB */
+  --ui-border-strong: 209 213 219;/* #D1D5DB */
 
   /* Sidebar and header chrome (live: rgb(26,32,53)) */
-  --sidebar: 26 32 53;         /* #1A2035 */
-  --sidebar-foreground: 203 213 225; /* #CBD5E1 */
-  --sidebar-muted: 154 160 172;      /* #9AA0AC, inactive nav and secondary text */
-  --sidebar-active: 38 43 63;        /* #262B3F, live active nav item and search fill */
-  --sidebar-item: 255 255 255;       /* live nav text, shown at 90% */
-  --sidebar-border: 48 54 73;        /* #303649, live hairline inside the chrome */
-  --sidebar-width: 220px;            /* live sidebar width */
-  --topbar-height: 56px;             /* live topbar height */
+  --ui-sidebar: 26 32 53;         /* #1A2035 */
+  --ui-sidebar-foreground: 203 213 225; /* #CBD5E1 */
+  --ui-sidebar-muted: 154 160 172;      /* #9AA0AC, inactive nav and secondary text */
+  --ui-sidebar-active: 38 43 63;        /* #262B3F, live active nav item and search fill */
+  --ui-sidebar-item: 255 255 255;       /* live nav text, shown at 90% */
+  --ui-sidebar-border: 48 54 73;        /* #303649, live hairline inside the chrome */
+  --ui-sidebar-width: 220px;            /* live sidebar width */
+  --ui-topbar-height: 56px;             /* live topbar height */
 
   /* Status (unverified: not measured on live) */
-  --success: 22 163 74;
-  --warning: 217 119 6;
-  --danger: 220 38 38;
-  --info: 32 92 252;
+  --ui-success: 22 163 74;
+  --ui-warning: 217 119 6;
+  --ui-danger: 220 38 38;
+  --ui-info: 32 92 252;
 
   /* Typography (live-measured roles) */
-  --font-sans: "Poppins", sans-serif;
-  --text-title: 30px;          /* weight 800, line 36 */
-  --text-subtitle: 14px;       /* weight 400, line 20 */
-  --text-body: 13.5px;         /* weight 400, line 20 */
-  --text-control: 14px;        /* weight 500, line 20 */
-  --text-small: 12.8px;        /* weight 400, line 16 */
-  --text-caption: 11.5px;      /* weight 400, line 14 */
-  --weight-title: 800;
-  --weight-control: 500;
+  --ui-font-sans: "Poppins", sans-serif;
+  --ui-text-title: 30px;          /* weight 800, line 36 */
+  --ui-text-subtitle: 14px;       /* weight 400, line 20 */
+  --ui-text-body: 13.5px;         /* weight 400, line 20 */
+  --ui-text-control: 14px;        /* weight 500, line 20 */
+  --ui-text-small: 12.8px;        /* weight 400, line 16 */
+  --ui-text-caption: 11.5px;      /* weight 400, line 14 */
+  --ui-weight-title: 800;
+  --ui-weight-control: 500;
 
   /* Radius (live: buttons 8px, cards 16px) */
-  --radius-control: 8px;
-  --radius-card: 16px;
-  --radius-panel: 16px;
-  --radius-pill: 9999px;
+  --ui-radius-control: 8px;
+  --ui-radius-card: 16px;
+  --ui-radius-panel: 16px;
+  --ui-radius-pill: 9999px;
 
   /* Control heights (unverified: blueprint values, check live) */
-  --control-sm: 32px;
-  --control-md: 40px;
-  --control-lg: 44px;
+  --ui-control-sm: 32px;
+  --ui-control-md: 40px;
+  --ui-control-lg: 44px;
 
   /* Spacing: 4px grid, allowed steps 4 8 12 16 24 32 48 */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-5: 20px;
+  --ui-space-6: 24px;
+  --ui-space-8: 32px;
+  --ui-space-12: 48px;
 
   /* Z-index scale */
-  --z-dropdown: 50;
-  --z-sticky: 40;
-  --z-overlay: 60;
-  --z-modal: 70;
-  --z-toast: 80;
+  --ui-z-dropdown: 50;
+  --ui-z-sticky: 40;
+  --ui-z-overlay: 60;
+  --ui-z-modal: 70;
+  --ui-z-toast: 80;
 
   /* Motion */
-  --motion-duration: 150ms;
-  --motion-easing: ease-out;
+  --ui-motion-duration: 150ms;
+  --ui-motion-easing: ease-out;
 
   color-scheme: light;
 }
@@ -92,24 +93,24 @@
 /* Dark (unverified: values from mojaboard App.css, check live dark mode) */
 :root.dark,
 :root[data-theme="dark"] {
-  --brand: 32 92 252;
-  --brand-hover: 59 115 255;
-  --brand-soft: 52 58 64;
-  --brand-strong: 17 46 146;
+  --ui-brand: 32 92 252;
+  --ui-brand-hover: 59 115 255;
+  --ui-brand-soft: 52 58 64;
+  --ui-brand-strong: 17 46 146;
 
-  --background: 33 37 41;      /* #212529 */
-  --surface: 42 46 50;         /* #2A2E32 */
-  --surface-muted: 52 58 64;   /* #343A40 */
+  --ui-background: 33 37 41;      /* #212529 */
+  --ui-surface: 42 46 50;         /* #2A2E32 */
+  --ui-surface-muted: 52 58 64;   /* #343A40 */
 
-  --foreground: 255 255 255;
-  --muted-foreground: 158 163 174; /* #9EA3AE */
+  --ui-foreground: 255 255 255;
+  --ui-muted-foreground: 158 163 174; /* #9EA3AE */
 
-  --border: 56 61 67;          /* #383D43 */
-  --border-strong: 78 84 92;   /* #4E545C */
+  --ui-border: 56 61 67;          /* #383D43 */
+  --ui-border-strong: 78 84 92;   /* #4E545C */
 
-  --sidebar: 39 43 47;         /* #272B2F */
-  --sidebar-foreground: 203 213 225;
-  --sidebar-muted: 154 160 172;
+  --ui-sidebar: 39 43 47;         /* #272B2F */
+  --ui-sidebar-foreground: 203 213 225;
+  --ui-sidebar-muted: 154 160 172;
 
   color-scheme: dark;
 }

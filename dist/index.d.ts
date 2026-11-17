@@ -529,6 +529,10 @@ interface SidebarNavItem {
     children?: SidebarNavItem[];
     /** Hide the item for users without permission. Apps compute this. */
     hidden?: boolean;
+    /** Count shown as a red pill on the right. Hidden when 0 or missing. */
+    badge?: number;
+    /** Runs on click, for example to switch a tab. Works with or without href. */
+    onSelect?: () => void;
 }
 /** A labelled group of nav items, e.g. a tier or module area. */
 interface SidebarSection {
@@ -551,15 +555,17 @@ interface SidebarProps {
      * Renders a link. Keeps the library router-agnostic.
      * Default renders a plain anchor. Apps pass next/link or react-router Link.
      */
-    renderLink?: (props: {
-        href: string;
-        className: string;
-        children: React$1.ReactNode;
-        "aria-current"?: "page";
-    }) => React$1.ReactNode;
+    renderLink?: (props: LinkProps) => React$1.ReactNode;
     /** Accessible name for the nav landmark. Translated by the app. */
     label: string;
     className?: string;
+}
+interface LinkProps {
+    href: string;
+    className: string;
+    children: React$1.ReactNode;
+    onClick?: () => void;
+    "aria-current"?: "page";
 }
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
 declare function Sidebar({ brand, items, sections, footer, collapsed, renderLink, label, className }: SidebarProps): React$1.JSX.Element;
@@ -615,4 +621,4 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 declare function cn(...inputs: ClassValue[]): string;
 
 export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
-export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };
+export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LinkProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };

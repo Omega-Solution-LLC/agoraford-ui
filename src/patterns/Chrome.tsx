@@ -71,7 +71,7 @@ export function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, cl
   const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} aria-label={ariaLabel ?? name} className={shell}>
+      <button type="button" onClick={onClick} aria-label={ariaLabel ?? name} title={ariaLabel ?? name} className={shell}>
         {content}
       </button>
     );

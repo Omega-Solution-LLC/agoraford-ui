@@ -61,7 +61,7 @@ export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
 export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps } from "./patterns/Forms";
 
 // Layouts
-export { Sidebar, type SidebarProps, type SidebarNavItem, type SidebarSection } from "./layouts/Sidebar";
+export { Sidebar, type SidebarProps, type SidebarNavItem, type SidebarSection, type LinkProps } from "./layouts/Sidebar";
 export { Topbar, AppShell, PageContainer, AuthLayout, SettingsLayout, type TopbarProps, type AppShellProps, type AuthLayoutProps, type SettingsLayoutProps, type PageContainerProps } from "./layouts/Shell";
 
 // Utilities
