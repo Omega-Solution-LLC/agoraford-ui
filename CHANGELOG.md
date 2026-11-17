@@ -2,6 +2,12 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.2.1
+
+- `UserMenu`: forward `ref` and button props (`...props`) so Radix `DropdownMenuTrigger asChild` works natively.
+- `Button`: pass `children` directly when `asChild` is true so `Slot` does not receive a sibling `null` node.
+- Title role matches live mojaboard: 24px, weight 700, line height 32px, letter spacing -0.025em (was 30px, weight 800, line 36px). `PageHeader` doc comment updated to match. Apps that override title size must drop the override.
+
 ## 0.2.0
 
 - Radius scale is now one set of tokens, defined in `tokens.css`: `xs` 4px, `control` 6px, `card` 8px, `panel` 8px, `pill` 9999px. Card and panel were 16px.

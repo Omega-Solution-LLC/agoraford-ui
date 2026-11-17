@@ -6,7 +6,7 @@ import { cn } from "../lib/cn";
 export const textVariants = cva("font-sans", {
   variants: {
     variant: {
-      title: "text-title font-extrabold text-foreground",
+      title: "text-xl sm:text-title font-bold tracking-tight text-foreground",
       subtitle: "text-subtitle text-muted-foreground",
       body: "text-body text-foreground",
       control: "text-control text-foreground",
