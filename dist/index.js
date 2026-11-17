@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 import { EyeOff, Eye, Check, X, Bell, LoaderCircle, CircleHelp, ChevronDown, ChevronRight, ChevronLeft, MoreHorizontal, ArrowUp, ArrowDown, ArrowUpDown, Search, Inbox, AlertTriangle, CalendarDays, Upload, Menu, LayoutList, LayoutGrid } from 'lucide-react';
-import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
+import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -63,7 +63,7 @@ var buttonVariants = cva(
 var Button = React12.forwardRef(
   ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ jsx(
       Comp,
       {
         ref,
@@ -71,10 +71,10 @@ var Button = React12.forwardRef(
         disabled: disabled || loading,
         "aria-busy": loading || void 0,
         ...props,
-        children: [
+        children: asChild ? children : /* @__PURE__ */ jsxs(Fragment, { children: [
           loading ? /* @__PURE__ */ jsx(Spinner, { label: "Loading", size: 14 }) : null,
           children
-        ]
+        ] })
       }
     );
   }
@@ -625,7 +625,7 @@ function Progress({ value, label, className, ...props }) {
 var textVariants = cva("font-sans", {
   variants: {
     variant: {
-      title: "text-title font-extrabold text-foreground",
+      title: "text-xl sm:text-title font-bold tracking-tight text-foreground",
       subtitle: "text-subtitle text-muted-foreground",
       body: "text-body text-foreground",
       control: "text-control text-foreground",
@@ -963,23 +963,35 @@ function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className
     shortcut ? /* @__PURE__ */ jsx("kbd", { className: "rounded border border-sidebar-border px-1.5 text-caption text-sidebar-item/80", children: shortcut }) : null
   ] });
 }
-function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }) {
-  const content = /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsxs("div", { className: "hidden min-w-0 flex-col items-end text-right leading-tight md:flex", children: [
-      /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate font-sans text-body font-medium text-sidebar-item", children: name }),
-      role ? /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate text-caption text-sidebar-muted", children: role }) : null
-    ] }),
-    /* @__PURE__ */ jsxs("span", { className: "relative inline-flex shrink-0", children: [
-      /* @__PURE__ */ jsx(Avatar, { name, src, size: "md" }),
-      /* @__PURE__ */ jsx("span", { className: "absolute -bottom-0.5 -right-0.5 size-2.5 rounded-pill border-2 border-sidebar bg-success", "aria-hidden": "true" })
-    ] })
-  ] });
-  const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
-  if (onClick) {
-    return /* @__PURE__ */ jsx("button", { type: "button", onClick, "aria-label": ariaLabel ?? name, title: ariaLabel ?? name, className: shell, children: content });
+var UserMenu = React12.forwardRef(
+  ({ name, role, src, onClick, "aria-label": ariaLabel, className, ...props }, ref) => {
+    const content = /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsxs("div", { className: "hidden min-w-0 flex-col items-end text-right leading-tight md:flex", children: [
+        /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate font-sans text-body font-medium text-sidebar-item", children: name }),
+        role ? /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate text-caption text-sidebar-muted", children: role }) : null
+      ] }),
+      /* @__PURE__ */ jsxs("span", { className: "relative inline-flex shrink-0", children: [
+        /* @__PURE__ */ jsx(Avatar, { name, src, size: "md" }),
+        /* @__PURE__ */ jsx("span", { className: "absolute -bottom-0.5 -right-0.5 size-2.5 rounded-pill border-2 border-sidebar bg-success", "aria-hidden": "true" })
+      ] })
+    ] });
+    const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
+    return /* @__PURE__ */ jsx(
+      "button",
+      {
+        ref,
+        type: "button",
+        onClick,
+        "aria-label": ariaLabel ?? name,
+        title: ariaLabel ?? name,
+        className: shell,
+        ...props,
+        children: content
+      }
+    );
   }
-  return /* @__PURE__ */ jsx("div", { className: shell, children: content });
-}
+);
+UserMenu.displayName = "UserMenu";
 function LanguageSwitcher({
   options,
   value,

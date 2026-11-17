@@ -47,41 +47,49 @@ export function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, cl
   );
 }
 
-export interface UserMenuProps {
+export interface UserMenuProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
   /** Secondary line under the name, e.g. the role. */
   role?: string;
   src?: string;
   /** Opens the user menu. */
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   "aria-label"?: string;
   className?: string;
 }
 
 /** Avatar with name and role, as shown at the right of the live topbar. */
-export function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }: UserMenuProps) {
-  const content = (
-    <>
-      <div className="hidden min-w-0 flex-col items-end text-right leading-tight md:flex">
-        <span className="max-w-48 truncate font-sans text-body font-medium text-sidebar-item">{name}</span>
-        {role ? <span className="max-w-48 truncate text-caption text-sidebar-muted">{role}</span> : null}
-      </div>
-      <span className="relative inline-flex shrink-0">
-        <Avatar name={name} src={src} size="md" />
-        <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-pill border-2 border-sidebar bg-success" aria-hidden="true" />
-      </span>
-    </>
-  );
-  const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
-  if (onClick) {
+export const UserMenu = React.forwardRef<HTMLButtonElement, UserMenuProps>(
+  ({ name, role, src, onClick, "aria-label": ariaLabel, className, ...props }, ref) => {
+    const content = (
+      <>
+        <div className="hidden min-w-0 flex-col items-end text-right leading-tight md:flex">
+          <span className="max-w-48 truncate font-sans text-body font-medium text-sidebar-item">{name}</span>
+          {role ? <span className="max-w-48 truncate text-caption text-sidebar-muted">{role}</span> : null}
+        </div>
+        <span className="relative inline-flex shrink-0">
+          <Avatar name={name} src={src} size="md" />
+          <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-pill border-2 border-sidebar bg-success" aria-hidden="true" />
+        </span>
+      </>
+    );
+    const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
     return (
-      <button type="button" onClick={onClick} aria-label={ariaLabel ?? name} title={ariaLabel ?? name} className={shell}>
+      <button
+        ref={ref}
+        type="button"
+        onClick={onClick}
+        aria-label={ariaLabel ?? name}
+        title={ariaLabel ?? name}
+        className={shell}
+        {...props}
+      >
         {content}
       </button>
     );
-  }
-  return <div className={shell}>{content}</div>;
-}
+  },
+);
+UserMenu.displayName = "UserMenu";
 
 export interface LanguageOption {
   code: string;

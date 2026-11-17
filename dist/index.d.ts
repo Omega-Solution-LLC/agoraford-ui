@@ -18,8 +18,8 @@ import { ClassValue } from 'clsx';
 export { toast } from 'sonner';
 
 declare const buttonVariants: (props?: ({
-    variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "link" | null | undefined;
-    size?: "sm" | "md" | "lg" | "icon" | null | undefined;
+    variant?: "link" | "danger" | "primary" | "secondary" | "outline" | "ghost" | null | undefined;
+    size?: "icon" | "sm" | "md" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
     asChild?: boolean;
@@ -97,7 +97,7 @@ declare const RadioGroup: React$1.ForwardRefExoticComponent<Omit<RadioGroupPrimi
 declare const RadioGroupItem: React$1.ForwardRefExoticComponent<Omit<RadioGroupPrimitive.RadioGroupItemProps & React$1.RefAttributes<HTMLButtonElement>, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
 
 declare const badgeVariants: (props?: ({
-    tone?: "danger" | "neutral" | "brand" | "success" | "warning" | "info" | null | undefined;
+    tone?: "neutral" | "brand" | "success" | "warning" | "danger" | "info" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface BadgeProps extends React$1.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {
 }
@@ -219,7 +219,7 @@ interface SegmentedControlProps<T extends string> {
 declare function SegmentedControl<T extends string>({ options, value, onValueChange, label, variant, size, className, }: SegmentedControlProps<T>): React$1.JSX.Element;
 
 declare const cardVariants: (props?: ({
-    padding?: "sm" | "md" | "none" | "comfortable" | null | undefined;
+    padding?: "none" | "sm" | "md" | "comfortable" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface CardProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardVariants> {
 }
@@ -378,7 +378,7 @@ interface PageHeaderProps {
     actions?: React$1.ReactNode;
     className?: string;
 }
-/** Page title block: title (30px, extra bold), subtitle (14px), actions on the right. */
+/** Page title block: title (24px, bold), subtitle (14px), actions on the right. */
 declare function PageHeader({ title, subtitle, breadcrumb, actions, className }: PageHeaderProps): React$1.JSX.Element;
 interface FormSectionProps {
     title: React$1.ReactNode;
@@ -430,18 +430,18 @@ interface TopbarSearchProps {
 }
 /** Topbar search pill: 36px, 320px wide on desktop, matches the live mojaboard search. */
 declare function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className }: TopbarSearchProps): React$1.JSX.Element;
-interface UserMenuProps {
+interface UserMenuProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement> {
     name: string;
     /** Secondary line under the name, e.g. the role. */
     role?: string;
     src?: string;
     /** Opens the user menu. */
-    onClick?: () => void;
+    onClick?: React$1.MouseEventHandler<HTMLButtonElement>;
     "aria-label"?: string;
     className?: string;
 }
 /** Avatar with name and role, as shown at the right of the live topbar. */
-declare function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }: UserMenuProps): React$1.JSX.Element;
+declare const UserMenu: React$1.ForwardRefExoticComponent<UserMenuProps & React$1.RefAttributes<HTMLButtonElement>>;
 interface LanguageOption {
     code: string;
     label: string;
@@ -501,7 +501,7 @@ interface ProgressCardProps {
 declare function ProgressCard({ title, subtitle, rows, action, emptyLabel, className }: ProgressCardProps): React$1.JSX.Element;
 
 declare const noticeVariants: (props?: ({
-    tone?: "danger" | "neutral" | "brand" | "success" | "warning" | null | undefined;
+    tone?: "neutral" | "brand" | "success" | "warning" | "danger" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface NoticeBannerProps extends VariantProps<typeof noticeVariants> {
     icon?: React$1.ReactNode;

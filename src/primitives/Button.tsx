@@ -46,8 +46,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         {...props}
       >
-        {loading ? <Spinner label="Loading" size={14} /> : null}
-        {children}
+        {asChild ? children : (
+          <>
+            {loading ? <Spinner label="Loading" size={14} /> : null}
+            {children}
+          </>
+        )}
       </Comp>
     );
   },

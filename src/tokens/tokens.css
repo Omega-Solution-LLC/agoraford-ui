@@ -46,7 +46,7 @@
 
   /* Typography (live-measured roles) */
   --ui-font-sans: sans-serif; /* live mojaboard uses the system sans-serif */
-  --ui-text-title: 30px;          /* weight 800, line 36 */
+  --ui-text-title: 24px;          /* weight 700, line 32 */
   --ui-text-subtitle: 14px;       /* weight 400, line 20 */
   --ui-text-body: 13.5px;         /* weight 400, line 20 */
   --ui-text-control: 14px;        /* weight 500, line 20 */
@@ -54,7 +54,7 @@
   --ui-text-caption: 11.5px;      /* weight 400, line 14 */
   --ui-text-section: 22px;        /* weight 700, line 28. Section headings inside long-form pages (manual, policy text) */
   --ui-weight-section: 700;
-  --ui-weight-title: 800;
+  --ui-weight-title: 700;
   --ui-weight-control: 600;
 
   /* Radius scale. The only radii allowed in any app. Matches live mojaboard.

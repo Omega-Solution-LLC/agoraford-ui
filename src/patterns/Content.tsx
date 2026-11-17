@@ -14,7 +14,7 @@ export interface PageHeaderProps {
   className?: string;
 }
 
-/** Page title block: title (30px, extra bold), subtitle (14px), actions on the right. */
+/** Page title block: title (24px, bold), subtitle (14px), actions on the right. */
 export function PageHeader({ title, subtitle, breadcrumb, actions, className }: PageHeaderProps) {
   return (
     <header className={cn("flex flex-wrap items-end justify-between gap-4", className)}>

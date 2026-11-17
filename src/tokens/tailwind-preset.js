@@ -63,7 +63,7 @@ export default {
         sans: ["var(--ui-font-sans)"],
       },
       fontSize: {
-        title: ["var(--ui-text-title)", { lineHeight: "36px", fontWeight: "var(--ui-weight-title)" }],
+        title: ["var(--ui-text-title)", { lineHeight: "32px", fontWeight: "var(--ui-weight-title)", letterSpacing: "-0.025em" }],
         subtitle: ["var(--ui-text-subtitle)", { lineHeight: "20px" }],
         body: ["var(--ui-text-body)", { lineHeight: "20px" }],
         control: ["var(--ui-text-control)", { lineHeight: "20px", fontWeight: "var(--ui-weight-control)" }],
