@@ -95,12 +95,13 @@ var Textarea = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 Textarea.displayName = "Textarea";
-function Select({ options, placeholder, invalid, className, id, ...props }) {
+function Select({ options, placeholder, invalid, className, id, "aria-label": ariaLabel, ...props }) {
   return /* @__PURE__ */ jsxs(SelectPrimitive.Root, { ...props, children: [
     /* @__PURE__ */ jsxs(
       SelectPrimitive.Trigger,
       {
         id,
+        "aria-label": ariaLabel,
         "aria-invalid": invalid || void 0,
         className: cn(
           "inline-flex h-control-md w-full items-center justify-between rounded-control border border-border-strong bg-surface px-3 font-sans text-body text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 aria-[invalid=true]:border-danger data-[placeholder]:text-sidebar-muted",

@@ -19,15 +19,18 @@ export interface SelectProps {
   name?: string;
   id?: string;
   invalid?: boolean;
+  /** Accessible name when there is no visible label. Translated by the app. */
+  "aria-label"?: string;
   className?: string;
 }
 
 /** Single-value select on Radix. Labels come from the app (translated). */
-export function Select({ options, placeholder, invalid, className, id, ...props }: SelectProps) {
+export function Select({ options, placeholder, invalid, className, id, "aria-label": ariaLabel, ...props }: SelectProps) {
   return (
     <SelectPrimitive.Root {...props}>
       <SelectPrimitive.Trigger
         id={id}
+        aria-label={ariaLabel}
         aria-invalid={invalid || undefined}
         className={cn(
           "inline-flex h-control-md w-full items-center justify-between rounded-control border border-border-strong bg-surface px-3 font-sans text-body text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 aria-[invalid=true]:border-danger data-[placeholder]:text-sidebar-muted",

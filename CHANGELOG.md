@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.5
+
+- `Select` accepts `aria-label` for selects without a visible label.
+
 ## 0.1.4
 
 - Font is the system `sans-serif`, as on the live mojaboard (was Poppins, which mojaboard never applied).

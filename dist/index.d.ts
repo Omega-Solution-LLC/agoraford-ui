@@ -68,10 +68,12 @@ interface SelectProps {
     name?: string;
     id?: string;
     invalid?: boolean;
+    /** Accessible name when there is no visible label. Translated by the app. */
+    "aria-label"?: string;
     className?: string;
 }
 /** Single-value select on Radix. Labels come from the app (translated). */
-declare function Select({ options, placeholder, invalid, className, id, ...props }: SelectProps): React$1.JSX.Element;
+declare function Select({ options, placeholder, invalid, className, id, "aria-label": ariaLabel, ...props }: SelectProps): React$1.JSX.Element;
 
 type CheckboxProps = React$1.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>;
 declare const Checkbox: React$1.ForwardRefExoticComponent<Omit<CheckboxPrimitive.CheckboxProps & React$1.RefAttributes<HTMLButtonElement>, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
