@@ -1,7 +1,7 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { DayPicker, type DateRange } from "react-day-picker";
-import { CalendarDays, Upload } from "lucide-react";
+import { CalendarDays, Check, ChevronLeft, Upload } from "lucide-react";
 import { cn } from "../lib/cn";
 import { Popover, PopoverContent, PopoverTrigger } from "../primitives/Popover";
 import { Button } from "../primitives/Button";
@@ -146,45 +146,93 @@ export function FileUpload({ onFilesSelected, label, hint, accept, multiple = fa
   );
 }
 
+export interface StepWizardStep {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+}
+
 export interface StepWizardProps {
-  steps: { id: string; label: string }[];
+  steps: StepWizardStep[];
   /** Index of the active step, 0-based. */
   current: number;
   /** Prefix for the step count, e.g. "Step". Translated by the app. */
   stepLabel: string;
+  /** Optional card header title (renders the mojaboard blue header band when set). */
+  title?: React.ReactNode;
+  /** Optional subtitle under the header title. */
+  subtitle?: React.ReactNode;
+  /** Optional back handler rendered on the left of the header band. */
+  onBack?: () => void;
+  /** Optional step click handler for completed/accessible steps. */
+  onStepClick?: (index: number) => void;
   children: React.ReactNode;
   className?: string;
 }
 
-/** Step indicator for multi-step forms. Navigation buttons stay in the app. */
-export function StepWizard({ steps, current, stepLabel, children, className }: StepWizardProps) {
+/** Multi-step wizard card with horizontal circle stepper matching live mojaboard. */
+export function StepWizard({ steps, current, stepLabel, title, subtitle, onBack, onStepClick, children, className }: StepWizardProps) {
+  const activeStep = steps[current];
   return (
-    <div className={cn("flex flex-col gap-6", className)}>
-      <ol className="flex flex-wrap items-center gap-3">
-        {steps.map((step, i) => {
-          const done = i < current;
-          const active = i === current;
-          return (
-            <li key={step.id} className="flex items-center gap-2" aria-current={active ? "step" : undefined}>
-              <span
-                className={cn(
-                  "flex size-6 items-center justify-center rounded-pill border font-sans text-caption font-medium",
-                  active && "border-brand bg-brand text-white",
-                  done && "border-brand bg-brand-soft text-brand",
-                  !active && !done && "border-border-strong text-muted-foreground",
-                )}
-              >
-                {i + 1}
-              </span>
-              <Text variant="small" className={cn(active && "text-foreground font-medium")}>
-                {step.label}
-              </Text>
-            </li>
-          );
-        })}
-      </ol>
-      <Text variant="caption" as="span">{`${stepLabel} ${current + 1} / ${steps.length}`}</Text>
-      {children}
+    <div className={cn("overflow-hidden rounded-card border border-border bg-surface shadow-sm dark:shadow-none", className)}>
+      {title ? (
+        <div className="flex items-center gap-3 bg-brand px-6 py-4 text-white">
+          {onBack ? (
+            <button
+              type="button"
+              onClick={onBack}
+              aria-label="Back"
+              className="inline-flex size-8 shrink-0 items-center justify-center rounded-control text-white/90 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <ChevronLeft className="size-5" aria-hidden="true" />
+            </button>
+          ) : null}
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <h2 className="font-sans text-control font-bold text-white">{title}</h2>
+            <p className="font-sans text-small text-white/85">
+              {subtitle ?? `${stepLabel} ${current + 1} / ${steps.length}${activeStep ? `: ${activeStep.label}` : ""}`}
+            </p>
+          </div>
+        </div>
+      ) : null}
+      <div className="border-b border-border px-6 py-5">
+        <ol className="flex items-start justify-between gap-2 overflow-x-auto">
+          {steps.map((step, i) => {
+            const done = i < current;
+            const active = i === current;
+            return (
+              <React.Fragment key={step.id}>
+                <li className="flex shrink-0 flex-col items-center gap-2 text-center" aria-current={active ? "step" : undefined}>
+                  <button
+                    type="button"
+                    disabled={!onStepClick || (!done && !active)}
+                    onClick={() => onStepClick?.(i)}
+                    className={cn(
+                      "flex size-10 items-center justify-center rounded-pill border-2 font-sans text-small font-semibold transition-colors [&_svg]:size-4",
+                      done && "border-success bg-success text-white",
+                      active && "border-brand bg-brand text-white",
+                      !active && !done && "border-border-strong bg-surface-muted text-muted-foreground",
+                      onStepClick && (done || active) ? "cursor-pointer" : "cursor-default",
+                    )}
+                  >
+                    {done ? <Check aria-hidden="true" /> : step.icon ?? i + 1}
+                  </button>
+                  <span className={cn("max-w-24 font-sans text-small leading-tight", active || done ? "font-semibold text-foreground" : "text-muted-foreground")}>
+                    {step.label}
+                  </span>
+                </li>
+                {i < steps.length - 1 ? (
+                  <li aria-hidden="true" className={cn("mt-5 h-0.5 min-w-4 flex-1", done ? "bg-success" : "bg-border")} />
+                ) : null}
+              </React.Fragment>
+            );
+          })}
+        </ol>
+        {!title ? (
+          <Text variant="caption" as="span" className="mt-3 block text-center">{`${stepLabel} ${current + 1} / ${steps.length}`}</Text>
+        ) : null}
+      </div>
+      <div className="p-6">{children}</div>
     </div>
   );
 }

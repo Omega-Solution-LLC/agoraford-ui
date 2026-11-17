@@ -180,6 +180,7 @@ declare const TabsContent: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.
 interface SegmentedOption<T extends string> {
     value: T;
     label: React$1.ReactNode;
+    count?: number;
 }
 interface SegmentedControlProps<T extends string> {
     options: SegmentedOption<T>[];
@@ -189,7 +190,7 @@ interface SegmentedControlProps<T extends string> {
     label: string;
     className?: string;
 }
-/** Pill group for a small set of exclusive options, e.g. the date range chips on the dashboard. */
+/** Rectangular segmented switcher (8px radius), matching the live mojaboard range tabs. */
 declare function SegmentedControl<T extends string>({ options, value, onValueChange, label, className }: SegmentedControlProps<T>): React$1.JSX.Element;
 
 declare const cardVariants: (props?: ({
@@ -363,12 +364,14 @@ interface StatCardProps {
     /** Small line under the value, e.g. a date range or a delta. */
     hint?: React$1.ReactNode;
     icon?: React$1.ReactNode;
+    /** Optional 0–100 circular progress indicator on the right. */
+    progress?: number;
     /** Shows a skeleton instead of the value. */
     loading?: boolean;
     className?: string;
 }
-/** KPI tile: label, large value, optional icon and hint. */
-declare function StatCard({ tone, label, value, hint, icon, loading, className }: StatCardProps): React$1.JSX.Element;
+/** KPI tile: left accent border, icon tile on the left, label and 24px value stacked beside it, hint below a hairline. */
+declare function StatCard({ tone, label, value, hint, icon, progress, loading, className }: StatCardProps): React$1.JSX.Element;
 interface TimelineItem {
     id: string;
     title: React$1.ReactNode;
@@ -414,7 +417,7 @@ interface SectionCardProps extends Omit<React$1.HTMLAttributes<HTMLDivElement>, 
     action?: React$1.ReactNode;
     children: React$1.ReactNode;
 }
-/** Titled card: title and subtitle on the left, action on the right, content below. */
+/** Titled card: bordered header strip on top, action on the right, padded body below. */
 declare function SectionCard({ title, subtitle, action, children, className, ...props }: SectionCardProps): React$1.JSX.Element;
 type ProgressTone = "brand" | "success" | "warning" | "danger" | "info";
 interface ProgressRow {
@@ -450,7 +453,7 @@ interface NoticeBannerProps extends VariantProps<typeof noticeVariants> {
     action?: React$1.ReactNode;
     className?: string;
 }
-/** Inline status message with an optional icon and action. Used for attestation and deadline notices. */
+/** Inline status message with an optional icon tile and action. Used for attestation and deadline notices. */
 declare function NoticeBanner({ tone, icon, title, description, action, className }: NoticeBannerProps): React$1.JSX.Element;
 
 interface ActionRowProps {
@@ -522,20 +525,30 @@ interface FileUploadProps {
 }
 /** Click-or-drop file area. Validation and upload stay in the app. */
 declare function FileUpload({ onFilesSelected, label, hint, accept, multiple, disabled, className }: FileUploadProps): React$1.JSX.Element;
+interface StepWizardStep {
+    id: string;
+    label: string;
+    icon?: React$1.ReactNode;
+}
 interface StepWizardProps {
-    steps: {
-        id: string;
-        label: string;
-    }[];
+    steps: StepWizardStep[];
     /** Index of the active step, 0-based. */
     current: number;
     /** Prefix for the step count, e.g. "Step". Translated by the app. */
     stepLabel: string;
+    /** Optional card header title (renders the mojaboard blue header band when set). */
+    title?: React$1.ReactNode;
+    /** Optional subtitle under the header title. */
+    subtitle?: React$1.ReactNode;
+    /** Optional back handler rendered on the left of the header band. */
+    onBack?: () => void;
+    /** Optional step click handler for completed/accessible steps. */
+    onStepClick?: (index: number) => void;
     children: React$1.ReactNode;
     className?: string;
 }
-/** Step indicator for multi-step forms. Navigation buttons stay in the app. */
-declare function StepWizard({ steps, current, stepLabel, children, className }: StepWizardProps): React$1.JSX.Element;
+/** Multi-step wizard card with horizontal circle stepper matching live mojaboard. */
+declare function StepWizard({ steps, current, stepLabel, title, subtitle, onBack, onStepClick, children, className }: StepWizardProps): React$1.JSX.Element;
 
 interface SidebarNavItem {
     id: string;
@@ -644,4 +657,4 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 declare function cn(...inputs: ClassValue[]): string;
 
 export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
-export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LinkProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };
+export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LinkProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };

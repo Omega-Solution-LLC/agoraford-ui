@@ -44,21 +44,21 @@ export function ActionRow({ icon, label, caption, count, tone = "neutral", onCli
       onClick={onClick}
       aria-label={ariaLabel}
       className={cn(
-        "group flex w-full items-center gap-3 rounded-control border border-border bg-surface px-3 py-3 text-left font-sans transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+        "group flex w-full items-center gap-3 rounded-control border border-border bg-surface-muted/50 px-3 py-2.5 text-left font-sans transition-colors hover:border-border-strong hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
         className,
       )}
     >
       {icon ? (
-        <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-pill [&_svg]:size-4", iconTone[tone])} aria-hidden="true">
+        <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-control [&_svg]:size-4", iconTone[tone])} aria-hidden="true">
           {icon}
         </span>
       ) : null}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="truncate text-body font-medium text-foreground group-hover:text-brand">{label}</span>
+        <span className="truncate text-small font-semibold text-foreground group-hover:text-brand">{label}</span>
         {caption ? <span className="truncate text-caption text-muted-foreground">{caption}</span> : null}
       </span>
       {count !== undefined ? (
-        <span className={cn("shrink-0 rounded-pill px-2 py-0.5 text-caption font-semibold tabular-nums", countTone[tone])}>{count}</span>
+        <span className={cn("shrink-0 rounded-pill px-2 py-0.5 text-caption font-bold tabular-nums", countTone[tone])}>{count}</span>
       ) : null}
       <ChevronRight className="size-4 shrink-0 text-muted-foreground group-hover:text-brand" aria-hidden="true" />
     </button>

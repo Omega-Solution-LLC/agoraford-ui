@@ -62,10 +62,13 @@ export function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, cl
   const content = (
     <>
       <div className="hidden min-w-0 flex-col items-end text-right leading-tight md:flex">
-        <span className="max-w-48 truncate font-sans text-control font-semibold text-sidebar-item">{name}</span>
+        <span className="max-w-48 truncate font-sans text-body font-medium text-sidebar-item">{name}</span>
         {role ? <span className="max-w-48 truncate text-caption text-sidebar-muted">{role}</span> : null}
       </div>
-      <Avatar name={name} src={src} size="md" />
+      <span className="relative inline-flex shrink-0">
+        <Avatar name={name} src={src} size="md" />
+        <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-pill border-2 border-sidebar bg-success" aria-hidden="true" />
+      </span>
     </>
   );
   const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);

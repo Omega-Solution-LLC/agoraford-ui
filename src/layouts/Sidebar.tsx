@@ -60,7 +60,7 @@ export interface SidebarProps {
 }
 
 const linkBase =
-  "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
+  "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand [&_svg]:size-4 [&_svg]:shrink-0";
 const linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
 
 export interface LinkProps {
@@ -106,7 +106,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
           {!collapsed ? <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} aria-hidden="true" /> : null}
         </button>
         {open && !collapsed ? (
-          <ul className="mt-0.5 flex flex-col gap-0.5 pl-7">
+          <ul className="ml-5 mt-1 flex flex-col gap-0.5 border-l border-sidebar-border pl-3">
             {item.children!.filter((c) => !c.hidden).map((child) => (
               <NavRow key={child.id} item={child} collapsed={collapsed} renderLink={renderLink} />
             ))}

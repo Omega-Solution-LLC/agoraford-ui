@@ -11,18 +11,18 @@ export interface SectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   children: React.ReactNode;
 }
 
-/** Titled card: title and subtitle on the left, action on the right, content below. */
+/** Titled card: bordered header strip on top, action on the right, padded body below. */
 export function SectionCard({ title, subtitle, action, children, className, ...props }: SectionCardProps) {
   return (
-    <Card padding="comfortable" className={cn("flex flex-col gap-4", className)} {...props}>
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex min-w-0 flex-col gap-1">
-          <Text variant="control" as="h2" className="font-semibold">{title}</Text>
-          {subtitle ? <Text variant="small">{subtitle}</Text> : null}
+    <Card padding="none" className={cn("flex flex-col overflow-hidden", className)} {...props}>
+      <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <Text variant="control" as="h2" className="font-bold tracking-tight">{title}</Text>
+          {subtitle ? <Text variant="caption" className="block">{subtitle}</Text> : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
       </div>
-      {children}
+      <div className="flex-1 p-5">{children}</div>
     </Card>
   );
 }

@@ -59,7 +59,7 @@ export { SectionCard, ProgressCard, type SectionCardProps, type ProgressCardProp
 export { NoticeBanner, type NoticeBannerProps } from "./patterns/Notice";
 export { ActionRow, type ActionRowProps } from "./patterns/ActionRow";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
-export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps } from "./patterns/Forms";
+export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps, type StepWizardStep } from "./patterns/Forms";
 
 // Layouts
 export { Sidebar, type SidebarProps, type SidebarNavItem, type SidebarSection, type LinkProps } from "./layouts/Sidebar";

@@ -5,7 +5,7 @@ import { cn } from "../lib/cn";
 import { Spinner } from "./Spinner";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-sans text-control transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-sans text-control font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -17,7 +17,7 @@ export const buttonVariants = cva(
         link: "text-brand underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-control-sm px-3",
+        sm: "h-control-sm px-3 text-small font-semibold",
         md: "h-control-md px-4",
         lg: "h-control-lg px-5",
         icon: "h-control-md w-control-md p-0",

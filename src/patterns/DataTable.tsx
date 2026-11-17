@@ -69,7 +69,7 @@ export function DataTable<T>({
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="overflow-x-auto rounded-card border border-border bg-surface">
         <table className="w-full border-collapse font-sans text-body">
-          <thead className="sticky top-0 z-sticky bg-brand-strong text-white">
+          <thead className="sticky top-0 z-sticky border-b border-border bg-surface-muted text-muted-foreground">
             {table.getHeaderGroups().map((hg) => (
               <tr key={hg.id}>
                 {hg.headers.map((header) => {
@@ -77,13 +77,13 @@ export function DataTable<T>({
                   const dir = header.column.getIsSorted();
                   const sortLabel = dir === "asc" ? labels.sortDescending : labels.sortAscending;
                   return (
-                    <th key={header.id} className="h-control-md whitespace-nowrap px-4 text-left text-control font-medium">
+                    <th key={header.id} className="h-10 whitespace-nowrap px-4 text-left text-caption font-semibold uppercase tracking-wider text-muted-foreground">
                       {header.isPlaceholder ? null : sortable ? (
                         <button
                           type="button"
                           onClick={header.column.getToggleSortingHandler()}
                           aria-label={sortLabel}
-                          className="inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          className="inline-flex items-center gap-1.5 uppercase tracking-wider hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                         >
                           {flexRender(header.column.columnDef.header, header.getContext())}
                           {dir === "asc" ? <ArrowUp className="size-3.5" aria-hidden="true" /> : dir === "desc" ? <ArrowDown className="size-3.5" aria-hidden="true" /> : <ArrowUpDown className="size-3.5 opacity-60" aria-hidden="true" />}

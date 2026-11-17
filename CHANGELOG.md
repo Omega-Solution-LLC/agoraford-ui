@@ -2,6 +2,18 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.8
+
+- Tokens: `--ui-weight-control` is now `600`, and dark mode defines `--ui-sidebar-active` (`#343A40`) and `--ui-sidebar-border` (`#383D43`).
+- `Sidebar`: enforce `16px` (`size-4`) nav icons and mojaboard submenu hairline indent.
+- `Topbar` & `UserMenu`: add bottom hairline border on `Topbar`, `font-medium` name and online status dot on `UserMenu`.
+- `SegmentedControl`: rectangular `rounded-control` (`8px`) track and active segment (matching live mojaboard), with optional `count`.
+- `Button` & `Tabs`: `font-semibold` labels, `text-small` on `sm` buttons.
+- `Card` & `SectionCard`: subtle light-mode card shadow (`shadow-sm dark:shadow-none`) and `SectionCard` bordered header strip (`px-5 py-4 border-b`) + `p-5` body.
+- `StatCard`: mojaboard horizontal layout (`border-l-4` tone accent, `36px` icon tile on the left, stacked `label` + `24px` bold `value` beside it, `hint` below a hairline, optional `progress` ring).
+- `ActionRow` & `NoticeBanner`: tighter `ActionRow` (`32px` rounded-control icon tile, `py-2.5`), `NoticeBanner` with `40px` tinted icon tile.
+- `DataTable` & `StepWizard`: light muted uppercase `DataTable` header (replacing dark navy header), mojaboard card + blue header band + horizontal circle stepper on `StepWizard`.
+
 ## 0.1.7
 
 - New: `ActionRow`, a clickable list row with a tinted icon tile, caption and count pill (for attention lists).
