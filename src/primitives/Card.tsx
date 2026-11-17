@@ -7,6 +7,7 @@ const cardVariants = cva("rounded-card border border-border bg-surface text-fore
     padding: {
       none: "",
       sm: "p-4",
+      comfortable: "p-5",
       md: "p-6",
     },
   },
@@ -15,7 +16,7 @@ const cardVariants = cva("rounded-card border border-border bg-surface text-fore
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardVariants> {}
 
-/** Surface container. Two sizes only: sm (16px padding) and md (24px). */
+/** Surface container. sm = 16px, comfortable = 20px (live dashboard cards), md = 24px. */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, padding, ...props }, ref) => (
   <div ref={ref} className={cn(cardVariants({ padding }), className)} {...props} />
 ));

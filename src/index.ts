@@ -52,7 +52,7 @@ export { Breadcrumb, Pagination, Ellipsis, type BreadcrumbItem, type BreadcrumbP
 export { DataTable, type DataTableProps, type DataTableLabels } from "./patterns/DataTable";
 export { SearchInput, FilterBar, type SearchInputProps, type FilterBarProps } from "./patterns/FilterBar";
 export { EmptyState, ErrorState, type EmptyStateProps, type ErrorStateProps } from "./patterns/States";
-export { PageHeader, FormSection, StatCard, Timeline, type PageHeaderProps, type StatCardProps, type TimelineItem } from "./patterns/Content";
+export { PageHeader, FormSection, StatCard, Timeline, type PageHeaderProps, type StatCardProps, type StatTone, type TimelineItem } from "./patterns/Content";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
 export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps } from "./patterns/Forms";
 

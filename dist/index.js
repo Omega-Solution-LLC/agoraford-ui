@@ -431,6 +431,7 @@ var cardVariants = cva("rounded-card border border-border bg-surface text-foregr
     padding: {
       none: "",
       sm: "p-4",
+      comfortable: "p-5",
       md: "p-6"
     }
   },
@@ -689,8 +690,16 @@ function FormSection({ title, description, children, className }) {
     /* @__PURE__ */ jsx("div", { className: "grid gap-4", children })
   ] });
 }
-function StatCard({ label, value, hint, icon, loading, className }) {
-  return /* @__PURE__ */ jsxs(Card, { padding: "sm", className: cn("flex flex-col gap-2", className), children: [
+var statToneClass = {
+  neutral: "border-border bg-surface",
+  brand: "border-brand/40 bg-brand/5",
+  success: "border-success/40 bg-success/5",
+  warning: "border-warning/40 bg-warning/5",
+  danger: "border-danger/40 bg-danger/5",
+  info: "border-info/40 bg-info/5"
+};
+function StatCard({ tone = "neutral", label, value, hint, icon, loading, className }) {
+  return /* @__PURE__ */ jsxs(Card, { padding: "comfortable", className: cn("flex flex-col gap-2", statToneClass[tone], className), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2", children: [
       /* @__PURE__ */ jsx(Text, { variant: "small", children: label }),
       icon ? /* @__PURE__ */ jsx("span", { className: "text-brand", "aria-hidden": "true", children: icon }) : null
@@ -862,8 +871,8 @@ function StepWizard({ steps, current, stepLabel, children, className }) {
     children
   ] });
 }
-var linkBase = "flex w-full items-center gap-3 rounded-control px-3 py-2 font-sans text-body text-sidebar-foreground transition-colors hover:bg-sidebar-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
-var linkActive = "bg-sidebar-foreground/15 font-medium text-white";
+var linkBase = "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
+var linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
 function defaultLink({ href, className, children, ...rest }) {
   return /* @__PURE__ */ jsx("a", { href, className, ...rest, children });
 }
@@ -880,7 +889,7 @@ function NavRow({ item, collapsed, renderLink }) {
           type: "button",
           "aria-expanded": open,
           onClick: () => setOpen((o) => !o),
-          className: cn(linkBase, childActive && "text-white"),
+          className: cn(linkBase, childActive && "text-sidebar-item"),
           title: collapsed ? item.label : void 0,
           children: [
             item.icon,
@@ -889,10 +898,10 @@ function NavRow({ item, collapsed, renderLink }) {
           ]
         }
       ),
-      open && !collapsed ? /* @__PURE__ */ jsx("ul", { className: "mt-1 flex flex-col gap-1 pl-7", children: item.children.filter((c) => !c.hidden).map((child) => /* @__PURE__ */ jsx(NavRow, { item: child, collapsed, renderLink }, child.id)) }) : null
+      open && !collapsed ? /* @__PURE__ */ jsx("ul", { className: "mt-0.5 flex flex-col gap-0.5 pl-7", children: item.children.filter((c) => !c.hidden).map((child) => /* @__PURE__ */ jsx(NavRow, { item: child, collapsed, renderLink }, child.id)) }) : null
     ] });
   }
-  const className = cn(linkBase, isActive && linkActive, "text-sm");
+  const className = cn(linkBase, isActive && linkActive);
   return /* @__PURE__ */ jsx("li", { children: item.href ? renderLink({ href: item.href, className, children: /* @__PURE__ */ jsxs(Fragment, { children: [
     item.icon,
     !collapsed ? /* @__PURE__ */ jsx("span", { children: item.label }) : /* @__PURE__ */ jsx("span", { className: "sr-only", children: item.label })
@@ -902,14 +911,14 @@ function NavRow({ item, collapsed, renderLink }) {
   ] }) });
 }
 function Sidebar({ brand, items, footer, collapsed = false, renderLink = defaultLink, label, className }) {
-  return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-64", "transition-[width] duration-150", className), children: [
-    brand ? /* @__PURE__ */ jsx("div", { className: "flex h-14 shrink-0 items-center border-b border-sidebar-foreground/10 px-4", children: brand }) : null,
-    /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex-1 overflow-y-auto p-3", children: /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-1", children: items.filter((i) => !i.hidden).map((item) => /* @__PURE__ */ jsx(NavRow, { item, collapsed, renderLink }, item.id)) }) }),
-    footer ? /* @__PURE__ */ jsx("div", { className: "shrink-0 border-t border-sidebar-foreground/10 p-3", children: footer }) : null
+  return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className), children: [
+    brand ? /* @__PURE__ */ jsx("div", { className: "flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4", children: brand }) : null,
+    /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex-1 overflow-y-auto p-2", children: /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-0.5", children: items.filter((i) => !i.hidden).map((item) => /* @__PURE__ */ jsx(NavRow, { item, collapsed, renderLink }, item.id)) }) }),
+    footer ? /* @__PURE__ */ jsx("div", { className: "shrink-0 border-t border-sidebar-border p-2", children: footer }) : null
   ] });
 }
 function Topbar({ leading, trailing, className }) {
-  return /* @__PURE__ */ jsxs("header", { className: cn("sticky top-0 z-sticky flex h-14 shrink-0 items-center justify-between gap-4 bg-sidebar px-5 text-sidebar-foreground", className), children: [
+  return /* @__PURE__ */ jsxs("header", { className: cn("sticky top-0 z-sticky flex h-topbar shrink-0 items-center justify-between gap-4 bg-sidebar px-5 text-sidebar-foreground", className), children: [
     /* @__PURE__ */ jsx("div", { className: "flex min-w-0 items-center gap-3", children: leading }),
     /* @__PURE__ */ jsx("div", { className: "flex items-center gap-3", children: trailing })
   ] });

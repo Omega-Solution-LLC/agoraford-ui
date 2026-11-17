@@ -48,7 +48,20 @@ export function FormSection({ title, description, children, className }: FormSec
   );
 }
 
+export type StatTone = "neutral" | "brand" | "success" | "warning" | "danger" | "info";
+
+const statToneClass: Record<StatTone, string> = {
+  neutral: "border-border bg-surface",
+  brand: "border-brand/40 bg-brand/5",
+  success: "border-success/40 bg-success/5",
+  warning: "border-warning/40 bg-warning/5",
+  danger: "border-danger/40 bg-danger/5",
+  info: "border-info/40 bg-info/5",
+};
+
 export interface StatCardProps {
+  /** Accent for the live dashboard KPI tiles. Defaults to neutral. */
+  tone?: StatTone;
   label: React.ReactNode;
   value: React.ReactNode;
   /** Small line under the value, e.g. a date range or a delta. */
@@ -60,9 +73,9 @@ export interface StatCardProps {
 }
 
 /** KPI tile: label, large value, optional icon and hint. */
-export function StatCard({ label, value, hint, icon, loading, className }: StatCardProps) {
+export function StatCard({ tone = "neutral", label, value, hint, icon, loading, className }: StatCardProps) {
   return (
-    <Card padding="sm" className={cn("flex flex-col gap-2", className)}>
+    <Card padding="comfortable" className={cn("flex flex-col gap-2", statToneClass[tone], className)}>
       <div className="flex items-center justify-between gap-2">
         <Text variant="small">{label}</Text>
         {icon ? <span className="text-brand" aria-hidden="true">{icon}</span> : null}

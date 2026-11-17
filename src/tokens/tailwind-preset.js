@@ -32,6 +32,9 @@ export default {
           DEFAULT: rgb("sidebar"),
           foreground: rgb("sidebar-foreground"),
           muted: rgb("sidebar-muted"),
+          active: rgb("sidebar-active"),
+          item: rgb("sidebar-item"),
+          border: rgb("sidebar-border"),
         },
         success: rgb("success"),
         warning: rgb("warning"),
@@ -56,11 +59,13 @@ export default {
         pill: "var(--radius-pill)",
       },
       height: {
+        topbar: "var(--topbar-height)",
         "control-sm": "var(--control-sm)",
         "control-md": "var(--control-md)",
         "control-lg": "var(--control-lg)",
       },
       width: {
+        sidebar: "var(--sidebar-width)",
         "control-sm": "var(--control-sm)",
         "control-md": "var(--control-md)",
         "control-lg": "var(--control-lg)",

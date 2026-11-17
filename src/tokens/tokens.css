@@ -31,6 +31,11 @@
   --sidebar: 26 32 53;         /* #1A2035 */
   --sidebar-foreground: 203 213 225; /* #CBD5E1 */
   --sidebar-muted: 154 160 172;      /* #9AA0AC, inactive nav and secondary text */
+  --sidebar-active: 38 43 63;        /* #262B3F, live active nav item and search fill */
+  --sidebar-item: 255 255 255;       /* live nav text, shown at 90% */
+  --sidebar-border: 48 54 73;        /* #303649, live hairline inside the chrome */
+  --sidebar-width: 220px;            /* live sidebar width */
+  --topbar-height: 56px;             /* live topbar height */
 
   /* Status (unverified: not measured on live) */
   --success: 22 163 74;
@@ -65,6 +70,7 @@
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
   --space-12: 48px;

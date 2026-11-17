@@ -16,7 +16,7 @@ export interface TopbarProps {
 /** Top bar, 56px tall, dark navy to match the sidebar. */
 export function Topbar({ leading, trailing, className }: TopbarProps) {
   return (
-    <header className={cn("sticky top-0 z-sticky flex h-14 shrink-0 items-center justify-between gap-4 bg-sidebar px-5 text-sidebar-foreground", className)}>
+    <header className={cn("sticky top-0 z-sticky flex h-topbar shrink-0 items-center justify-between gap-4 bg-sidebar px-5 text-sidebar-foreground", className)}>
       <div className="flex min-w-0 items-center gap-3">{leading}</div>
       <div className="flex items-center gap-3">{trailing}</div>
     </header>

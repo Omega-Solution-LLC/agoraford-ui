@@ -34,8 +34,8 @@ export interface SidebarProps {
 }
 
 const linkBase =
-  "flex w-full items-center gap-3 rounded-control px-3 py-2 font-sans text-body text-sidebar-foreground transition-colors hover:bg-sidebar-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
-const linkActive = "bg-sidebar-foreground/15 font-medium text-white";
+  "flex h-9 w-full items-center gap-3 rounded-control px-3 font-sans text-body text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand";
+const linkActive = "bg-sidebar-active font-semibold text-sidebar-item";
 
 function defaultLink({ href, className, children, ...rest }: { href: string; className: string; children: React.ReactNode; "aria-current"?: "page" }) {
   return (
@@ -58,7 +58,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className={cn(linkBase, childActive && "text-white")}
+          className={cn(linkBase, childActive && "text-sidebar-item")}
           title={collapsed ? item.label : undefined}
         >
           {item.icon}
@@ -66,7 +66,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
           {!collapsed ? <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} aria-hidden="true" /> : null}
         </button>
         {open && !collapsed ? (
-          <ul className="mt-1 flex flex-col gap-1 pl-7">
+          <ul className="mt-0.5 flex flex-col gap-0.5 pl-7">
             {item.children!.filter((c) => !c.hidden).map((child) => (
               <NavRow key={child.id} item={child} collapsed={collapsed} renderLink={renderLink} />
             ))}
@@ -76,7 +76,7 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
     );
   }
 
-  const className = cn(linkBase, isActive && linkActive, "text-sm");
+  const className = cn(linkBase, isActive && linkActive);
   return (
     <li>
       {item.href ? (
@@ -91,16 +91,16 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
 export function Sidebar({ brand, items, footer, collapsed = false, renderLink = defaultLink, label, className }: SidebarProps) {
   return (
-    <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-64", "transition-[width] duration-150", className)}>
-      {brand ? <div className="flex h-14 shrink-0 items-center border-b border-sidebar-foreground/10 px-4">{brand}</div> : null}
-      <nav aria-label={label} className="flex-1 overflow-y-auto p-3">
-        <ul className="flex flex-col gap-1">
+    <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className)}>
+      {brand ? <div className="flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4">{brand}</div> : null}
+      <nav aria-label={label} className="flex-1 overflow-y-auto p-2">
+        <ul className="flex flex-col gap-0.5">
           {items.filter((i) => !i.hidden).map((item) => (
             <NavRow key={item.id} item={item} collapsed={collapsed} renderLink={renderLink} />
           ))}
         </ul>
       </nav>
-      {footer ? <div className="shrink-0 border-t border-sidebar-foreground/10 p-3">{footer}</div> : null}
+      {footer ? <div className="shrink-0 border-t border-sidebar-border p-2">{footer}</div> : null}
     </aside>
   );
 }

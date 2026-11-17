@@ -18,7 +18,7 @@ import { ClassValue } from 'clsx';
 export { toast } from 'sonner';
 
 declare const buttonVariants: (props?: ({
-    variant?: "link" | "primary" | "secondary" | "outline" | "ghost" | "danger" | null | undefined;
+    variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "link" | null | undefined;
     size?: "sm" | "md" | "lg" | "icon" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
@@ -181,11 +181,11 @@ interface SegmentedControlProps<T extends string> {
 declare function SegmentedControl<T extends string>({ options, value, onValueChange, label, className }: SegmentedControlProps<T>): React$1.JSX.Element;
 
 declare const cardVariants: (props?: ({
-    padding?: "none" | "sm" | "md" | null | undefined;
+    padding?: "sm" | "md" | "none" | "comfortable" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface CardProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardVariants> {
 }
-/** Surface container. Two sizes only: sm (16px padding) and md (24px). */
+/** Surface container. sm = 16px, comfortable = 20px (live dashboard cards), md = 24px. */
 declare const Card: React$1.ForwardRefExoticComponent<CardProps & React$1.RefAttributes<HTMLDivElement>>;
 declare function CardHeader({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
 declare function CardTitle({ className, ...props }: React$1.HTMLAttributes<HTMLHeadingElement>): React$1.JSX.Element;
@@ -204,7 +204,7 @@ declare function Progress({ value, label, className, ...props }: ProgressProps):
 
 /** Typography roles from the live mojaboard UI. Do not invent sizes in apps. */
 declare const textVariants: (props?: ({
-    variant?: "body" | "caption" | "small" | "title" | "subtitle" | "control" | null | undefined;
+    variant?: "title" | "body" | "caption" | "small" | "subtitle" | "control" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface TextProps extends React$1.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
     as?: keyof React$1.JSX.IntrinsicElements;
@@ -342,7 +342,10 @@ interface FormSectionProps {
 }
 /** Titled group of form fields. Fields inside are spaced 16px apart. */
 declare function FormSection({ title, description, children, className }: FormSectionProps): React$1.JSX.Element;
+type StatTone = "neutral" | "brand" | "success" | "warning" | "danger" | "info";
 interface StatCardProps {
+    /** Accent for the live dashboard KPI tiles. Defaults to neutral. */
+    tone?: StatTone;
     label: React$1.ReactNode;
     value: React$1.ReactNode;
     /** Small line under the value, e.g. a date range or a delta. */
@@ -353,7 +356,7 @@ interface StatCardProps {
     className?: string;
 }
 /** KPI tile: label, large value, optional icon and hint. */
-declare function StatCard({ label, value, hint, icon, loading, className }: StatCardProps): React$1.JSX.Element;
+declare function StatCard({ tone, label, value, hint, icon, loading, className }: StatCardProps): React$1.JSX.Element;
 interface TimelineItem {
     id: string;
     title: React$1.ReactNode;
@@ -521,4 +524,4 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 declare function cn(...inputs: ClassValue[]): string;
 
 export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, Input, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, SearchInput, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, badgeVariants, buttonVariants, cn, textVariants };
-export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, InputProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressProps, SearchInputProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SpinnerProps, StatCardProps, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps };
+export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, InputProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressProps, SearchInputProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps };
