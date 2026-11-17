@@ -1,0 +1,109 @@
+/*
+ * @agoraford/ui — design tokens. SINGLE SOURCE OF TRUTH.
+ *
+ * Change a value here and every app that imports the library updates.
+ * Colors are RGB channels ("R G B") so Tailwind opacity modifiers (bg-brand/50) work.
+ * Values come from the LIVE mojaboard UI (see CHANGELOG.md, 0.1.0). Values marked
+ * "unverified" were not measured on live and must be checked against live.
+ */
+
+:root {
+  /* Brand */
+  --brand: 32 92 252;          /* #205CFC */
+  --brand-hover: 27 78 217;    /* #1B4ED9 */
+  --brand-soft: 238 242 255;   /* #EEF2FF */
+  --brand-strong: 17 46 146;   /* #112E92, table header */
+
+  /* The three fills that paint a region (canvas, surface, muted) */
+  --background: 248 250 252;   /* #F8FAFC, page canvas (live main) */
+  --surface: 255 255 255;      /* #FFFFFF, cards, tables, inputs, dialogs */
+  --surface-muted: 241 245 249;/* #F1F5F9, table footer, hover, disabled */
+
+  /* Text */
+  --foreground: 17 24 39;      /* #111827 */
+  --muted-foreground: 75 85 99;/* #4B5563, live subtitle */
+
+  /* Borders */
+  --border: 229 231 235;       /* #E5E7EB */
+  --border-strong: 209 213 219;/* #D1D5DB */
+
+  /* Sidebar and header chrome (live: rgb(26,32,53)) */
+  --sidebar: 26 32 53;         /* #1A2035 */
+  --sidebar-foreground: 203 213 225; /* #CBD5E1 */
+  --sidebar-muted: 154 160 172;      /* #9AA0AC, inactive nav and secondary text */
+
+  /* Status (unverified: not measured on live) */
+  --success: 22 163 74;
+  --warning: 217 119 6;
+  --danger: 220 38 38;
+  --info: 32 92 252;
+
+  /* Typography (live-measured roles) */
+  --font-sans: "Poppins", sans-serif;
+  --text-title: 30px;          /* weight 800, line 36 */
+  --text-subtitle: 14px;       /* weight 400, line 20 */
+  --text-body: 13.5px;         /* weight 400, line 20 */
+  --text-control: 14px;        /* weight 500, line 20 */
+  --text-small: 12.8px;        /* weight 400, line 16 */
+  --text-caption: 11.5px;      /* weight 400, line 14 */
+  --weight-title: 800;
+  --weight-control: 500;
+
+  /* Radius (live: buttons 8px, cards 16px) */
+  --radius-control: 8px;
+  --radius-card: 16px;
+  --radius-panel: 16px;
+  --radius-pill: 9999px;
+
+  /* Control heights (unverified: blueprint values, check live) */
+  --control-sm: 32px;
+  --control-md: 40px;
+  --control-lg: 44px;
+
+  /* Spacing: 4px grid, allowed steps 4 8 12 16 24 32 48 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Z-index scale */
+  --z-dropdown: 50;
+  --z-sticky: 40;
+  --z-overlay: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+
+  /* Motion */
+  --motion-duration: 150ms;
+  --motion-easing: ease-out;
+
+  color-scheme: light;
+}
+
+/* Dark (unverified: values from mojaboard App.css, check live dark mode) */
+:root.dark,
+:root[data-theme="dark"] {
+  --brand: 32 92 252;
+  --brand-hover: 59 115 255;
+  --brand-soft: 52 58 64;
+  --brand-strong: 17 46 146;
+
+  --background: 33 37 41;      /* #212529 */
+  --surface: 42 46 50;         /* #2A2E32 */
+  --surface-muted: 52 58 64;   /* #343A40 */
+
+  --foreground: 255 255 255;
+  --muted-foreground: 158 163 174; /* #9EA3AE */
+
+  --border: 56 61 67;          /* #383D43 */
+  --border-strong: 78 84 92;   /* #4E545C */
+
+  --sidebar: 39 43 47;         /* #272B2F */
+  --sidebar-foreground: 203 213 225;
+  --sidebar-muted: 154 160 172;
+
+  color-scheme: dark;
+}
