@@ -8,4 +8,6 @@ export default defineConfig({
   clean: true,
   external: ["react", "react-dom"],
   treeshake: true,
+  // Runs after every build, including watch rebuilds, so dist is always client-ready.
+  onSuccess: "node scripts/add-use-client.mjs",
 });
