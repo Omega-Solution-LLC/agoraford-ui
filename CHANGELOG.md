@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.1.7
+
+- New: `ActionRow`, a clickable list row with a tinted icon tile, caption and count pill (for attention lists).
+
 ## 0.1.6
 
 - Fix: custom text sizes (`text-title`, `text-body`, `text-small`, ...) were dropped by `cn` next to color classes, so headings and labels lost their size. `cn` now knows the library text roles.

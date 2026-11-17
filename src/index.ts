@@ -57,6 +57,7 @@ export { PageHeader, FormSection, StatCard, Timeline, type PageHeaderProps, type
 export { TopbarSearch, UserMenu, type TopbarSearchProps, type UserMenuProps } from "./patterns/Chrome";
 export { SectionCard, ProgressCard, type SectionCardProps, type ProgressCardProps, type ProgressRow, type ProgressTone } from "./patterns/Panels";
 export { NoticeBanner, type NoticeBannerProps } from "./patterns/Notice";
+export { ActionRow, type ActionRowProps } from "./patterns/ActionRow";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
 export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps } from "./patterns/Forms";
 

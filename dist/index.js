@@ -872,6 +872,45 @@ function NoticeBanner({ tone, icon, title, description, action, className }) {
     action ? /* @__PURE__ */ jsx("div", { className: "shrink-0", children: action }) : null
   ] });
 }
+var iconTone = {
+  neutral: "bg-surface-muted text-muted-foreground",
+  brand: "bg-brand-soft text-brand",
+  success: "bg-success/10 text-success",
+  warning: "bg-warning/10 text-warning",
+  danger: "bg-danger/10 text-danger",
+  info: "bg-info/10 text-info"
+};
+var countTone = {
+  neutral: "bg-surface-muted text-muted-foreground",
+  brand: "bg-brand text-white",
+  success: "bg-success text-white",
+  warning: "bg-warning text-white",
+  danger: "bg-danger text-white",
+  info: "bg-info text-white"
+};
+function ActionRow({ icon, label, caption, count, tone = "neutral", onClick, ariaLabel, className }) {
+  return /* @__PURE__ */ jsxs(
+    "button",
+    {
+      type: "button",
+      onClick,
+      "aria-label": ariaLabel,
+      className: cn(
+        "group flex w-full items-center gap-3 rounded-control border border-border bg-surface px-3 py-3 text-left font-sans transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+        className
+      ),
+      children: [
+        icon ? /* @__PURE__ */ jsx("span", { className: cn("flex size-9 shrink-0 items-center justify-center rounded-pill [&_svg]:size-4", iconTone[tone]), "aria-hidden": "true", children: icon }) : null,
+        /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 flex-1 flex-col gap-0.5", children: [
+          /* @__PURE__ */ jsx("span", { className: "truncate text-body font-medium text-foreground group-hover:text-brand", children: label }),
+          caption ? /* @__PURE__ */ jsx("span", { className: "truncate text-caption text-muted-foreground", children: caption }) : null
+        ] }),
+        count !== void 0 ? /* @__PURE__ */ jsx("span", { className: cn("shrink-0 rounded-pill px-2 py-0.5 text-caption font-semibold tabular-nums", countTone[tone]), children: count }) : null,
+        /* @__PURE__ */ jsx(ChevronRight, { className: "size-4 shrink-0 text-muted-foreground group-hover:text-brand", "aria-hidden": "true" })
+      ]
+    }
+  );
+}
 function ConfirmDialog({
   open,
   onOpenChange,
@@ -1120,6 +1159,6 @@ function SettingsLayout({ nav, children, className }) {
   ] });
 }
 
-export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
