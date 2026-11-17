@@ -106,6 +106,16 @@ interface AvatarProps extends React$1.ComponentPropsWithoutRef<typeof AvatarPrim
 }
 declare function Avatar({ src, name, size, className, ...props }: AvatarProps): React$1.JSX.Element;
 
+declare const iconButtonVariants: (props?: ({
+    tone?: "inverse" | "default" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+interface IconButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {
+    /** Required: icon-only buttons need an accessible name. Translated by the app. */
+    label: string;
+}
+/** Square icon-only button, 36px, used in the topbar and toolbars. */
+declare const IconButton: React$1.ForwardRefExoticComponent<IconButtonProps & React$1.RefAttributes<HTMLButtonElement>>;
+
 declare const TooltipProvider: React$1.FC<TooltipPrimitive.TooltipProviderProps>;
 interface TooltipProps {
     content: React$1.ReactNode;
@@ -369,6 +379,76 @@ declare function Timeline({ items, className }: {
     className?: string;
 }): React$1.JSX.Element;
 
+interface TopbarSearchProps {
+    /** Accessible name and placeholder, translated by the app. */
+    label: string;
+    /** Shortcut hint shown on the right, e.g. "⌘K". */
+    shortcut?: string;
+    /** Opens a search dialog when set. The field is a button, not an input, so it can open a modal. */
+    onOpen?: () => void;
+    value?: string;
+    onValueChange?: (value: string) => void;
+    className?: string;
+}
+/** Topbar search pill: 36px, 320px wide on desktop, matches the live mojaboard search. */
+declare function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className }: TopbarSearchProps): React$1.JSX.Element;
+interface UserMenuProps {
+    name: string;
+    /** Secondary line under the name, e.g. the role. */
+    role?: string;
+    src?: string;
+    /** Opens the user menu. */
+    onClick?: () => void;
+    "aria-label"?: string;
+    className?: string;
+}
+/** Avatar with name and role, as shown at the right of the live topbar. */
+declare function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }: UserMenuProps): React$1.JSX.Element;
+
+interface SectionCardProps extends Omit<React$1.HTMLAttributes<HTMLDivElement>, "title"> {
+    title: React$1.ReactNode;
+    subtitle?: React$1.ReactNode;
+    /** Right-aligned action, e.g. a "View all" link or a button. */
+    action?: React$1.ReactNode;
+    children: React$1.ReactNode;
+}
+/** Titled card: title and subtitle on the left, action on the right, content below. */
+declare function SectionCard({ title, subtitle, action, children, className, ...props }: SectionCardProps): React$1.JSX.Element;
+type ProgressTone = "brand" | "success" | "warning" | "danger" | "info";
+interface ProgressRow {
+    id: string;
+    label: React$1.ReactNode;
+    value: number;
+    total: number;
+    tone?: ProgressTone;
+    /** Right-hand text, e.g. "12 / 40". Defaults to value / total. */
+    valueLabel?: React$1.ReactNode;
+}
+interface ProgressCardProps {
+    title: React$1.ReactNode;
+    subtitle?: React$1.ReactNode;
+    rows: ProgressRow[];
+    /** Shown when there are no rows. Translated by the app. */
+    emptyLabel?: React$1.ReactNode;
+    className?: string;
+}
+/** Labelled progress bars inside a SectionCard, for SLA and status breakdowns. */
+declare function ProgressCard({ title, subtitle, rows, emptyLabel, className }: ProgressCardProps): React$1.JSX.Element;
+
+declare const noticeVariants: (props?: ({
+    tone?: "danger" | "neutral" | "brand" | "success" | "warning" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+interface NoticeBannerProps extends VariantProps<typeof noticeVariants> {
+    icon?: React$1.ReactNode;
+    title: React$1.ReactNode;
+    description?: React$1.ReactNode;
+    /** Right-aligned action, e.g. a button. */
+    action?: React$1.ReactNode;
+    className?: string;
+}
+/** Inline status message with an optional icon and action. Used for attestation and deadline notices. */
+declare function NoticeBanner({ tone, icon, title, description, action, className }: NoticeBannerProps): React$1.JSX.Element;
+
 interface ConfirmDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -448,10 +528,19 @@ interface SidebarNavItem {
     /** Hide the item for users without permission. Apps compute this. */
     hidden?: boolean;
 }
+/** A labelled group of nav items, e.g. a tier or module area. */
+interface SidebarSection {
+    id: string;
+    label: string;
+    items: SidebarNavItem[];
+}
 interface SidebarProps {
     /** Brand block at the top, e.g. logo and product name. */
     brand?: React$1.ReactNode;
-    items: SidebarNavItem[];
+    /** Flat list of items. Ignored when `sections` is given. */
+    items?: SidebarNavItem[];
+    /** Labelled groups. Each label is shown above its items. */
+    sections?: SidebarSection[];
     /** Footer block, for example the logout button. */
     footer?: React$1.ReactNode;
     /** Collapsed to icons only. */
@@ -471,7 +560,7 @@ interface SidebarProps {
     className?: string;
 }
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
-declare function Sidebar({ brand, items, footer, collapsed, renderLink, label, className }: SidebarProps): React$1.JSX.Element;
+declare function Sidebar({ brand, items, sections, footer, collapsed, renderLink, label, className }: SidebarProps): React$1.JSX.Element;
 
 interface TopbarProps {
     /** Left side: menu button on mobile, breadcrumb or title. */
@@ -523,5 +612,5 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 /** Merge class names, resolving Tailwind conflicts. Use for every component. */
 declare function cn(...inputs: ClassValue[]): string;
 
-export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, Input, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, SearchInput, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, badgeVariants, buttonVariants, cn, textVariants };
-export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, InputProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressProps, SearchInputProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps };
+export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
+export type { AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbItem, BreadcrumbProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, NoticeBannerProps, PageContainerProps, PageHeaderProps, PaginationProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, SearchInputProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, SwitchProps, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps };

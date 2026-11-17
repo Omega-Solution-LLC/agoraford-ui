@@ -8,6 +8,8 @@ All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 - Tokens: `--sidebar-active`, `--sidebar-item`, `--sidebar-border`, `--sidebar-width`, `--topbar-height`, `--space-5`.
 - `StatCard` gains a `tone` prop (neutral, brand, success, warning, danger, info) and uses the comfortable 20px padding.
 - `Card` gains `padding="comfortable"`.
+- New: `IconButton`, `TopbarSearch`, `UserMenu`, `SectionCard`, `ProgressCard`, `NoticeBanner`.
+- `Sidebar` accepts labelled `sections` (`SidebarSection`) in place of a flat `items` list.
 
 ## 0.1.0
 

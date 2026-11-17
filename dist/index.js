@@ -1,5 +1,5 @@
 "use client";
-import * as React6 from 'react';
+import * as React7 from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -53,7 +53,7 @@ var buttonVariants = cva(
     defaultVariants: { variant: "primary", size: "md" }
   }
 );
-var Button = React6.forwardRef(
+var Button = React7.forwardRef(
   ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return /* @__PURE__ */ jsxs(
@@ -84,9 +84,9 @@ function Field({ label, hint, error, required, htmlFor, className, children }) {
   ] });
 }
 var controlBase = "w-full rounded-control border border-border-strong bg-surface px-3 font-sans text-body text-foreground placeholder:text-sidebar-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-danger";
-var Input = React6.forwardRef(({ className, type = "text", ...props }, ref) => /* @__PURE__ */ jsx("input", { ref, type, className: cn(controlBase, "h-control-md", className), ...props }));
+var Input = React7.forwardRef(({ className, type = "text", ...props }, ref) => /* @__PURE__ */ jsx("input", { ref, type, className: cn(controlBase, "h-control-md", className), ...props }));
 Input.displayName = "Input";
-var Textarea = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Textarea = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "textarea",
   {
     ref,
@@ -135,7 +135,7 @@ function Select({ options, placeholder, invalid, className, id, ...props }) {
     ) })
   ] });
 }
-var Checkbox = React6.forwardRef(
+var Checkbox = React7.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx(
     CheckboxPrimitive.Root,
     {
@@ -150,7 +150,7 @@ var Checkbox = React6.forwardRef(
   )
 );
 Checkbox.displayName = "Checkbox";
-var Switch = React6.forwardRef(
+var Switch = React7.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx(
     SwitchPrimitive.Root,
     {
@@ -165,9 +165,9 @@ var Switch = React6.forwardRef(
   )
 );
 Switch.displayName = "Switch";
-var RadioGroup = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
+var RadioGroup = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
 RadioGroup.displayName = "RadioGroup";
-var RadioGroupItem = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var RadioGroupItem = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   RadioGroupPrimitive.Item,
   {
     ref,
@@ -226,6 +226,35 @@ function Avatar({ src, name, size = "md", className, ...props }) {
     }
   );
 }
+var iconButtonVariants = cva(
+  "inline-flex shrink-0 items-center justify-center rounded-control transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4",
+  {
+    variants: {
+      tone: {
+        /** For the dark sidebar and topbar chrome. */
+        inverse: "text-sidebar-muted hover:bg-sidebar-active hover:text-sidebar-item",
+        /** For light surfaces. */
+        default: "text-muted-foreground hover:bg-surface-muted hover:text-foreground"
+      }
+    },
+    defaultVariants: { tone: "inverse" }
+  }
+);
+var IconButton = React7.forwardRef(
+  ({ label, tone, className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+    "button",
+    {
+      ref,
+      type: "button",
+      "aria-label": label,
+      title: label,
+      className: cn(iconButtonVariants({ tone }), "size-9", className),
+      ...props,
+      children
+    }
+  )
+);
+IconButton.displayName = "IconButton";
 var TooltipProvider = TooltipPrimitive.Provider;
 function Tooltip({ content, children, side = "top", delayMs = 300 }) {
   return /* @__PURE__ */ jsxs(TooltipPrimitive.Root, { delayDuration: delayMs, children: [
@@ -246,7 +275,7 @@ function Tooltip({ content, children, side = "top", delayMs = 300 }) {
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogClose = DialogPrimitive.Close;
-var DialogContent = React6.forwardRef(({ className, children, closeLabel = "Close", ...props }, ref) => /* @__PURE__ */ jsxs(DialogPrimitive.Portal, { children: [
+var DialogContent = React7.forwardRef(({ className, children, closeLabel = "Close", ...props }, ref) => /* @__PURE__ */ jsxs(DialogPrimitive.Portal, { children: [
   /* @__PURE__ */ jsx(DialogPrimitive.Overlay, { className: "fixed inset-0 z-overlay bg-black/40" }),
   /* @__PURE__ */ jsxs(
     DialogPrimitive.Content,
@@ -278,13 +307,13 @@ function DialogHeader({ className, ...props }) {
 function DialogFooter({ className, ...props }) {
   return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className), ...props });
 }
-var DialogTitle = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DialogPrimitive.Title, { ref, className: cn("text-title text-foreground", className), ...props }));
+var DialogTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DialogPrimitive.Title, { ref, className: cn("text-title text-foreground", className), ...props }));
 DialogTitle.displayName = "DialogTitle";
-var DialogDescription = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DialogPrimitive.Description, { ref, className: cn("text-subtitle text-muted-foreground", className), ...props }));
+var DialogDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DialogPrimitive.Description, { ref, className: cn("text-subtitle text-muted-foreground", className), ...props }));
 DialogDescription.displayName = "DialogDescription";
 var AlertDialog = AlertDialogPrimitive.Root;
 var AlertDialogTrigger = AlertDialogPrimitive.Trigger;
-var AlertDialogContent = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs(AlertDialogPrimitive.Portal, { children: [
+var AlertDialogContent = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs(AlertDialogPrimitive.Portal, { children: [
   /* @__PURE__ */ jsx(AlertDialogPrimitive.Overlay, { className: "fixed inset-0 z-overlay bg-black/40" }),
   /* @__PURE__ */ jsx(
     AlertDialogPrimitive.Content,
@@ -306,7 +335,7 @@ var AlertDialogCancel = AlertDialogPrimitive.Cancel;
 var Sheet = DialogPrimitive.Root;
 var SheetTrigger = DialogPrimitive.Trigger;
 var SheetClose = DialogPrimitive.Close;
-var SheetContent = React6.forwardRef(
+var SheetContent = React7.forwardRef(
   ({ side = "left", className, children, closeLabel = "Close", ...props }, ref) => /* @__PURE__ */ jsxs(DialogPrimitive.Portal, { children: [
     /* @__PURE__ */ jsx(DialogPrimitive.Overlay, { className: "fixed inset-0 z-overlay bg-black/40" }),
     /* @__PURE__ */ jsxs(
@@ -337,9 +366,9 @@ var SheetContent = React6.forwardRef(
 SheetContent.displayName = "SheetContent";
 var DropdownMenu = DropdownMenuPrimitive.Root;
 var DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
-var DropdownMenuSeparator = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Separator, { ref, className: cn("my-1 h-px bg-border", className), ...props }));
+var DropdownMenuSeparator = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Separator, { ref, className: cn("my-1 h-px bg-border", className), ...props }));
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
-var DropdownMenuContent = React6.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var DropdownMenuContent = React7.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Content,
   {
     ref,
@@ -352,7 +381,7 @@ var DropdownMenuContent = React6.forwardRef(({ className, sideOffset = 4, ...pro
   }
 ) }));
 DropdownMenuContent.displayName = "DropdownMenuContent";
-var DropdownMenuItem = React6.forwardRef(({ className, destructive, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuItem = React7.forwardRef(({ className, destructive, ...props }, ref) => /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Item,
   {
     ref,
@@ -368,7 +397,7 @@ DropdownMenuItem.displayName = "DropdownMenuItem";
 var Popover = PopoverPrimitive.Root;
 var PopoverTrigger = PopoverPrimitive.Trigger;
 var PopoverClose = PopoverPrimitive.Close;
-var PopoverContent = React6.forwardRef(({ className, align = "start", sideOffset = 6, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var PopoverContent = React7.forwardRef(({ className, align = "start", sideOffset = 6, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   PopoverPrimitive.Content,
   {
     ref,
@@ -383,7 +412,7 @@ var PopoverContent = React6.forwardRef(({ className, align = "start", sideOffset
 ) }));
 PopoverContent.displayName = "PopoverContent";
 var Tabs = TabsPrimitive.Root;
-var TabsList = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsList = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.List,
   {
     ref,
@@ -392,7 +421,7 @@ var TabsList = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 TabsList.displayName = "TabsList";
-var TabsTrigger = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsTrigger = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -404,7 +433,7 @@ var TabsTrigger = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 TabsTrigger.displayName = "TabsTrigger";
-var TabsContent = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(TabsPrimitive.Content, { ref, className: cn("pt-4 focus-visible:outline-none", className), ...props }));
+var TabsContent = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(TabsPrimitive.Content, { ref, className: cn("pt-4 focus-visible:outline-none", className), ...props }));
 TabsContent.displayName = "TabsContent";
 function SegmentedControl({ options, value, onValueChange, label, className }) {
   return /* @__PURE__ */ jsx("div", { role: "radiogroup", "aria-label": label, className: cn("inline-flex items-center gap-1 rounded-pill border border-border bg-surface p-1", className), children: options.map((opt) => {
@@ -437,7 +466,7 @@ var cardVariants = cva("rounded-card border border-border bg-surface text-foregr
   },
   defaultVariants: { padding: "md" }
 });
-var Card = React6.forwardRef(({ className, padding, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn(cardVariants({ padding }), className), ...props }));
+var Card = React7.forwardRef(({ className, padding, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn(cardVariants({ padding }), className), ...props }));
 Card.displayName = "Card";
 function CardHeader({ className, ...props }) {
   return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col gap-1 pb-4", className), ...props });
@@ -454,7 +483,7 @@ function CardContent({ className, ...props }) {
 function CardFooter({ className, ...props }) {
   return /* @__PURE__ */ jsx("div", { className: cn("flex items-center gap-2 pt-4", className), ...props });
 }
-var Separator2 = React6.forwardRef(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
+var Separator2 = React7.forwardRef(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
   SeparatorPrimitive.Root,
   {
     ref,
@@ -556,7 +585,7 @@ function DataTable({
   getRowId,
   className
 }) {
-  const [sorting, setSorting] = React6.useState([]);
+  const [sorting, setSorting] = React7.useState([]);
   const table = useReactTable({
     data,
     columns,
@@ -594,9 +623,9 @@ function DataTable({
   ] });
 }
 function SearchInput({ value, onValueChange, label, debounceMs = 300, clearLabel = "Clear", className, ...props }) {
-  const [draft, setDraft] = React6.useState(value);
-  const timer = React6.useRef(null);
-  React6.useEffect(() => {
+  const [draft, setDraft] = React7.useState(value);
+  const timer = React7.useRef(null);
+  React7.useEffect(() => {
     setDraft(value);
   }, [value]);
   const emit = (next) => {
@@ -608,7 +637,7 @@ function SearchInput({ value, onValueChange, label, debounceMs = 300, clearLabel
     }
     timer.current = setTimeout(() => onValueChange(next), debounceMs);
   };
-  React6.useEffect(() => () => {
+  React7.useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
   }, []);
   return /* @__PURE__ */ jsxs("div", { className: cn("relative w-full sm:w-72", className), children: [
@@ -721,6 +750,112 @@ function Timeline({ items, className }) {
     ] })
   ] }, item.id)) });
 }
+function TopbarSearch({ label, shortcut, onOpen, value, onValueChange, className }) {
+  const shell = cn(
+    "flex h-9 w-full max-w-80 items-center gap-2 rounded-control border border-sidebar-border bg-sidebar-active px-3 font-sans text-body text-sidebar-muted transition-colors hover:border-sidebar-muted focus-within:ring-2 focus-within:ring-brand",
+    className
+  );
+  if (onOpen) {
+    return /* @__PURE__ */ jsxs("button", { type: "button", onClick: onOpen, "aria-label": label, className: cn(shell, "text-left"), children: [
+      /* @__PURE__ */ jsx(Search, { className: "size-4 shrink-0", "aria-hidden": "true" }),
+      /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: label }),
+      shortcut ? /* @__PURE__ */ jsx("kbd", { className: "rounded border border-sidebar-border px-1.5 text-caption text-sidebar-item/80", children: shortcut }) : null
+    ] });
+  }
+  return /* @__PURE__ */ jsxs("label", { className: shell, children: [
+    /* @__PURE__ */ jsx(Search, { className: "size-4 shrink-0", "aria-hidden": "true" }),
+    /* @__PURE__ */ jsx(
+      "input",
+      {
+        type: "search",
+        "aria-label": label,
+        placeholder: label,
+        value: value ?? "",
+        onChange: (e) => onValueChange?.(e.target.value),
+        className: "min-w-0 flex-1 bg-transparent text-sidebar-item placeholder:text-sidebar-muted focus-visible:outline-none"
+      }
+    ),
+    shortcut ? /* @__PURE__ */ jsx("kbd", { className: "rounded border border-sidebar-border px-1.5 text-caption text-sidebar-item/80", children: shortcut }) : null
+  ] });
+}
+function UserMenu({ name, role, src, onClick, "aria-label": ariaLabel, className }) {
+  const content = /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsxs("div", { className: "hidden min-w-0 flex-col items-end text-right leading-tight md:flex", children: [
+      /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate font-sans text-control font-semibold text-sidebar-item", children: name }),
+      role ? /* @__PURE__ */ jsx("span", { className: "max-w-48 truncate text-caption text-sidebar-muted", children: role }) : null
+    ] }),
+    /* @__PURE__ */ jsx(Avatar, { name, src, size: "md" })
+  ] });
+  const shell = cn("flex items-center gap-2.5 rounded-control py-1 pl-2 pr-1 transition-colors hover:bg-sidebar-active", className);
+  if (onClick) {
+    return /* @__PURE__ */ jsx("button", { type: "button", onClick, "aria-label": ariaLabel ?? name, className: shell, children: content });
+  }
+  return /* @__PURE__ */ jsx("div", { className: shell, children: content });
+}
+function SectionCard({ title, subtitle, action, children, className, ...props }) {
+  return /* @__PURE__ */ jsxs(Card, { padding: "comfortable", className: cn("flex flex-col gap-4", className), ...props, children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-4", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-col gap-1", children: [
+        /* @__PURE__ */ jsx(Text, { variant: "control", as: "h2", className: "font-semibold", children: title }),
+        subtitle ? /* @__PURE__ */ jsx(Text, { variant: "small", children: subtitle }) : null
+      ] }),
+      action ? /* @__PURE__ */ jsx("div", { className: "shrink-0", children: action }) : null
+    ] }),
+    children
+  ] });
+}
+var barTone = {
+  brand: "bg-brand",
+  success: "bg-success",
+  warning: "bg-warning",
+  danger: "bg-danger",
+  info: "bg-info"
+};
+function ProgressCard({ title, subtitle, rows, emptyLabel, className }) {
+  return /* @__PURE__ */ jsx(SectionCard, { title, subtitle, className, children: rows.length === 0 ? /* @__PURE__ */ jsx(Text, { variant: "small", children: emptyLabel }) : /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-4", children: rows.map((row) => {
+    const pct = row.total > 0 ? Math.min(100, Math.round(row.value / row.total * 100)) : 0;
+    return /* @__PURE__ */ jsxs("li", { className: "flex flex-col gap-2", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3", children: [
+        /* @__PURE__ */ jsx(Text, { variant: "control", children: row.label }),
+        /* @__PURE__ */ jsx(Text, { variant: "small", as: "span", className: "tabular-nums", children: row.valueLabel ?? `${row.value} / ${row.total}` })
+      ] }),
+      /* @__PURE__ */ jsx(
+        "div",
+        {
+          role: "progressbar",
+          "aria-valuenow": pct,
+          "aria-valuemin": 0,
+          "aria-valuemax": 100,
+          "aria-label": typeof row.label === "string" ? row.label : void 0,
+          className: "h-2 w-full overflow-hidden rounded-pill bg-surface-muted",
+          children: /* @__PURE__ */ jsx("div", { className: cn("h-full rounded-pill transition-[width]", barTone[row.tone ?? "brand"]), style: { width: `${pct}%` } })
+        }
+      )
+    ] }, row.id);
+  }) }) });
+}
+var noticeVariants = cva("flex items-start gap-3 rounded-card border p-4 font-sans", {
+  variants: {
+    tone: {
+      neutral: "border-border bg-surface text-foreground",
+      brand: "border-brand/30 bg-brand-soft text-foreground",
+      success: "border-success/30 bg-success/10 text-foreground",
+      warning: "border-warning/30 bg-warning/10 text-foreground",
+      danger: "border-danger/30 bg-danger/10 text-foreground"
+    }
+  },
+  defaultVariants: { tone: "neutral" }
+});
+function NoticeBanner({ tone, icon, title, description, action, className }) {
+  return /* @__PURE__ */ jsxs("div", { role: "status", className: cn(noticeVariants({ tone }), className), children: [
+    icon ? /* @__PURE__ */ jsx("span", { className: "mt-0.5 shrink-0 text-brand [&_svg]:size-4", children: icon }) : null,
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-1 flex-col gap-1", children: [
+      /* @__PURE__ */ jsx(Text, { variant: "control", children: title }),
+      description ? /* @__PURE__ */ jsx(Text, { variant: "small", children: description }) : null
+    ] }),
+    action ? /* @__PURE__ */ jsx("div", { className: "shrink-0", children: action }) : null
+  ] });
+}
 function ConfirmDialog({
   open,
   onOpenChange,
@@ -752,7 +887,7 @@ function ConfirmDialog({
   ] }) });
 }
 function DatePicker({ value, onValueChange, placeholder, displayFormat = "PP", disabled, id, className }) {
-  const [open, setOpen] = React6.useState(false);
+  const [open, setOpen] = React7.useState(false);
   return /* @__PURE__ */ jsxs(Popover, { open, onOpenChange: setOpen, children: [
     /* @__PURE__ */ jsx(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ jsxs(Button, { id, variant: "outline", disabled, className: cn("h-control-md w-full justify-start font-normal text-body", className), children: [
       /* @__PURE__ */ jsx(CalendarDays, { className: "text-muted-foreground", "aria-hidden": "true" }),
@@ -772,7 +907,7 @@ function DatePicker({ value, onValueChange, placeholder, displayFormat = "PP", d
   ] });
 }
 function DateRangePicker({ value, onValueChange, placeholder, displayFormat = "PP", disabled, className }) {
-  const [open, setOpen] = React6.useState(false);
+  const [open, setOpen] = React7.useState(false);
   const label = value?.from && value?.to ? `${format(value.from, displayFormat)} \u2013 ${format(value.to, displayFormat)}` : value?.from ? format(value.from, displayFormat) : null;
   return /* @__PURE__ */ jsxs(Popover, { open, onOpenChange: setOpen, children: [
     /* @__PURE__ */ jsx(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ jsxs(Button, { variant: "outline", disabled, className: cn("h-control-md w-full justify-start font-normal text-body sm:w-auto", className), children: [
@@ -793,8 +928,8 @@ function DateRangePicker({ value, onValueChange, placeholder, displayFormat = "P
   ] });
 }
 function FileUpload({ onFilesSelected, label, hint, accept, multiple = false, disabled, className }) {
-  const inputRef = React6.useRef(null);
-  const [dragging, setDragging] = React6.useState(false);
+  const inputRef = React7.useRef(null);
+  const [dragging, setDragging] = React7.useState(false);
   return /* @__PURE__ */ jsxs(
     "div",
     {
@@ -879,7 +1014,7 @@ function defaultLink({ href, className, children, ...rest }) {
 function NavRow({ item, collapsed, renderLink }) {
   const hasChildren = !!item.children?.length;
   const childActive = item.children?.some((c) => c.active || c.children?.some((g) => g.active)) ?? false;
-  const [open, setOpen] = React6.useState(childActive);
+  const [open, setOpen] = React7.useState(childActive);
   const isActive = !!item.active;
   if (hasChildren) {
     return /* @__PURE__ */ jsxs("li", { children: [
@@ -910,10 +1045,13 @@ function NavRow({ item, collapsed, renderLink }) {
     !collapsed ? /* @__PURE__ */ jsx("span", { children: item.label }) : null
   ] }) });
 }
-function Sidebar({ brand, items, footer, collapsed = false, renderLink = defaultLink, label, className }) {
+function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }) {
   return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className), children: [
     brand ? /* @__PURE__ */ jsx("div", { className: "flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4", children: brand }) : null,
-    /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex-1 overflow-y-auto p-2", children: /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-0.5", children: items.filter((i) => !i.hidden).map((item) => /* @__PURE__ */ jsx(NavRow, { item, collapsed, renderLink }, item.id)) }) }),
+    /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex-1 overflow-y-auto p-2", children: sections ? /* @__PURE__ */ jsx("div", { className: "flex flex-col gap-4", children: sections.map((section) => /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-0.5", children: [
+      !collapsed ? /* @__PURE__ */ jsx("span", { className: "px-3 pb-1 font-sans text-caption font-medium uppercase tracking-wide text-sidebar-muted", children: section.label }) : null,
+      /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-0.5", children: section.items.filter((i) => !i.hidden).map((item) => /* @__PURE__ */ jsx(NavRow, { item, collapsed, renderLink }, item.id)) })
+    ] }, section.id)) }) : /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-0.5", children: items.filter((i) => !i.hidden).map((item) => /* @__PURE__ */ jsx(NavRow, { item, collapsed, renderLink }, item.id)) }) }),
     footer ? /* @__PURE__ */ jsx("div", { className: "shrink-0 border-t border-sidebar-border p-2", children: footer }) : null
   ] });
 }
@@ -924,7 +1062,7 @@ function Topbar({ leading, trailing, className }) {
   ] });
 }
 function AppShell({ sidebar, topbar, menuLabel, children, className }) {
-  const [mobileOpen, setMobileOpen] = React6.useState(false);
+  const [mobileOpen, setMobileOpen] = React7.useState(false);
   return /* @__PURE__ */ jsx(Sheet, { open: mobileOpen, onOpenChange: setMobileOpen, children: /* @__PURE__ */ jsxs("div", { className: cn("flex h-dvh min-h-0 bg-background font-sans text-body text-foreground", className), children: [
     /* @__PURE__ */ jsx("div", { className: "hidden md:flex", children: /* @__PURE__ */ jsx(Sidebar, { ...sidebar, className: "h-full" }) }),
     /* @__PURE__ */ jsx(SheetContent, { side: "left", className: "bg-sidebar p-0 text-sidebar-foreground", children: /* @__PURE__ */ jsx(Sidebar, { ...sidebar, className: "h-full w-full" }) }),
@@ -957,6 +1095,6 @@ function SettingsLayout({ nav, children, className }) {
   ] });
 }
 
-export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, Input, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, SearchInput, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, badgeVariants, buttonVariants, cn, textVariants };
+export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, NoticeBanner, PageContainer, PageHeader, Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, badgeVariants, buttonVariants, cn, textVariants };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

@@ -15,10 +15,20 @@ export interface SidebarNavItem {
   hidden?: boolean;
 }
 
+/** A labelled group of nav items, e.g. a tier or module area. */
+export interface SidebarSection {
+  id: string;
+  label: string;
+  items: SidebarNavItem[];
+}
+
 export interface SidebarProps {
   /** Brand block at the top, e.g. logo and product name. */
   brand?: React.ReactNode;
-  items: SidebarNavItem[];
+  /** Flat list of items. Ignored when `sections` is given. */
+  items?: SidebarNavItem[];
+  /** Labelled groups. Each label is shown above its items. */
+  sections?: SidebarSection[];
   /** Footer block, for example the logout button. */
   footer?: React.ReactNode;
   /** Collapsed to icons only. */
@@ -89,16 +99,33 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
 }
 
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
-export function Sidebar({ brand, items, footer, collapsed = false, renderLink = defaultLink, label, className }: SidebarProps) {
+export function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }: SidebarProps) {
   return (
     <aside className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "transition-[width] duration-150", className)}>
       {brand ? <div className="flex h-topbar shrink-0 items-center border-b border-sidebar-border px-4">{brand}</div> : null}
       <nav aria-label={label} className="flex-1 overflow-y-auto p-2">
-        <ul className="flex flex-col gap-0.5">
-          {items.filter((i) => !i.hidden).map((item) => (
-            <NavRow key={item.id} item={item} collapsed={collapsed} renderLink={renderLink} />
-          ))}
-        </ul>
+        {sections ? (
+          <div className="flex flex-col gap-4">
+            {sections.map((section) => (
+              <div key={section.id} className="flex flex-col gap-0.5">
+                {!collapsed ? (
+                  <span className="px-3 pb-1 font-sans text-caption font-medium uppercase tracking-wide text-sidebar-muted">{section.label}</span>
+                ) : null}
+                <ul className="flex flex-col gap-0.5">
+                  {section.items.filter((i) => !i.hidden).map((item) => (
+                    <NavRow key={item.id} item={item} collapsed={collapsed} renderLink={renderLink} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-0.5">
+            {items.filter((i) => !i.hidden).map((item) => (
+              <NavRow key={item.id} item={item} collapsed={collapsed} renderLink={renderLink} />
+            ))}
+          </ul>
+        )}
       </nav>
       {footer ? <div className="shrink-0 border-t border-sidebar-border p-2">{footer}</div> : null}
     </aside>

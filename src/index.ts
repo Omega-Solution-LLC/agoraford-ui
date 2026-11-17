@@ -12,6 +12,7 @@ export { RadioGroup, RadioGroupItem } from "./primitives/RadioGroup";
 export { Badge, badgeVariants, type BadgeProps } from "./primitives/Badge";
 export { StatusBadge, type StatusBadgeProps, type StatusTone } from "./primitives/StatusBadge";
 export { Avatar, type AvatarProps } from "./primitives/Avatar";
+export { IconButton, type IconButtonProps } from "./primitives/IconButton";
 export { Tooltip, TooltipProvider, type TooltipProps } from "./primitives/Tooltip";
 export {
   Dialog,
@@ -53,11 +54,14 @@ export { DataTable, type DataTableProps, type DataTableLabels } from "./patterns
 export { SearchInput, FilterBar, type SearchInputProps, type FilterBarProps } from "./patterns/FilterBar";
 export { EmptyState, ErrorState, type EmptyStateProps, type ErrorStateProps } from "./patterns/States";
 export { PageHeader, FormSection, StatCard, Timeline, type PageHeaderProps, type StatCardProps, type StatTone, type TimelineItem } from "./patterns/Content";
+export { TopbarSearch, UserMenu, type TopbarSearchProps, type UserMenuProps } from "./patterns/Chrome";
+export { SectionCard, ProgressCard, type SectionCardProps, type ProgressCardProps, type ProgressRow, type ProgressTone } from "./patterns/Panels";
+export { NoticeBanner, type NoticeBannerProps } from "./patterns/Notice";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
 export { DatePicker, DateRangePicker, FileUpload, StepWizard, type DatePickerProps, type DateRangePickerProps, type FileUploadProps, type StepWizardProps } from "./patterns/Forms";
 
 // Layouts
-export { Sidebar, type SidebarProps, type SidebarNavItem } from "./layouts/Sidebar";
+export { Sidebar, type SidebarProps, type SidebarNavItem, type SidebarSection } from "./layouts/Sidebar";
 export { Topbar, AppShell, PageContainer, AuthLayout, SettingsLayout, type TopbarProps, type AppShellProps, type AuthLayoutProps, type SettingsLayoutProps, type PageContainerProps } from "./layouts/Shell";
 
 // Utilities
