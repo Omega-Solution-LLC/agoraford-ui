@@ -68,6 +68,7 @@ export interface LinkProps {
   className: string;
   children: React.ReactNode;
   onClick?: () => void;
+  title?: string;
   "aria-current"?: "page";
 }
 
@@ -91,15 +92,58 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
   };
   const isActive = !!item.active;
 
+  const [flyoutOpen, setFlyoutOpen] = React.useState(false);
+  const [flyoutPos, setFlyoutPos] = React.useState<{ top: number; left: number } | null>(null);
+  const [leafTooltipPos, setLeafTooltipPos] = React.useState<{ top: number; left: number } | null>(null);
+  const rowRef = React.useRef<HTMLLIElement>(null);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openFlyout = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (rowRef.current) {
+      const rect = rowRef.current.getBoundingClientRect();
+      setFlyoutPos({ top: rect.top, left: rect.right });
+    }
+    setFlyoutOpen(true);
+  };
+
+  const scheduleCloseFlyout = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => setFlyoutOpen(false), 120);
+  };
+
+  const showLeafTooltip = () => {
+    if (!collapsed || !rowRef.current) return;
+    const rect = rowRef.current.getBoundingClientRect();
+    setLeafTooltipPos({ top: rect.top + rect.height / 2, left: rect.right + 8 });
+  };
+
+  const hideLeafTooltip = () => setLeafTooltipPos(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
   if (hasChildren) {
+    const visibleChildren = item.children!.filter((c) => !c.hidden);
     return (
-      <li>
+      <li
+        ref={rowRef}
+        className="relative"
+        onMouseEnter={collapsed ? openFlyout : undefined}
+        onMouseLeave={collapsed ? scheduleCloseFlyout : undefined}
+      >
         <button
           type="button"
-          aria-expanded={open}
-          onClick={toggle}
-          className={cn(linkBase, childActive && "text-sidebar-item")}
-          title={collapsed ? item.label : undefined}
+          aria-expanded={collapsed ? flyoutOpen : open}
+          onClick={collapsed ? () => setFlyoutOpen((v) => !v) : toggle}
+          className={cn(linkBase, collapsed && "justify-center px-0", childActive && "text-sidebar-item")}
+          title={item.label}
         >
           <span className="flex min-w-0 items-center gap-3">
             {item.icon}
@@ -109,10 +153,70 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
         </button>
         {open && !collapsed ? (
           <ul className="ml-5 mt-1 flex flex-col gap-0.5 border-l border-sidebar-border pl-3">
-            {item.children!.filter((c) => !c.hidden).map((child) => (
+            {visibleChildren.map((child) => (
               <NavRow key={child.id} item={child} collapsed={collapsed} renderLink={renderLink} />
             ))}
           </ul>
+        ) : null}
+        {collapsed && flyoutOpen && flyoutPos && visibleChildren.length > 0 ? (
+          <div
+            className="fixed z-50 pl-2"
+            style={{ top: flyoutPos.top, left: flyoutPos.left }}
+            onMouseEnter={openFlyout}
+            onMouseLeave={scheduleCloseFlyout}
+          >
+            <div className="min-w-[210px] rounded-card border border-sidebar-border bg-sidebar py-1.5 text-sidebar-foreground shadow-lg">
+              <div className="border-b border-sidebar-border px-3 py-1.5 font-sans text-caption font-semibold text-sidebar-item">
+                {item.label}
+              </div>
+              <ul className="mt-1 flex flex-col gap-0.5 px-1">
+                {visibleChildren.map((child) => {
+                  const childClass = cn(
+                    "flex w-full items-center justify-between gap-2 rounded-control px-2.5 py-1.5 font-sans text-small text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item",
+                    child.active && linkActive,
+                  );
+                  const childContent = (
+                    <>
+                      <span className="flex min-w-0 items-center gap-2.5">
+                        {child.icon}
+                        <span className="truncate">{child.label}</span>
+                      </span>
+                      {child.badge && child.badge > 0 ? <Badge count={child.badge} /> : null}
+                    </>
+                  );
+                  return (
+                    <li key={child.id}>
+                      {child.href ? (
+                        renderLink({
+                          href: child.href,
+                          className: childClass,
+                          onClick: () => {
+                            setFlyoutOpen(false);
+                            child.onSelect?.();
+                          },
+                          title: child.label,
+                          children: childContent,
+                          "aria-current": child.active ? "page" : undefined,
+                        })
+                      ) : (
+                        <button
+                          type="button"
+                          title={child.label}
+                          onClick={() => {
+                            setFlyoutOpen(false);
+                            child.onSelect?.();
+                          }}
+                          className={childClass}
+                        >
+                          {childContent}
+                        </button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         ) : null}
       </li>
     );
@@ -129,12 +233,26 @@ function NavRow({ item, collapsed, renderLink }: { item: SidebarNavItem; collaps
     </>
   );
   return (
-    <li>
+    <li
+      ref={rowRef}
+      className="relative"
+      onMouseEnter={showLeafTooltip}
+      onMouseLeave={hideLeafTooltip}
+    >
       {item.href ? (
-        renderLink({ href: item.href, className, onClick: item.onSelect, children: content, "aria-current": isActive ? "page" : undefined })
+        renderLink({ href: item.href, className, onClick: item.onSelect, title: item.label, children: content, "aria-current": isActive ? "page" : undefined })
       ) : (
-        <button type="button" onClick={item.onSelect} className={className}>{content}</button>
+        <button type="button" onClick={item.onSelect} title={item.label} className={className}>{content}</button>
       )}
+      {collapsed && leafTooltipPos ? (
+        <span
+          role="tooltip"
+          style={{ top: leafTooltipPos.top, left: leafTooltipPos.left }}
+          className="pointer-events-none fixed z-50 -translate-y-1/2 whitespace-nowrap rounded-control border border-sidebar-border bg-sidebar px-2.5 py-1 font-sans text-caption font-medium text-sidebar-item shadow-md"
+        >
+          {item.label}
+        </span>
+      ) : null}
     </li>
   );
 }

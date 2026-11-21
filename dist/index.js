@@ -2098,27 +2098,116 @@ function NavRow({ item, collapsed, renderLink }) {
     if (item.expanded === void 0) setLocalOpen(!open);
   };
   const isActive = !!item.active;
+  const [flyoutOpen, setFlyoutOpen] = React13.useState(false);
+  const [flyoutPos, setFlyoutPos] = React13.useState(null);
+  const [leafTooltipPos, setLeafTooltipPos] = React13.useState(null);
+  const rowRef = React13.useRef(null);
+  const closeTimerRef = React13.useRef(null);
+  const openFlyout = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (rowRef.current) {
+      const rect = rowRef.current.getBoundingClientRect();
+      setFlyoutPos({ top: rect.top, left: rect.right });
+    }
+    setFlyoutOpen(true);
+  };
+  const scheduleCloseFlyout = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => setFlyoutOpen(false), 120);
+  };
+  const showLeafTooltip = () => {
+    if (!collapsed || !rowRef.current) return;
+    const rect = rowRef.current.getBoundingClientRect();
+    setLeafTooltipPos({ top: rect.top + rect.height / 2, left: rect.right + 8 });
+  };
+  const hideLeafTooltip = () => setLeafTooltipPos(null);
+  React13.useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
   if (hasChildren) {
-    return /* @__PURE__ */ jsxs("li", { children: [
-      /* @__PURE__ */ jsxs(
-        "button",
-        {
-          type: "button",
-          "aria-expanded": open,
-          onClick: toggle,
-          className: cn(linkBase, childActive && "text-sidebar-item"),
-          title: collapsed ? item.label : void 0,
-          children: [
-            /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 items-center gap-3", children: [
-              item.icon,
-              !collapsed ? /* @__PURE__ */ jsx("span", { className: "truncate text-left", children: item.label }) : null
-            ] }),
-            !collapsed ? /* @__PURE__ */ jsx(ChevronRight, { className: cn("!size-3.5 text-sidebar-muted transition-transform", open && "rotate-90"), "aria-hidden": "true" }) : null
-          ]
-        }
-      ),
-      open && !collapsed ? /* @__PURE__ */ jsx("ul", { className: "ml-5 mt-1 flex flex-col gap-0.5 border-l border-sidebar-border pl-3", children: item.children.filter((c) => !c.hidden).map((child) => /* @__PURE__ */ jsx(NavRow, { item: child, collapsed, renderLink }, child.id)) }) : null
-    ] });
+    const visibleChildren = item.children.filter((c) => !c.hidden);
+    return /* @__PURE__ */ jsxs(
+      "li",
+      {
+        ref: rowRef,
+        className: "relative",
+        onMouseEnter: collapsed ? openFlyout : void 0,
+        onMouseLeave: collapsed ? scheduleCloseFlyout : void 0,
+        children: [
+          /* @__PURE__ */ jsxs(
+            "button",
+            {
+              type: "button",
+              "aria-expanded": collapsed ? flyoutOpen : open,
+              onClick: collapsed ? () => setFlyoutOpen((v) => !v) : toggle,
+              className: cn(linkBase, collapsed && "justify-center px-0", childActive && "text-sidebar-item"),
+              title: item.label,
+              children: [
+                /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 items-center gap-3", children: [
+                  item.icon,
+                  !collapsed ? /* @__PURE__ */ jsx("span", { className: "truncate text-left", children: item.label }) : null
+                ] }),
+                !collapsed ? /* @__PURE__ */ jsx(ChevronRight, { className: cn("!size-3.5 text-sidebar-muted transition-transform", open && "rotate-90"), "aria-hidden": "true" }) : null
+              ]
+            }
+          ),
+          open && !collapsed ? /* @__PURE__ */ jsx("ul", { className: "ml-5 mt-1 flex flex-col gap-0.5 border-l border-sidebar-border pl-3", children: visibleChildren.map((child) => /* @__PURE__ */ jsx(NavRow, { item: child, collapsed, renderLink }, child.id)) }) : null,
+          collapsed && flyoutOpen && flyoutPos && visibleChildren.length > 0 ? /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: "fixed z-50 pl-2",
+              style: { top: flyoutPos.top, left: flyoutPos.left },
+              onMouseEnter: openFlyout,
+              onMouseLeave: scheduleCloseFlyout,
+              children: /* @__PURE__ */ jsxs("div", { className: "min-w-[210px] rounded-card border border-sidebar-border bg-sidebar py-1.5 text-sidebar-foreground shadow-lg", children: [
+                /* @__PURE__ */ jsx("div", { className: "border-b border-sidebar-border px-3 py-1.5 font-sans text-caption font-semibold text-sidebar-item", children: item.label }),
+                /* @__PURE__ */ jsx("ul", { className: "mt-1 flex flex-col gap-0.5 px-1", children: visibleChildren.map((child) => {
+                  const childClass = cn(
+                    "flex w-full items-center justify-between gap-2 rounded-control px-2.5 py-1.5 font-sans text-small text-sidebar-item/90 transition-colors hover:bg-sidebar-active hover:text-sidebar-item",
+                    child.active && linkActive
+                  );
+                  const childContent = /* @__PURE__ */ jsxs(Fragment, { children: [
+                    /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 items-center gap-2.5", children: [
+                      child.icon,
+                      /* @__PURE__ */ jsx("span", { className: "truncate", children: child.label })
+                    ] }),
+                    child.badge && child.badge > 0 ? /* @__PURE__ */ jsx(Badge2, { count: child.badge }) : null
+                  ] });
+                  return /* @__PURE__ */ jsx("li", { children: child.href ? renderLink({
+                    href: child.href,
+                    className: childClass,
+                    onClick: () => {
+                      setFlyoutOpen(false);
+                      child.onSelect?.();
+                    },
+                    title: child.label,
+                    children: childContent,
+                    "aria-current": child.active ? "page" : void 0
+                  }) : /* @__PURE__ */ jsx(
+                    "button",
+                    {
+                      type: "button",
+                      title: child.label,
+                      onClick: () => {
+                        setFlyoutOpen(false);
+                        child.onSelect?.();
+                      },
+                      className: childClass,
+                      children: childContent
+                    }
+                  ) }, child.id);
+                }) })
+              ] })
+            }
+          ) : null
+        ]
+      }
+    );
   }
   const className = cn(linkBase, collapsed && "justify-center px-0", isActive && linkActive);
   const content = /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -2128,7 +2217,27 @@ function NavRow({ item, collapsed, renderLink }) {
     ] }),
     !collapsed && item.badge && item.badge > 0 ? /* @__PURE__ */ jsx(Badge2, { count: item.badge }) : null
   ] });
-  return /* @__PURE__ */ jsx("li", { children: item.href ? renderLink({ href: item.href, className, onClick: item.onSelect, children: content, "aria-current": isActive ? "page" : void 0 }) : /* @__PURE__ */ jsx("button", { type: "button", onClick: item.onSelect, className, children: content }) });
+  return /* @__PURE__ */ jsxs(
+    "li",
+    {
+      ref: rowRef,
+      className: "relative",
+      onMouseEnter: showLeafTooltip,
+      onMouseLeave: hideLeafTooltip,
+      children: [
+        item.href ? renderLink({ href: item.href, className, onClick: item.onSelect, title: item.label, children: content, "aria-current": isActive ? "page" : void 0 }) : /* @__PURE__ */ jsx("button", { type: "button", onClick: item.onSelect, title: item.label, className, children: content }),
+        collapsed && leafTooltipPos ? /* @__PURE__ */ jsx(
+          "span",
+          {
+            role: "tooltip",
+            style: { top: leafTooltipPos.top, left: leafTooltipPos.left },
+            className: "pointer-events-none fixed z-50 -translate-y-1/2 whitespace-nowrap rounded-control border border-sidebar-border bg-sidebar px-2.5 py-1 font-sans text-caption font-medium text-sidebar-item shadow-md",
+            children: item.label
+          }
+        ) : null
+      ]
+    }
+  );
 }
 function Sidebar({ brand, items = [], sections, footer, collapsed = false, renderLink = defaultLink, label, className }) {
   return /* @__PURE__ */ jsxs("aside", { className: cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", collapsed ? "w-16" : "w-sidebar", "border-r border-sidebar-border transition-[width] duration-150", className), children: [

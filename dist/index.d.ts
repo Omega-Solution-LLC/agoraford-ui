@@ -1021,6 +1021,7 @@ interface LinkProps {
     className: string;
     children: React$1.ReactNode;
     onClick?: () => void;
+    title?: string;
     "aria-current"?: "page";
 }
 /** Dark navy sidebar. Nested groups expand inline. Active item is highlighted. */
