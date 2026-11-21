@@ -2,6 +2,12 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.7.0
+
+- Breaking for visuals only: `StatusBadge` no longer renders a leading dot. Status is text in a pill. Dots are allowed only where they carry meaning (timeline markers, unread or presence indicators, live state) and must not sit inside a badge or tag.
+- `DetailPage` documents placement: the header band sits on the canvas (use `surface="plain"` on the app page container) and is never wrapped in a white card.
+- Ui-audit skill: detail pages must have one approval/status line at most, no more than two header badges, and one bordered surface per group.
+
 ## 0.6.0
 
 - New: `DetailSheet` (right drawer with the detail anatomy: icon, title, description, badges, header actions, underline tabs or body, footer). Replaces hand-built entity drawers.

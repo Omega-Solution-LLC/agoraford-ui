@@ -15,6 +15,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../primitives/Tabs";
 
 /* ----- DetailPage ----- */
 
+/* Placement (required, matches live MojaBoard):
+ *   - The DetailHeader band sits on the page canvas, NOT inside a white surface card.
+ *     Render the app page with PageContainer/AppShell surface="plain" so the band is never wrapped.
+ *   - Tab card / rail card / sections are the only bordered surfaces. No card around the header.
+ *   - Rail items are separated by gap, not touching: RailSection py-4 with hairline dividers. */
 export interface DetailPageProps {
   header: React.ReactNode;
   /** Optional banner between the header band and the content. */

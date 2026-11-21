@@ -109,7 +109,7 @@ interface StatusBadgeProps extends Omit<BadgeProps, "tone"> {
     tone: StatusTone;
     label: React.ReactNode;
 }
-/** Status pill (for example Open, Closed, Overdue). Label is passed in, never hard-coded. */
+/** Status pill (for example Open, Closed, Overdue). Text only: no leading dot or icon by default. */
 declare function StatusBadge({ tone, label, ...props }: StatusBadgeProps): React$1.JSX.Element;
 
 interface AvatarProps extends React$1.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {

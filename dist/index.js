@@ -270,10 +270,7 @@ function Badge({ className, tone, ...props }) {
   return /* @__PURE__ */ jsx("span", { className: cn(badgeVariants({ tone }), className), ...props });
 }
 function StatusBadge({ tone, label, ...props }) {
-  return /* @__PURE__ */ jsxs(Badge, { tone, ...props, children: [
-    /* @__PURE__ */ jsx("span", { className: "size-1.5 rounded-pill bg-current", "aria-hidden": "true" }),
-    label
-  ] });
+  return /* @__PURE__ */ jsx(Badge, { tone, ...props, children: label });
 }
 var sizeClass = { sm: "size-6 text-caption", md: "size-8 text-small", lg: "size-10 text-body" };
 function initials(name) {

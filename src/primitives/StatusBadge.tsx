@@ -8,11 +8,10 @@ export interface StatusBadgeProps extends Omit<BadgeProps, "tone"> {
   label: React.ReactNode;
 }
 
-/** Status pill (for example Open, Closed, Overdue). Label is passed in, never hard-coded. */
+/** Status pill (for example Open, Closed, Overdue). Text only: no leading dot or icon by default. */
 export function StatusBadge({ tone, label, ...props }: StatusBadgeProps) {
   return (
     <Badge tone={tone} {...props}>
-      <span className="size-1.5 rounded-pill bg-current" aria-hidden="true" />
       {label}
     </Badge>
   );
