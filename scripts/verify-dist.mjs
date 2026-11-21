@@ -1,7 +1,7 @@
 // Fails the check when dist is missing, lacks "use client", or misses a public export.
 import { readFileSync } from "node:fs";
 
-const required = ["IconButton", "TopbarSearch", "UserMenu", "SectionCard", "ProgressCard", "NoticeBanner", "Sidebar", "StatCard", "DataTable", "AppShell"];
+const required = ["IconButton", "TopbarSearch", "UserMenu", "SectionCard", "ProgressCard", "NoticeBanner", "Sidebar", "StatCard", "DataTable", "AppShell", "DetailSheet", "ReadinessChecklist", "StatusActionCallout", "DocumentPreviewFrame", "DocumentReader"];
 const js = readFileSync("dist/index.js", "utf8");
 const problems = [];
 if (!js.startsWith('"use client"')) problems.push('dist/index.js does not start with "use client"');

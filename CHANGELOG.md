@@ -2,6 +2,19 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.6.0
+
+- New: `DetailSheet` (right drawer with the detail anatomy: icon, title, description, badges, header actions, underline tabs or body, footer). Replaces hand-built entity drawers.
+- New: `ReadinessChecklist` (rail block: done/not-done items, summary text supplied by the app), `StatusActionCallout` (one next step with one CTA), `DocumentPreviewFrame` (framed document preview with header actions).
+- New: `DocumentReader` archetype (DetailHeader band, notice, one reading column, optional rail) for policy and document reading pages.
+- New: `design-manifest.json` is the machine-readable contract for type roles, radii, control heights and spacing. `scripts/check-manifest.mjs` fails `pnpm run check` when `tokens.css` drifts from it.
+- Layout note: `DetailPage` aside split is `lg:grid-cols-3` (2 of 3 columns main, 1 of 3 aside). This is the same ratio as 8/4 of 12; no new variant was added.
+- Non-breaking.
+
+## 0.5.1
+
+- `DetailHeader`: dark mode uses a surface band with a border (matches live MojaBoard) instead of staying brand blue; title wraps to two lines instead of truncating; icon tile hidden below `sm`; actions wrap below the title on phones.
+
 ## 0.5.0
 
 - New: `RowActions` (icon-only row actions with tooltips, overflow into a kebab menu), `ColumnVisibilityMenu` and `useColumnVisibility` (column chooser, persisted per table in localStorage), `TablePagination` (range text, per-page select, first/prev/next/last, all 32px tall).

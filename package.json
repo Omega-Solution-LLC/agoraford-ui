@@ -1,6 +1,6 @@
 {
   "name": "@agoraford/ui",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Shared design tokens and UI components for the Omega Solution LLC application suite",
   "private": true,
   "license": "UNLICENSED",
@@ -58,7 +58,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "build": "tsup",
     "dev": "tsup --watch",
-    "check": "pnpm run typecheck && pnpm run build && node scripts/verify-dist.mjs"
+    "check": "pnpm run typecheck && node scripts/check-manifest.mjs && pnpm run build && node scripts/verify-dist.mjs"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
