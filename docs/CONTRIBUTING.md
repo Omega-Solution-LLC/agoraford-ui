@@ -42,7 +42,8 @@ A component is worth adding when two or more apps need the same markup. A local 
 4. **Use semantic tokens** (`bg-surface`, `text-body`, `rounded-control`).
 5. **Export it** from `src/index.ts` in the right group, with its prop types.
 6. **Document it** in `docs/COMPONENTS.md` (props table and when to use it) and, if it is a recipe, in `docs/PATTERNS.md`.
-7. **Add a changelog entry** (see [Changelog](#changelog)).
+7. **Add tests and a story.** Render tests go in `src/__tests__`. Stories sit next to the component as `Name.stories.tsx`.
+8. **Add a changelog entry** (see [Changelog](#changelog)).
 8. **Check it in both themes and at 375px width** before you call it done.
 
 When a component reaches a new app, record any difference in that app's `MIGRATION.md`.
@@ -101,10 +102,13 @@ NODE_OPTIONS="--max-old-space-size=2048" pnpm run check
 
 `check` runs, in order:
 
-1. `typecheck`: `tsc --noEmit`
-2. `check-manifest.mjs`: `tokens.css` matches `design-manifest.json`
-3. `build`: `tsup` writes `dist/` (ESM, types, source map)
-4. `verify-dist.mjs`: the built output contains the expected exports
+1. `typecheck`: `tsc --noEmit` over `src`, including tests and stories
+2. `test`: Vitest (`--maxWorkers=2`). Covers token parity between the v3 preset and the v4 theme, a raw-hex scan of component source, and render tests for core components
+3. `check-manifest.mjs`: `tokens.css` matches `design-manifest.json`
+4. `build`: `tsup` writes `dist/` (ESM, types, source map)
+5. `verify-dist.mjs`: the built output contains the expected exports and the `"use client"` directive
+
+When you add or change a story, also run `pnpm run build-storybook`. Storybook is not part of `check` because it is slower.
 
 Do not run `build` while an app that consumes the library is running its dev server; it clears the output and breaks hot reload.
 
@@ -119,7 +123,7 @@ Apps pin an exact tag. A branch is never pinned. Local `file:` and `link:` paths
 Release steps:
 
 1. Finish the change on a branch. Update `CHANGELOG.md` and the `version` in `package.json` to match the tag.
-2. Run `pnpm run check` and make sure it passes.
+2. Run `pnpm run check` and make sure it passes. Then build dist from the committed sources only, so the tag matches `src/` (see the note below).
 3. Commit with a clear message. Do not add AI tool attribution lines.
 4. Merge to `main`.
 5. Create the annotated tag `vX.Y.Z` on the merge commit and push it. Creating or pushing a tag needs the owner's approval.
@@ -134,15 +138,17 @@ Release steps:
 
 Never pin a tag that is missing components, and never pin a tag while library work is still uncommitted.
 
+**dist is committed and must match the tag.** Build it from committed sources only. If you have uncommitted work in `src/` or `dist/`, stash it first. Otherwise the release ships work that is not in git history.
+
 ---
 
 ## Known gaps
 
-These are known and tracked. Fixing one is welcome; it is not a blocker for a normal change.
+These are known and tracked. Fixing one is welcome; none blocks a normal change.
 
-- **No Storybook yet.** `AGENTS.md` asks for a story per component covering all states in both themes. Until Storybook exists, check the states in a consuming app and say so in the pull request.
-- **No unit or visual tests in the library.** `pnpm run check` is the gate.
-- **Tailwind v4 apps cannot consume the preset.** The preset is for Tailwind v3. A v4 entry point is needed.
-- **Dark-mode values and some status colors are unverified** against the live UI (marked in `tokens.css`).
+- **Storybook covers the core only.** Stories exist for Button, Badge and StatusBadge, Field, Input and Select, Tabs and SegmentedControl, DataTable, EmptyState, ErrorState, PageHeader, StatCard, ConfirmDialog and AppShell. Every other primitive and pattern still needs a story covering its states in both themes.
+- **Tests cover the core only.** The suite checks tokens, source hygiene, and render behavior for Button, IconButton, Field, badges, Breadcrumb, Tabs, SegmentedControl, DataTable, ConfirmDialog and AppShell. It does not test interaction for most patterns, and there is no visual regression test.
+- **Layout values are still arbitrary Tailwind.** These are not design tokens yet, and a token needs a design decision: the Dialog gutter `w-[calc(100%-32px)]` (`primitives/Dialog.tsx`), the Sheet width `max-w-[85vw]` (`primitives/Sheet.tsx`), the settings grid `md:grid-cols-[220px_minmax(0,1fr)]` (`layouts/Shell.tsx`), and the sidebar sizes in `layouts/Sidebar.tsx`. State selectors such as `data-[state=checked]` are expected and are not in this list.
+- **Dark-mode values and some status colors are unverified** against the live UI. They are marked in `tokens.css`, and `--ui-shadow-card` is marked the same way.
+- **ESM only.** The build writes `dist/index.js` and types. No CommonJS build exists, so consumers must support ESM. Modern bundlers and Next.js do.
 - **Package is private and git-only.** An npm release is planned, not scheduled.
-- **`shadow-card` is undefined.** `AppShell` and `PageContainer` use `shadow-card` (`src/layouts/Shell.tsx`), but the preset defines no such shadow, so the class has no effect. Define it in `tailwind-preset.js` or remove it, in its own change.

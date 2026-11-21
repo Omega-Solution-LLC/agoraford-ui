@@ -2,9 +2,16 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
-## Unreleased
+## 0.8.0
 
-- Docs only, no code or visual change. README rewritten as the entry point. New: `docs/GETTING-STARTED.md`, `docs/TOKENS.md`, `docs/PATTERNS.md`, `docs/CONTRIBUTING.md`. `docs/COMPONENTS.md` replaces the 0.1.0 inventory with the full API reference.
+- New: Tailwind v4 entry point `@agoraford/ui/tailwind-v4.css`. It maps the same tokens to v4 theme variables, declares the z-index utilities, sets `dark:` to follow the `.dark` class, and scans `dist/`. The v3 preset is unchanged.
+- Fixed: `shadow-card` is defined (`--ui-shadow-card`, preset `boxShadow.card`). `AppShell` and `PageContainer` referenced an undefined class, so content cards had no elevation. Visual change: they now gain a subtle shadow. Values are unverified against live.
+- Fixed: `package.json` pointed `main` at a CommonJS build that is never produced. Removed. The package is ESM only, as documented.
+- Changed: `Checkbox` radius is written as `rounded-xs` instead of `rounded-[4px]`. Same 4px value.
+- New: Vitest suite (`pnpm run test`): v3/v4 token parity, undefined-token check, raw-hex scan, and render tests for core components. Included in `pnpm run check`.
+- New: Storybook (`pnpm run storybook`, `pnpm run build-storybook`) with stories for the core components, in light and dark.
+- Docs: README rewritten as the entry point. New `docs/GETTING-STARTED.md`, `docs/TOKENS.md`, `docs/PATTERNS.md`, `docs/CONTRIBUTING.md`. `docs/COMPONENTS.md` is the full API reference.
+- Dev: added `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/dom`, `storybook` and `@storybook/react-vite`, `vite` and `@types/node`. None is a runtime dependency.
 
 ## 0.7.1
 

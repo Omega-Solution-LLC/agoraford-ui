@@ -92,6 +92,9 @@
   --ui-motion-duration: 150ms;
   --ui-motion-easing: ease-out;
 
+  /* Elevation for shadow-card (unverified: not measured on live) */
+  --ui-shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
   color-scheme: light;
 }
 
@@ -118,6 +121,8 @@
   --ui-sidebar-muted: 154 160 172;
   --ui-sidebar-active: 52 58 64;  /* #343A40 */
   --ui-sidebar-border: 56 61 67;  /* #383D43 */
+
+  --ui-shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.3);
 
   color-scheme: dark;
 }

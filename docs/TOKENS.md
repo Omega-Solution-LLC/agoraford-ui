@@ -147,6 +147,8 @@ Pages use `gap-4` (16px) between header, separator and content. Form fields use 
 | `z-modal` | 70 | Dialogs, sheets |
 | `z-toast` | 80 | Toasts |
 
+Tailwind v4 has no z-index theme namespace, so `tailwind-v4.css` declares these five names as utilities (`z-sticky`, `z-modal`, ...). The v3 preset maps them to the same tokens.
+
 ## Motion
 
 `--ui-motion-duration: 150ms`, `--ui-motion-easing: ease-out`. Use `transition-colors` for hover and focus.
@@ -155,8 +157,8 @@ Pages use `gap-4` (16px) between header, separator and content. Form fields use 
 
 ## Shadows
 
-- `shadow-sm`: the card elevation (`Card` uses it; dark mode drops it). It is also used on the active segment of a subtle switcher.
-- The preset defines no custom shadow tokens. `AppShell` and `PageContainer` reference `shadow-card`, which is not defined; see [CONTRIBUTING](CONTRIBUTING.md#known-gaps).
+- `shadow-card` (`--ui-shadow-card`): the content card elevation used by `AppShell` and `PageContainer`. Light is a 5% black 1px shadow, dark is 30%. Both values are unverified against live.
+- `shadow-sm`: used by `Card` (dark mode drops it) and on the active segment of a subtle switcher.
 
 Do not use heavy shadows (`shadow-xl`, `shadow-2xl`), blurs or gradients.
 

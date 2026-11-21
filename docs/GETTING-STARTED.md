@@ -19,7 +19,7 @@ This guide takes an app from zero to a themed page using `@agoraford/ui`.
 The library is installed from GitHub, pinned to an exact tag. Never pin a branch, and never use a `file:` or `link:` path in a committed `package.json` (those paths exist only on one machine).
 
 ```bash
-pnpm add "github:Omega-Solution-LLC/agoraford-ui#v0.7.1"
+pnpm add "github:Omega-Solution-LLC/agoraford-ui#v0.8.0"
 ```
 
 Or in `package.json`:
@@ -27,7 +27,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "@agoraford/ui": "github:Omega-Solution-LLC/agoraford-ui#v0.7.1"
+    "@agoraford/ui": "github:Omega-Solution-LLC/agoraford-ui#v0.8.0"
   }
 }
 ```
@@ -38,7 +38,7 @@ Check that the tag contains what you import before you pin it:
 
 ```bash
 git ls-remote --tags https://github.com/Omega-Solution-LLC/agoraford-ui.git
-git ls-tree v0.7.1 dist/
+git ls-tree v0.8.0 dist/
 ```
 
 ## 2. Load the tokens
@@ -79,6 +79,19 @@ Rules for apps:
 - Do not redefine `borderRadius`, `colors` or font sizes in the app config. The preset owns them.
 - Do not add raw radius or color values. Use `rounded-control`, `rounded-card`, `bg-surface`, `text-muted-foreground`, and so on.
 - The preset sets `darkMode: "class"`.
+
+### Tailwind v4
+
+Use the v4 theme instead of the preset. Do not use both in one app.
+
+```css
+/* src/index.css, or your global stylesheet */
+@import "tailwindcss";
+@import "@agoraford/ui/tokens.css";
+@import "@agoraford/ui/tailwind-v4.css";
+```
+
+`tailwind-v4.css` maps the same tokens to Tailwind v4 theme variables, declares the z-index utilities, sets `dark:` to follow the `.dark` class, and scans the library's `dist/` for class names. No `content` setup is needed.
 
 ## 4. Mount the providers
 
@@ -182,7 +195,7 @@ Tokens switch automatically. Components use semantic classes only, so they follo
 ## 7. Upgrading
 
 1. Read the `CHANGELOG.md` entries between your current tag and the new one. Breaking changes have a migration note.
-2. Change the tag in `package.json`, for example `#v0.7.1` to `#v0.8.0`.
+2. Change the tag in `package.json`, for example `#v0.8.0` to `#v0.9.0`.
 3. Run `pnpm install`, then `pnpm run typecheck`, then your tests.
 4. Re-read the app's `MIGRATION.md` for open questions.
 
@@ -192,7 +205,7 @@ Do not upgrade across a major version without reading its migration note.
 
 ## Known limits
 
-- **Tailwind v3 only.** The preset targets Tailwind v3. Apps that run Tailwind v4 (for example `case-ms-v2` and `community-cms` at the time of writing) need a v4 entry point before they can consume the preset. Until that exists, do not copy token values into the app to work around it. Record the gap in the app's `MIGRATION.md`.
+- **One Tailwind major per app.** Tailwind v3 uses the preset. Tailwind v4 uses `tailwind-v4.css`. Do not copy token values into an app to work around either.
 - **Git-only distribution.** The package is private and is consumed by git tag. There is no npm registry release yet.
 - **No Storybook or unit tests in the library yet.** The gate is `pnpm run check` (typecheck, token manifest check, build and dist verification). Apps verify their own usage.
 

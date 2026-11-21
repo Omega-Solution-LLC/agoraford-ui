@@ -1,0 +1,131 @@
+/*
+ * @agoraford/ui — Tailwind CSS v4 theme.
+ *
+ * Tailwind v4 entry point. It maps the same --ui-* tokens (tokens.css) that the
+ * v3 preset (tailwind-preset.js) maps, so both versions generate the same classes.
+ *
+ * App stylesheet, in this order:
+ *   @import "tailwindcss";
+ *   @import "@agoraford/ui/tokens.css";
+ *   @import "@agoraford/ui/tailwind-v4.css";
+ *
+ * Do not add theme values in the app. Change them in tokens.css.
+ * `inline` writes var(--ui-*) into each utility, so the .dark switch in tokens.css applies.
+ */
+
+/* Tailwind v4 defaults `dark:` to the OS preference. The library switches themes with the
+   .dark class on <html>, so `dark:` must follow that class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Colors */
+  --color-brand: rgb(var(--ui-brand));
+  --color-brand-hover: rgb(var(--ui-brand-hover));
+  --color-brand-soft: rgb(var(--ui-brand-soft));
+  --color-brand-strong: rgb(var(--ui-brand-strong));
+
+  --color-background: rgb(var(--ui-background));
+  --color-surface: rgb(var(--ui-surface));
+  --color-surface-muted: rgb(var(--ui-surface-muted));
+
+  --color-foreground: rgb(var(--ui-foreground));
+  --color-muted-foreground: rgb(var(--ui-muted-foreground));
+
+  --color-border: rgb(var(--ui-border));
+  --color-border-strong: rgb(var(--ui-border-strong));
+
+  --color-sidebar: rgb(var(--ui-sidebar));
+  --color-sidebar-foreground: rgb(var(--ui-sidebar-foreground));
+  --color-sidebar-muted: rgb(var(--ui-sidebar-muted));
+  --color-sidebar-active: rgb(var(--ui-sidebar-active));
+  --color-sidebar-item: rgb(var(--ui-sidebar-item));
+  --color-sidebar-border: rgb(var(--ui-sidebar-border));
+
+  --color-success: rgb(var(--ui-success));
+  --color-warning: rgb(var(--ui-warning));
+  --color-danger: rgb(var(--ui-danger));
+  --color-info: rgb(var(--ui-info));
+
+  /* Font family */
+  --font-sans: var(--ui-font-sans);
+
+  /* Type roles: size, line height, weight, tracking */
+  --text-title: var(--ui-text-title);
+  --text-title--line-height: 32px;
+  --text-title--font-weight: var(--ui-weight-title);
+  --text-title--letter-spacing: -0.025em;
+
+  --text-subtitle: var(--ui-text-subtitle);
+  --text-subtitle--line-height: 20px;
+
+  --text-body: var(--ui-text-body);
+  --text-body--line-height: 20px;
+
+  --text-control: var(--ui-text-control);
+  --text-control--line-height: 20px;
+  --text-control--font-weight: var(--ui-weight-control);
+
+  --text-small: var(--ui-text-small);
+  --text-small--line-height: 16px;
+
+  --text-caption: var(--ui-text-caption);
+  --text-caption--line-height: 14px;
+
+  --text-section: var(--ui-text-section);
+  --text-section--line-height: 28px;
+  --text-section--font-weight: var(--ui-weight-section);
+
+  /* Radius: the only four values in use. Names match the v3 preset. */
+  --radius: var(--ui-radius-xs);
+  --radius-xs: var(--ui-radius-xs);
+  --radius-sm: var(--ui-radius-xs);
+  --radius-md: var(--ui-radius-control);
+  --radius-lg: var(--ui-radius-card);
+  --radius-xl: var(--ui-radius-card);
+  --radius-2xl: var(--ui-radius-card);
+  --radius-3xl: var(--ui-radius-card);
+  --radius-control: var(--ui-radius-control);
+  --radius-card: var(--ui-radius-card);
+  --radius-panel: var(--ui-radius-panel);
+  --radius-pill: var(--ui-radius-pill);
+  --radius-full: var(--ui-radius-pill);
+
+  /* Sizes */
+  --height-topbar: var(--ui-topbar-height);
+  --height-control-sm: var(--ui-control-sm);
+  --height-control-md: var(--ui-control-md);
+  --height-control-lg: var(--ui-control-lg);
+
+  --width-sidebar: var(--ui-sidebar-width);
+  --width-control-sm: var(--ui-control-sm);
+  --width-control-md: var(--ui-control-md);
+  --width-control-lg: var(--ui-control-lg);
+
+  /* Elevation */
+  --shadow-card: var(--ui-shadow-card);
+
+  /* Motion */
+  --default-transition-duration: var(--ui-motion-duration);
+  --default-transition-timing-function: var(--ui-motion-easing);
+}
+
+/* Tailwind v4 has no theme namespace for z-index, so the named layers are declared as utilities. */
+@utility z-dropdown {
+  z-index: var(--ui-z-dropdown);
+}
+@utility z-sticky {
+  z-index: var(--ui-z-sticky);
+}
+@utility z-overlay {
+  z-index: var(--ui-z-overlay);
+}
+@utility z-modal {
+  z-index: var(--ui-z-modal);
+}
+@utility z-toast {
+  z-index: var(--ui-z-toast);
+}
+
+/* The library's compiled classes live in dist/. Scan them so Tailwind generates the
+   classes components use. Path is relative to this file in the installed package. */
+@source "../../dist";

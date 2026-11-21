@@ -89,6 +89,9 @@ export default {
       transitionTimingFunction: {
         DEFAULT: "var(--ui-motion-easing)",
       },
+      boxShadow: {
+        card: "var(--ui-shadow-card)",
+      },
       zIndex: {
         dropdown: "var(--ui-z-dropdown)",
         sticky: "var(--ui-z-sticky)",

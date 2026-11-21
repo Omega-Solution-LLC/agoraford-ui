@@ -211,7 +211,7 @@ var Checkbox = React13.forwardRef(
     {
       ref,
       className: cn(
-        "peer size-4 shrink-0 rounded-[4px] border border-border-strong bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand data-[state=checked]:text-white",
+        "peer size-4 shrink-0 rounded-xs border border-border-strong bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand data-[state=checked]:text-white",
         className
       ),
       ...props,

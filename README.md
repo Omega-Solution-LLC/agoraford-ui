@@ -78,7 +78,7 @@ Every label, message and `aria-label` is passed in as a prop. The library never 
 ## Requirements
 
 - React `^18.0.0 || ^19.0.0` (peer dependency; the library never bundles React)
-- Tailwind CSS **v3** with the library preset (see the Tailwind v4 note in [Getting started](docs/GETTING-STARTED.md#known-limits))
+- Tailwind CSS **v3** (library preset) or **v4** (library theme CSS). See [Getting started](docs/GETTING-STARTED.md#3-configure-tailwind).
 - pnpm 10 (pinned by `packageManager` in `package.json`) for working on the library itself
 
 ---
@@ -96,6 +96,7 @@ agoraford-ui/
 │   └── lib/cn.ts           # className merge helper (tailwind-merge aware)
 ├── dist/                   # built output, committed so git installs work
 ├── scripts/                # check-manifest, verify-dist, add-use-client
+├── .storybook/             # Storybook config; stories sit next to components (*.stories.tsx)
 ├── docs/                   # documentation (you are here)
 ├── CHANGELOG.md
 └── package.json
@@ -109,7 +110,9 @@ agoraford-ui/
 pnpm install
 pnpm run typecheck          # TypeScript, no emit
 pnpm run build              # tsup: dist/index.js, index.d.ts, source map
-pnpm run check              # typecheck + token manifest check + build + dist verification
+pnpm run test               # Vitest: token parity, source hygiene, core component behavior
+pnpm run storybook          # component docs at http://localhost:6006
+pnpm run check              # typecheck + tests + token manifest + build + dist verification
 ```
 
 Cap Node memory on large machines with `NODE_OPTIONS="--max-old-space-size=2048"`. Do not run `build` while an app that consumes the library is running its dev server.
@@ -123,7 +126,7 @@ Before opening a change, read [Contributing](docs/CONTRIBUTING.md).
 Apps depend on an exact git tag, never a branch and never a local path:
 
 ```json
-"@agoraford/ui": "github:Omega-Solution-LLC/agoraford-ui#v0.7.1"
+"@agoraford/ui": "github:Omega-Solution-LLC/agoraford-ui#v0.8.0"
 ```
 
 Full setup, upgrade steps and the Tailwind preset are in [Getting started](docs/GETTING-STARTED.md).
