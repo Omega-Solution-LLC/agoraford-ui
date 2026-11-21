@@ -12,7 +12,7 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, VisibilityState, OnChangeFn } from '@tanstack/react-table';
 import { DateRange } from 'react-day-picker';
 import { ClassValue } from 'clsx';
 export { toast } from 'sonner';
@@ -312,6 +312,14 @@ interface DataTableLabels {
     sortAscending: string;
     sortDescending: string;
 }
+declare module "@tanstack/react-table" {
+    interface ColumnMeta<TData, TValue> {
+        /** Pin the column. Use "right" for the Actions column so it never scrolls away. */
+        sticky?: "left" | "right";
+        /** Right-align header and cells (numbers, actions). */
+        align?: "right";
+    }
+}
 interface DataTableProps<T> {
     columns: ColumnDef<T, unknown>[];
     data: T[];
@@ -325,13 +333,86 @@ interface DataTableProps<T> {
     /** Pagination or other footer content, placed below the table. */
     footer?: React$1.ReactNode;
     getRowId?: (row: T, index: number) => string;
+    /** Controlled column visibility. Pair with ColumnVisibilityMenu + useColumnVisibility. */
+    columnVisibility?: VisibilityState;
+    onColumnVisibilityChange?: OnChangeFn<VisibilityState>;
     className?: string;
 }
 /**
  * Data table on TanStack Table. Sticky header, sortable columns, loading skeleton,
  * empty state, horizontal scroll on narrow screens. Sort state is internal.
  */
-declare function DataTable<T>({ columns, data, labels, loading, loadingRows, emptyState, footer, getRowId, className, }: DataTableProps<T>): React$1.JSX.Element;
+declare function DataTable<T>({ columns, data, labels, loading, loadingRows, emptyState, footer, getRowId, columnVisibility, onColumnVisibilityChange, className, }: DataTableProps<T>): React$1.JSX.Element;
+
+interface RowAction {
+    key: string;
+    /** Tooltip and menu text. Translated by the app. */
+    label: string;
+    /** lucide icon element, e.g. <Eye />. */
+    icon: React$1.ReactNode;
+    onClick: () => void;
+    destructive?: boolean;
+    disabled?: boolean;
+    /** Skip the action when the user lacks permission or the state does not allow it. */
+    hidden?: boolean;
+}
+interface RowActionsProps {
+    actions: RowAction[];
+    /** Icons shown outside the menu. Default 3. The rest go in the "more" menu. */
+    maxInline?: number;
+    /** aria-label and tooltip for the kebab. */
+    moreLabel: string;
+    className?: string;
+}
+/**
+ * Table row actions. Always icon-only with a tooltip (never a text label), the most-used
+ * `maxInline` shown, the rest in a kebab menu. Order actions by frequency of use.
+ * Put it in a column with `meta: { sticky: "right", align: "right" }`.
+ */
+declare function RowActions({ actions, maxInline, moreLabel, className }: RowActionsProps): React$1.JSX.Element;
+interface ColumnOption {
+    id: string;
+    label: string;
+    /** Cannot be hidden (title column, actions). */
+    locked?: boolean;
+}
+interface ColumnVisibilityMenuProps {
+    columns: ColumnOption[];
+    visibility: Record<string, boolean>;
+    onChange: (next: Record<string, boolean>) => void;
+    labels: {
+        button: string;
+        reset: string;
+    };
+    className?: string;
+}
+/** "Columns" dropdown with a checkmark per column. Sits in the table toolbar, same height as Filter/Export. */
+declare function ColumnVisibilityMenu({ columns, visibility, onChange, labels, className }: ColumnVisibilityMenuProps): React$1.JSX.Element;
+/**
+ * Column visibility that survives reloads. `storageKey` must be unique per table
+ * (e.g. "coi-register.columns"). Falls back to in-memory when storage is blocked.
+ */
+declare function useColumnVisibility(storageKey: string, initial?: Record<string, boolean>): readonly [Record<string, boolean>, (next: Record<string, boolean>) => void];
+interface TablePaginationProps {
+    page: number;
+    pageSize: number;
+    total: number;
+    pageSizeOptions?: number[];
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (size: number) => void;
+    labels: {
+        /** e.g. "Showing 1 to 20 of 54". */
+        showing: (from: number, to: number, total: number) => string;
+        perPage: string;
+        first: string;
+        previous: string;
+        next: string;
+        last: string;
+    };
+    className?: string;
+}
+/** Footer: range text, per-page select, first/prev/next/last. Every control is 32px tall (`h-control-sm`). */
+declare function TablePagination({ page, pageSize, total, pageSizeOptions, onPageChange, onPageSizeChange, labels, className }: TablePaginationProps): React$1.JSX.Element;
 
 interface SearchInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value"> {
     value: string;
@@ -931,5 +1012,5 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 /** Merge class names, resolving Tailwind conflicts. Use for every component. */
 declare function cn(...inputs: ClassValue[]): string;
 
-export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants };
-export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbBackAction, BreadcrumbItem, BreadcrumbProps, BulkActionBarProps, ButtonProps, CardProps, CheckboxProps, ConfirmDialogProps, ContactCardProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DetailCardProps, DetailFieldProps, DetailGridProps, DetailHeaderProps, DetailPageProps, DetailRailProps, DetailSectionProps, DetailTabItem, DetailTabsProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LanguageOption, LanguageSwitcherProps, LinkProps, NoticeBannerProps, NotificationBellButtonProps, PageContainerProps, PageHeaderProps, PaginationProps, PasswordInputProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, QuickActionProps, QuickActionTone, RailRowProps, RailSectionProps, SearchInputProps, SearchableSelectProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, StepperProps, SwitchProps, TableProps, TabsListProps, TabsTriggerProps, TabsVariant, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps, ViewModeSwitcherOption, ViewModeSwitcherProps };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ColumnVisibilityMenu, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, RowActions, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TablePagination, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants, useColumnVisibility };
+export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbBackAction, BreadcrumbItem, BreadcrumbProps, BulkActionBarProps, ButtonProps, CardProps, CheckboxProps, ColumnOption, ColumnVisibilityMenuProps, ConfirmDialogProps, ContactCardProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DetailCardProps, DetailFieldProps, DetailGridProps, DetailHeaderProps, DetailPageProps, DetailRailProps, DetailSectionProps, DetailTabItem, DetailTabsProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LanguageOption, LanguageSwitcherProps, LinkProps, NoticeBannerProps, NotificationBellButtonProps, PageContainerProps, PageHeaderProps, PaginationProps, PasswordInputProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, QuickActionProps, QuickActionTone, RailRowProps, RailSectionProps, RowAction, RowActionsProps, SearchInputProps, SearchableSelectProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, StepperProps, SwitchProps, TablePaginationProps, TableProps, TabsListProps, TabsTriggerProps, TabsVariant, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps, ViewModeSwitcherOption, ViewModeSwitcherProps };

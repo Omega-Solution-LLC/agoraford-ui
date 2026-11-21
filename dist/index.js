@@ -4,7 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
-import { EyeOff, Eye, Check, X, Bell, LoaderCircle, CircleHelp, ChevronDown, ChevronRight, ChevronLeft, MoreHorizontal, ArrowUp, ArrowDown, ArrowUpDown, Search, Inbox, AlertTriangle, CalendarDays, Upload, Menu, LayoutList, LayoutGrid } from 'lucide-react';
+import { EyeOff, Eye, Check, X, Bell, LoaderCircle, CircleHelp, ChevronDown, ChevronRight, ChevronLeft, MoreHorizontal, ArrowUp, ArrowDown, ArrowUpDown, Columns3, ChevronsLeft, ChevronsRight, Search, Inbox, AlertTriangle, CalendarDays, Upload, Menu, LayoutList, LayoutGrid } from 'lucide-react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as SelectPrimitive from '@radix-ui/react-select';
@@ -757,6 +757,13 @@ function Pagination({ page, pageCount, onPageChange, labels, className }) {
 function Ellipsis({ className }) {
   return /* @__PURE__ */ jsx(MoreHorizontal, { className: cn("size-4 text-muted-foreground", className), "aria-hidden": "true" });
 }
+function cellMeta(meta, kind) {
+  return cn(
+    meta?.align === "right" && "text-right",
+    meta?.sticky === "right" && cn("sticky right-0 border-l border-border", kind === "head" ? "z-sticky bg-surface-muted" : "bg-surface group-hover:bg-surface-muted"),
+    meta?.sticky === "left" && cn("sticky left-0 border-r border-border", kind === "head" ? "z-sticky bg-surface-muted" : "bg-surface group-hover:bg-surface-muted")
+  );
+}
 function DataTable({
   columns,
   data,
@@ -766,19 +773,22 @@ function DataTable({
   emptyState,
   footer,
   getRowId,
+  columnVisibility,
+  onColumnVisibilityChange,
   className
 }) {
   const [sorting, setSorting] = React13.useState([]);
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
+    state: { sorting, ...columnVisibility ? { columnVisibility } : {} },
     onSortingChange: setSorting,
+    onColumnVisibilityChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getRowId
   });
-  const colCount = columns.length;
+  const colCount = table.getVisibleLeafColumns().length;
   const rows = table.getRowModel().rows;
   return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col gap-3", className), children: [
     /* @__PURE__ */ jsx("div", { className: "overflow-x-auto rounded-card border border-border bg-surface", children: /* @__PURE__ */ jsxs("table", { className: "w-full border-collapse font-sans text-body", children: [
@@ -786,7 +796,7 @@ function DataTable({
         const sortable = header.column.getCanSort();
         const dir = header.column.getIsSorted();
         const sortLabel = dir === "asc" ? labels.sortDescending : labels.sortAscending;
-        return /* @__PURE__ */ jsx("th", { className: "h-10 whitespace-nowrap px-4 text-left text-caption font-semibold uppercase tracking-wider text-muted-foreground", children: header.isPlaceholder ? null : sortable ? /* @__PURE__ */ jsxs(
+        return /* @__PURE__ */ jsx("th", { className: cn("h-10 whitespace-nowrap px-4 text-left text-caption font-semibold uppercase tracking-wider text-muted-foreground", cellMeta(header.column.columnDef.meta, "head")), children: header.isPlaceholder ? null : sortable ? /* @__PURE__ */ jsxs(
           "button",
           {
             type: "button",
@@ -800,9 +810,129 @@ function DataTable({
           }
         ) : flexRender(header.column.columnDef.header, header.getContext()) }, header.id);
       }) }, hg.id)) }),
-      /* @__PURE__ */ jsx("tbody", { children: loading ? Array.from({ length: loadingRows }).map((_, i) => /* @__PURE__ */ jsx("tr", { className: "border-t border-border", children: Array.from({ length: colCount }).map((__, j) => /* @__PURE__ */ jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }) }, j)) }, `sk-${i}`)) : rows.length === 0 ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: colCount, className: "px-4 py-10 text-center text-muted-foreground", children: emptyState ?? labels.empty }) }) : rows.map((row) => /* @__PURE__ */ jsx("tr", { className: "border-t border-border hover:bg-surface-muted", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsx("td", { className: "px-4 py-3 align-middle text-foreground", children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
+      /* @__PURE__ */ jsx("tbody", { children: loading ? Array.from({ length: loadingRows }).map((_, i) => /* @__PURE__ */ jsx("tr", { className: "border-t border-border", children: Array.from({ length: colCount }).map((__, j) => /* @__PURE__ */ jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }) }, j)) }, `sk-${i}`)) : rows.length === 0 ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: colCount, className: "px-4 py-10 text-center text-muted-foreground", children: emptyState ?? labels.empty }) }) : rows.map((row) => /* @__PURE__ */ jsx("tr", { className: "group border-t border-border hover:bg-surface-muted", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsx("td", { className: cn("px-4 py-3 align-middle text-foreground", cellMeta(cell.column.columnDef.meta, "cell")), children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
     ] }) }),
     footer ? /* @__PURE__ */ jsx("div", { children: footer }) : null
+  ] });
+}
+function RowActions({ actions, maxInline = 3, moreLabel, className }) {
+  const visible = actions.filter((a) => !a.hidden);
+  const needsMenu = visible.length > maxInline + 1;
+  const inline = needsMenu ? visible.slice(0, maxInline) : visible;
+  const overflow = needsMenu ? visible.slice(maxInline) : [];
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center justify-end gap-1", className), children: [
+    inline.map((a) => /* @__PURE__ */ jsx(Tooltip, { content: a.label, children: /* @__PURE__ */ jsx(
+      Button,
+      {
+        variant: "ghost",
+        size: "icon",
+        "aria-label": a.label,
+        disabled: a.disabled,
+        onClick: a.onClick,
+        className: cn("h-8 w-8 p-0 [&_svg]:size-4", a.destructive && "text-danger hover:text-danger"),
+        children: a.icon
+      }
+    ) }, a.key)),
+    overflow.length > 0 ? /* @__PURE__ */ jsxs(DropdownMenu, { children: [
+      /* @__PURE__ */ jsx(Tooltip, { content: moreLabel, children: /* @__PURE__ */ jsx(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsx(Button, { variant: "ghost", size: "icon", "aria-label": moreLabel, className: "h-8 w-8 p-0", children: /* @__PURE__ */ jsx(MoreHorizontal, { className: "size-4", "aria-hidden": "true" }) }) }) }),
+      /* @__PURE__ */ jsx(DropdownMenuContent, { align: "end", children: overflow.map((a) => /* @__PURE__ */ jsxs(DropdownMenuItem, { destructive: a.destructive, disabled: a.disabled, onSelect: a.onClick, children: [
+        /* @__PURE__ */ jsx("span", { className: "[&_svg]:size-4", children: a.icon }),
+        a.label
+      ] }, a.key)) })
+    ] }) : null
+  ] });
+}
+function ColumnVisibilityMenu({ columns, visibility, onChange, labels, className }) {
+  const shown = columns.filter((c) => visibility[c.id] !== false).length;
+  return /* @__PURE__ */ jsxs(DropdownMenu, { children: [
+    /* @__PURE__ */ jsx(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs(Button, { variant: "outline", className, children: [
+      /* @__PURE__ */ jsx(Columns3, { className: "size-4", "aria-hidden": "true" }),
+      labels.button,
+      /* @__PURE__ */ jsx("span", { className: "rounded px-1.5 py-0.5 text-caption font-semibold tabular-nums bg-surface-muted text-muted-foreground", children: shown })
+    ] }) }),
+    /* @__PURE__ */ jsxs(DropdownMenuContent, { align: "end", className: "max-h-80 min-w-56 overflow-y-auto", children: [
+      columns.map((c) => {
+        const on = visibility[c.id] !== false;
+        return /* @__PURE__ */ jsxs(
+          DropdownMenuItem,
+          {
+            disabled: c.locked,
+            onSelect: (e) => {
+              e.preventDefault();
+              onChange({ ...visibility, [c.id]: !on });
+            },
+            children: [
+              /* @__PURE__ */ jsx("span", { className: "inline-flex size-4 items-center justify-center", children: on ? /* @__PURE__ */ jsx(Check, { className: "size-4 text-brand", "aria-hidden": "true" }) : null }),
+              c.label
+            ]
+          },
+          c.id
+        );
+      }),
+      /* @__PURE__ */ jsx(DropdownMenuSeparator, {}),
+      /* @__PURE__ */ jsx(
+        DropdownMenuItem,
+        {
+          onSelect: (e) => {
+            e.preventDefault();
+            onChange({});
+          },
+          children: labels.reset
+        }
+      )
+    ] })
+  ] });
+}
+function useColumnVisibility(storageKey, initial = {}) {
+  const [visibility, setVisibility] = React13.useState(initial);
+  React13.useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) setVisibility(JSON.parse(raw));
+    } catch {
+    }
+  }, [storageKey]);
+  const update = React13.useCallback(
+    (next) => {
+      setVisibility(next);
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(next));
+      } catch {
+      }
+    },
+    [storageKey]
+  );
+  return [visibility, update];
+}
+function TablePagination({ page, pageSize, total, pageSizeOptions = [10, 20, 50, 100], onPageChange, onPageSizeChange, labels, className }) {
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
+  const to = Math.min(total, page * pageSize);
+  const nav = "h-control-sm w-control-sm p-0 [&_svg]:size-4";
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-wrap items-center justify-between gap-3 font-sans text-small text-muted-foreground", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-4", children: [
+      /* @__PURE__ */ jsx("span", { children: labels.showing(from, to, total) }),
+      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsx("span", { children: labels.perPage }),
+        /* @__PURE__ */ jsx(
+          Select,
+          {
+            "aria-label": labels.perPage,
+            value: String(pageSize),
+            onValueChange: (v) => onPageSizeChange(Number(v)),
+            options: pageSizeOptions.map((n) => ({ value: String(n), label: String(n) })),
+            className: "h-control-sm w-20 text-small"
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1", children: [
+      /* @__PURE__ */ jsx(Button, { variant: "outline", "aria-label": labels.first, disabled: page <= 1, onClick: () => onPageChange(1), className: nav, children: /* @__PURE__ */ jsx(ChevronsLeft, { "aria-hidden": "true" }) }),
+      /* @__PURE__ */ jsx(Button, { variant: "outline", "aria-label": labels.previous, disabled: page <= 1, onClick: () => onPageChange(page - 1), className: nav, children: /* @__PURE__ */ jsx(ChevronLeft, { "aria-hidden": "true" }) }),
+      /* @__PURE__ */ jsx("span", { className: "inline-flex h-control-sm min-w-control-sm items-center justify-center rounded-control bg-brand px-2 text-small font-semibold tabular-nums text-white", children: page }),
+      /* @__PURE__ */ jsx(Button, { variant: "outline", "aria-label": labels.next, disabled: page >= pageCount, onClick: () => onPageChange(page + 1), className: nav, children: /* @__PURE__ */ jsx(ChevronRight, { "aria-hidden": "true" }) }),
+      /* @__PURE__ */ jsx(Button, { variant: "outline", "aria-label": labels.last, disabled: page >= pageCount, onClick: () => onPageChange(pageCount), className: nav, children: /* @__PURE__ */ jsx(ChevronsRight, { "aria-hidden": "true" }) })
+    ] })
   ] });
 }
 function SearchInput({ value, onValueChange, label, debounceMs = 300, clearLabel = "Clear", className, ...props }) {
@@ -1946,6 +2076,6 @@ function SettingsLayout({ nav, children, className }) {
   ] });
 }
 
-export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ColumnVisibilityMenu, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, RowActions, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TablePagination, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants, useColumnVisibility };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

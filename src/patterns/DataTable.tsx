@@ -6,6 +6,8 @@ import {
   useReactTable,
   type ColumnDef,
   type SortingState,
+  type VisibilityState,
+  type OnChangeFn,
 } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { cn } from "../lib/cn";
@@ -17,6 +19,16 @@ export interface DataTableLabels {
   /** Read by screen readers on sortable headers. */
   sortAscending: string;
   sortDescending: string;
+}
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData, TValue> {
+    /** Pin the column. Use "right" for the Actions column so it never scrolls away. */
+    sticky?: "left" | "right";
+    /** Right-align header and cells (numbers, actions). */
+    align?: "right";
+  }
 }
 
 export interface DataTableProps<T> {
@@ -32,7 +44,18 @@ export interface DataTableProps<T> {
   /** Pagination or other footer content, placed below the table. */
   footer?: React.ReactNode;
   getRowId?: (row: T, index: number) => string;
+  /** Controlled column visibility. Pair with ColumnVisibilityMenu + useColumnVisibility. */
+  columnVisibility?: VisibilityState;
+  onColumnVisibilityChange?: OnChangeFn<VisibilityState>;
   className?: string;
+}
+
+function cellMeta(meta: { sticky?: "left" | "right"; align?: "right" } | undefined, kind: "head" | "cell") {
+  return cn(
+    meta?.align === "right" && "text-right",
+    meta?.sticky === "right" && cn("sticky right-0 border-l border-border", kind === "head" ? "z-sticky bg-surface-muted" : "bg-surface group-hover:bg-surface-muted"),
+    meta?.sticky === "left" && cn("sticky left-0 border-r border-border", kind === "head" ? "z-sticky bg-surface-muted" : "bg-surface group-hover:bg-surface-muted"),
+  );
 }
 
 /**
@@ -48,6 +71,8 @@ export function DataTable<T>({
   emptyState,
   footer,
   getRowId,
+  columnVisibility,
+  onColumnVisibilityChange,
   className,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -55,14 +80,15 @@ export function DataTable<T>({
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
+    state: { sorting, ...(columnVisibility ? { columnVisibility } : {}) },
     onSortingChange: setSorting,
+    onColumnVisibilityChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getRowId,
   });
 
-  const colCount = columns.length;
+  const colCount = table.getVisibleLeafColumns().length;
   const rows = table.getRowModel().rows;
 
   return (
@@ -77,7 +103,7 @@ export function DataTable<T>({
                   const dir = header.column.getIsSorted();
                   const sortLabel = dir === "asc" ? labels.sortDescending : labels.sortAscending;
                   return (
-                    <th key={header.id} className="h-10 whitespace-nowrap px-4 text-left text-caption font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th key={header.id} className={cn("h-10 whitespace-nowrap px-4 text-left text-caption font-semibold uppercase tracking-wider text-muted-foreground", cellMeta(header.column.columnDef.meta, "head"))}>
                       {header.isPlaceholder ? null : sortable ? (
                         <button
                           type="button"
@@ -116,9 +142,9 @@ export function DataTable<T>({
               </tr>
             ) : (
               rows.map((row) => (
-                <tr key={row.id} className="border-t border-border hover:bg-surface-muted">
+                <tr key={row.id} className="group border-t border-border hover:bg-surface-muted">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 align-middle text-foreground">
+                    <td key={cell.id} className={cn("px-4 py-3 align-middle text-foreground", cellMeta(cell.column.columnDef.meta, "cell"))}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

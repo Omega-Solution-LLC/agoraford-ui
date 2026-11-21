@@ -2,6 +2,12 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.5.0
+
+- New: `RowActions` (icon-only row actions with tooltips, overflow into a kebab menu), `ColumnVisibilityMenu` and `useColumnVisibility` (column chooser, persisted per table in localStorage), `TablePagination` (range text, per-page select, first/prev/next/last, all 32px tall).
+- `DataTable`: `columnVisibility` / `onColumnVisibilityChange` props; column `meta.sticky` (`"left" | "right"`) pins a column (use for Actions) and `meta.align: "right"`; skeleton and empty colspan follow visible columns.
+- Non-breaking. See ui-audit `component-rules.md` section K2.
+
 ## 0.4.0
 
 - New: detail-page pattern from live MojaBoard (`patterns/Detail.tsx`): `DetailPage`, `DetailHeader` (brand band with back, icon tile, title, badges, actions), `DetailTabs` (underline tabs in one card), `DetailCard`, `DetailStack`, `DetailSection`, `DetailGrid`, `DetailField` (label/value), `ContactCard`, `DetailRail`, `RailSection`, `RailRows`, `RailRow`, `QuickAction`, `QuickActionGrid`. The rail is optional; pages without side actions render full width.
