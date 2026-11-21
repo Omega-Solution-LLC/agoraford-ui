@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## Unreleased
+
+- Docs only, no code or visual change. README rewritten as the entry point. New: `docs/GETTING-STARTED.md`, `docs/TOKENS.md`, `docs/PATTERNS.md`, `docs/CONTRIBUTING.md`. `docs/COMPONENTS.md` replaces the 0.1.0 inventory with the full API reference.
+
 ## 0.7.1
 
 - Type scale readability: `--ui-text-body` 13.5px -> 14px, `--ui-text-small` 12.8px -> 12px (matching live MojaBoard 14px/12px hierarchy so field labels and values are clearly distinct).
