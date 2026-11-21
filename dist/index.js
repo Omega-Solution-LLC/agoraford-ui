@@ -1301,8 +1301,8 @@ function DetailPage({ header, notice, children, aside, className }) {
   ] });
 }
 function DetailHeader({ title, icon, badges, actions, onBack, backLabel = "Back", className }) {
-  return /* @__PURE__ */ jsxs("header", { className: cn("flex flex-wrap items-center justify-between gap-4 rounded-card bg-brand p-4 text-white md:p-6", className), children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
+  return /* @__PURE__ */ jsxs("header", { className: cn("flex flex-wrap items-center justify-between gap-4 rounded-card bg-brand p-4 text-white md:p-6 dark:border dark:border-border dark:bg-surface", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 basis-full items-center gap-3 sm:flex-1 sm:basis-0", children: [
       onBack ? /* @__PURE__ */ jsx(
         "button",
         {
@@ -1313,9 +1313,9 @@ function DetailHeader({ title, icon, badges, actions, onBack, backLabel = "Back"
           children: /* @__PURE__ */ jsx(ChevronLeft, { className: "size-5" })
         }
       ) : null,
-      icon ? /* @__PURE__ */ jsx("span", { className: "inline-flex size-12 shrink-0 items-center justify-center rounded-card bg-brand-soft text-brand [&_svg]:size-6", children: icon }) : null,
+      icon ? /* @__PURE__ */ jsx("span", { className: "hidden size-12 shrink-0 items-center justify-center sm:inline-flex rounded-card bg-brand-soft text-brand [&_svg]:size-6", children: icon }) : null,
       /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-col gap-1", children: [
-        /* @__PURE__ */ jsx("h1", { className: "truncate font-sans text-xl font-bold tracking-tight text-white sm:text-title", children: title }),
+        /* @__PURE__ */ jsx("h1", { className: "line-clamp-2 break-words font-sans text-xl font-bold tracking-tight text-white dark:text-foreground sm:text-title", children: title }),
         badges ? /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-2", children: badges }) : null
       ] })
     ] }),
