@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.5.1
+
+- `DetailHeader`: dark mode uses a surface band with a border (matches live MojaBoard) instead of staying brand blue; title wraps to two lines instead of truncating; icon tile hidden below `sm`; actions wrap below the title on phones.
+
 ## 0.5.0
 
 - New: `RowActions` (icon-only row actions with tooltips, overflow into a kebab menu), `ColumnVisibilityMenu` and `useColumnVisibility` (column chooser, persisted per table in localStorage), `TablePagination` (range text, per-page select, first/prev/next/last, all 32px tall).
