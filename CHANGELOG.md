@@ -2,6 +2,11 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.4.0
+
+- New: detail-page pattern from live MojaBoard (`patterns/Detail.tsx`): `DetailPage`, `DetailHeader` (brand band with back, icon tile, title, badges, actions), `DetailTabs` (underline tabs in one card), `DetailCard`, `DetailStack`, `DetailSection`, `DetailGrid`, `DetailField` (label/value), `ContactCard`, `DetailRail`, `RailSection`, `RailRows`, `RailRow`, `QuickAction`, `QuickActionGrid`. The rail is optional; pages without side actions render full width.
+- Non-breaking. Apps migrate detail pages by replacing local header, tab, label/value and side-rail markup. See the ui-audit skill, `references/detail-pages.md`.
+
 ## 0.3.0
 
 - New: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`. Plain table primitives with a horizontal scroll wrapper and token-based styling. Use `DataTable` when you need sorting, selection or pagination.
