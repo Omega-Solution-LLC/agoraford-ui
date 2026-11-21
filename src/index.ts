@@ -110,6 +110,18 @@ export {
   type QuickActionProps,
   type QuickActionTone,
 } from "./patterns/Detail";
+export { DetailSheet, type DetailSheetProps } from "./patterns/DetailSheet";
+export {
+  ReadinessChecklist,
+  StatusActionCallout,
+  DocumentPreviewFrame,
+  type ReadinessChecklistProps,
+  type ReadinessItem,
+  type StatusActionCalloutProps,
+  type CalloutTone,
+  type DocumentPreviewFrameProps,
+} from "./patterns/DetailBlocks";
+export { DocumentReader, type DocumentReaderProps } from "./patterns/DocumentReader";
 export { NoticeBanner, type NoticeBannerProps } from "./patterns/Notice";
 export { ActionRow, type ActionRowProps } from "./patterns/ActionRow";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";

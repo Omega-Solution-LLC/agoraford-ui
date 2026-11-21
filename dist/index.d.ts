@@ -718,6 +718,79 @@ interface RailRowProps {
 declare function RailRow({ label, children, empty }: RailRowProps): React$1.JSX.Element;
 declare function RailRows({ className, ...props }: React$1.HTMLAttributes<HTMLDListElement>): React$1.JSX.Element;
 
+interface DetailSheetProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    /** Entity name. Rendered as the dialog title for screen readers. */
+    title: React$1.ReactNode;
+    description?: React$1.ReactNode;
+    /** lucide icon, rendered in a soft tile. */
+    icon?: React$1.ReactNode;
+    /** Status / type badges under the title. Keep to two. */
+    badges?: React$1.ReactNode;
+    /** Header actions, e.g. Edit. Keep to one or two. */
+    actions?: React$1.ReactNode;
+    /** Underline tabs. When set, `children` is ignored. */
+    tabs?: DetailTabItem[];
+    tabValue?: string;
+    onTabChange?: (value: string) => void;
+    /** Body when there are no tabs. */
+    children?: React$1.ReactNode;
+    /** Right-aligned footer actions. */
+    footer?: React$1.ReactNode;
+    /** Accessible label for the close button. */
+    closeLabel?: string;
+    className?: string;
+}
+declare function DetailSheet({ open, onOpenChange, title, description, icon, badges, actions, tabs, tabValue, onTabChange, children, footer, closeLabel, className, }: DetailSheetProps): React$1.JSX.Element;
+
+interface ReadinessItem {
+    id: string;
+    label: React$1.ReactNode;
+    done: boolean;
+    /** One line under the label. */
+    hint?: React$1.ReactNode;
+}
+interface ReadinessChecklistProps {
+    items: ReadinessItem[];
+    /** Summary above the list, e.g. "2 of 4 complete". Receives the counts; the app owns the copy. */
+    summary?: (done: number, total: number) => React$1.ReactNode;
+    className?: string;
+}
+declare function ReadinessChecklist({ items, summary, className }: ReadinessChecklistProps): React$1.JSX.Element;
+type CalloutTone = "neutral" | "brand" | "success" | "warning" | "danger";
+interface StatusActionCalloutProps {
+    tone?: CalloutTone;
+    icon?: React$1.ReactNode;
+    title: React$1.ReactNode;
+    description?: React$1.ReactNode;
+    /** One primary button for the single next step. */
+    action?: React$1.ReactNode;
+    className?: string;
+}
+/** The single next step for the record, with its CTA. Place first in the rail's Actions block. */
+declare function StatusActionCallout({ tone, icon, title, description, action, className }: StatusActionCalloutProps): React$1.JSX.Element;
+interface DocumentPreviewFrameProps {
+    title: React$1.ReactNode;
+    /** Header actions, e.g. Download, Open. */
+    actions?: React$1.ReactNode;
+    /** The preview (iframe, img, or rendered document). */
+    children?: React$1.ReactNode;
+    /** Shown when there is no preview. */
+    empty?: React$1.ReactNode;
+    className?: string;
+}
+declare function DocumentPreviewFrame({ title, actions, children, empty, className }: DocumentPreviewFrameProps): React$1.JSX.Element;
+
+interface DocumentReaderProps {
+    header: React$1.ReactNode;
+    notice?: React$1.ReactNode;
+    aside?: React$1.ReactNode;
+    children: React$1.ReactNode;
+    className?: string;
+}
+declare function DocumentReader({ header, notice, aside, children, className }: DocumentReaderProps): React$1.JSX.Element;
+
 declare const noticeVariants: (props?: ({
     tone?: "danger" | "neutral" | "brand" | "success" | "warning" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
@@ -1012,5 +1085,5 @@ declare function SettingsLayout({ nav, children, className }: SettingsLayoutProp
 /** Merge class names, resolving Tailwind conflicts. Use for every component. */
 declare function cn(...inputs: ClassValue[]): string;
 
-export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ColumnVisibilityMenu, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, RowActions, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TablePagination, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants, useColumnVisibility };
-export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbBackAction, BreadcrumbItem, BreadcrumbProps, BulkActionBarProps, ButtonProps, CardProps, CheckboxProps, ColumnOption, ColumnVisibilityMenuProps, ConfirmDialogProps, ContactCardProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DetailCardProps, DetailFieldProps, DetailGridProps, DetailHeaderProps, DetailPageProps, DetailRailProps, DetailSectionProps, DetailTabItem, DetailTabsProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LanguageOption, LanguageSwitcherProps, LinkProps, NoticeBannerProps, NotificationBellButtonProps, PageContainerProps, PageHeaderProps, PaginationProps, PasswordInputProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, QuickActionProps, QuickActionTone, RailRowProps, RailSectionProps, RowAction, RowActionsProps, SearchInputProps, SearchableSelectProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, StepperProps, SwitchProps, TablePaginationProps, TableProps, TabsListProps, TabsTriggerProps, TabsVariant, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps, ViewModeSwitcherOption, ViewModeSwitcherProps };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ColumnVisibilityMenu, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailSheet, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DocumentPreviewFrame, DocumentReader, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, ReadinessChecklist, RowActions, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusActionCallout, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TablePagination, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants, useColumnVisibility };
+export type { ActionRowProps, AppShellProps, AuthLayoutProps, AvatarProps, BadgeProps, BreadcrumbBackAction, BreadcrumbItem, BreadcrumbProps, BulkActionBarProps, ButtonProps, CalloutTone, CardProps, CheckboxProps, ColumnOption, ColumnVisibilityMenuProps, ConfirmDialogProps, ContactCardProps, DataTableLabels, DataTableProps, DatePickerProps, DateRangePickerProps, DetailCardProps, DetailFieldProps, DetailGridProps, DetailHeaderProps, DetailPageProps, DetailRailProps, DetailSectionProps, DetailSheetProps, DetailTabItem, DetailTabsProps, DocumentPreviewFrameProps, DocumentReaderProps, DropdownMenuItemProps, EmptyStateProps, ErrorStateProps, FieldProps, FileUploadProps, FilterBarProps, IconButtonProps, InputProps, LanguageOption, LanguageSwitcherProps, LinkProps, NoticeBannerProps, NotificationBellButtonProps, PageContainerProps, PageHeaderProps, PaginationProps, PasswordInputProps, ProgressCardProps, ProgressProps, ProgressRow, ProgressTone, QuickActionProps, QuickActionTone, RailRowProps, RailSectionProps, ReadinessChecklistProps, ReadinessItem, RowAction, RowActionsProps, SearchInputProps, SearchableSelectProps, SectionCardProps, SegmentedControlProps, SegmentedOption, SelectOption, SelectProps, SettingsLayoutProps, SheetContentProps, SidebarNavItem, SidebarProps, SidebarSection, SpinnerProps, StatCardProps, StatTone, StatusActionCalloutProps, StatusBadgeProps, StatusTone, StepWizardProps, StepWizardStep, StepperProps, SwitchProps, TablePaginationProps, TableProps, TabsListProps, TabsTriggerProps, TabsVariant, TextProps, TextareaProps, TimelineItem, TooltipProps, TopbarProps, TopbarSearchProps, UserMenuProps, ViewModeSwitcherOption, ViewModeSwitcherProps };
