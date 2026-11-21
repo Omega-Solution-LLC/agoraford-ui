@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.3.0
+
+- New: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`. Plain table primitives with a horizontal scroll wrapper and token-based styling. Use `DataTable` when you need sorting, selection or pagination.
+
 ## 0.2.1
 
 - `UserMenu`: forward `ref` and button props (`...props`) so Radix `DropdownMenuTrigger asChild` works natively.

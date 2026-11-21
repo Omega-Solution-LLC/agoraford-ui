@@ -44,6 +44,7 @@ export {
 export { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "./primitives/Popover";
 export { Tabs, TabsList, TabsTrigger, TabsContent, type TabsVariant, type TabsListProps, type TabsTriggerProps } from "./primitives/Tabs";
 export { SegmentedControl, type SegmentedControlProps, type SegmentedOption } from "./primitives/SegmentedControl";
+export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, type TableProps } from "./primitives/Table";
 export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, type CardProps } from "./primitives/Card";
 export { Separator, Skeleton, Progress, type ProgressProps } from "./primitives/Feedback";
 export { Text, textVariants, type TextProps } from "./primitives/Text";
