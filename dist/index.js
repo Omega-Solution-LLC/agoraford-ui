@@ -1160,6 +1160,165 @@ function ProgressCard({ title, subtitle, rows, action, emptyLabel, className }) 
     ] }, row.id);
   }) }) });
 }
+function DetailPage({ header, notice, children, aside, className }) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col gap-4", className), children: [
+    header,
+    notice,
+    aside ? /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 items-start gap-4 lg:grid-cols-3", children: [
+      /* @__PURE__ */ jsx("div", { className: "flex min-w-0 flex-col gap-4 lg:col-span-2", children }),
+      /* @__PURE__ */ jsx("aside", { className: "flex min-w-0 flex-col gap-4 lg:col-span-1", children: aside })
+    ] }) : /* @__PURE__ */ jsx("div", { className: "flex min-w-0 flex-col gap-4", children })
+  ] });
+}
+function DetailHeader({ title, icon, badges, actions, onBack, backLabel = "Back", className }) {
+  return /* @__PURE__ */ jsxs("header", { className: cn("flex flex-wrap items-center justify-between gap-4 rounded-card bg-brand p-4 text-white md:p-6", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
+      onBack ? /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: onBack,
+          "aria-label": backLabel,
+          className: "inline-flex size-8 shrink-0 items-center justify-center rounded-control text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+          children: /* @__PURE__ */ jsx(ChevronLeft, { className: "size-5" })
+        }
+      ) : null,
+      icon ? /* @__PURE__ */ jsx("span", { className: "inline-flex size-12 shrink-0 items-center justify-center rounded-card bg-brand-soft text-brand [&_svg]:size-6", children: icon }) : null,
+      /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-col gap-1", children: [
+        /* @__PURE__ */ jsx("h1", { className: "truncate font-sans text-xl font-bold tracking-tight text-white sm:text-title", children: title }),
+        badges ? /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-2", children: badges }) : null
+      ] })
+    ] }),
+    actions ? /* @__PURE__ */ jsx("div", { className: "flex flex-wrap items-center gap-2", children: actions }) : null
+  ] });
+}
+function DetailTabs({ items, value, defaultValue, onValueChange, className }) {
+  const first = items[0]?.value;
+  return /* @__PURE__ */ jsx(Card, { padding: "none", className, children: /* @__PURE__ */ jsxs(
+    Tabs,
+    {
+      value,
+      defaultValue: value === void 0 ? defaultValue ?? first : void 0,
+      onValueChange,
+      children: [
+        /* @__PURE__ */ jsx("div", { className: "overflow-x-auto px-4 pt-2", children: /* @__PURE__ */ jsx(TabsList, { variant: "underline", className: "w-full min-w-max", children: items.map((item) => /* @__PURE__ */ jsx(TabsTrigger, { value: item.value, icon: item.icon, count: item.count, children: item.label }, item.value)) }) }),
+        items.map((item) => /* @__PURE__ */ jsx(TabsContent, { value: item.value, className: "p-4 md:p-6", children: item.content }, item.value))
+      ]
+    }
+  ) });
+}
+function DetailCard({ title, action, children, className }) {
+  return /* @__PURE__ */ jsxs(Card, { padding: "none", className, children: [
+    title || action ? /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2 border-b border-border px-4 py-3 md:px-6", children: [
+      title ? /* @__PURE__ */ jsx("h2", { className: "font-sans text-subtitle font-semibold text-foreground", children: title }) : /* @__PURE__ */ jsx("span", {}),
+      action
+    ] }) : null,
+    /* @__PURE__ */ jsx("div", { className: "p-4 md:p-6", children })
+  ] });
+}
+function DetailSection({ title, action, children, className }) {
+  return /* @__PURE__ */ jsxs("section", { className: cn("flex flex-col gap-3", className), children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-2", children: [
+      /* @__PURE__ */ jsx("h3", { className: "font-sans text-subtitle font-semibold text-foreground", children: title }),
+      action
+    ] }),
+    children
+  ] });
+}
+function DetailStack({ className, ...props }) {
+  return /* @__PURE__ */ jsx("div", { className: cn("flex flex-col gap-6", className), ...props });
+}
+var gridCols = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 sm:grid-cols-2",
+  3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+};
+function DetailGrid({ columns = 3, className, ...props }) {
+  return /* @__PURE__ */ jsx("dl", { className: cn("grid gap-4", gridCols[columns], className), ...props });
+}
+function DetailField({ label, children, empty = "\u2014", className }) {
+  const hasValue = children !== void 0 && children !== null && children !== "" && children !== false;
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex min-w-0 flex-col gap-1", className), children: [
+    /* @__PURE__ */ jsx("dt", { className: "font-sans text-small text-muted-foreground", children: label }),
+    /* @__PURE__ */ jsx("dd", { className: "min-w-0 break-words font-sans text-body font-medium text-foreground", children: hasValue ? children : /* @__PURE__ */ jsx("span", { className: "font-normal text-muted-foreground", children: empty }) })
+  ] });
+}
+function ContactCard({ role, name, email, vacantText = "Vacant", className }) {
+  return /* @__PURE__ */ jsxs("div", { className: cn("flex min-w-0 items-center gap-3 rounded-card border border-border bg-surface p-3", className), children: [
+    /* @__PURE__ */ jsx(Avatar, { name: name ?? "\u2014", size: "lg", className: "size-10" }),
+    /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 flex-col", children: [
+      /* @__PURE__ */ jsx("span", { className: "font-sans text-small text-muted-foreground", children: role }),
+      name ? /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsx("span", { className: "truncate font-sans text-body font-semibold text-foreground", children: name }),
+        email ? /* @__PURE__ */ jsx("span", { className: "truncate font-sans text-small text-muted-foreground", children: email }) : null
+      ] }) : /* @__PURE__ */ jsx("span", { className: "font-sans text-body text-muted-foreground", children: vacantText })
+    ] })
+  ] });
+}
+function DetailRail({ title = "Actions", children, className, sticky }) {
+  return /* @__PURE__ */ jsxs(Card, { padding: "none", className: cn(sticky && "lg:sticky lg:top-4", className), children: [
+    /* @__PURE__ */ jsx("div", { className: "px-4 pt-2", children: /* @__PURE__ */ jsx("div", { className: "inline-flex border-b border-border", children: /* @__PURE__ */ jsx("span", { className: "-mb-px inline-flex h-control-md items-center border-b-2 border-brand px-4 font-sans text-body font-semibold text-brand", children: title }) }) }),
+    /* @__PURE__ */ jsx("div", { className: "flex flex-col divide-y divide-border p-4", children })
+  ] });
+}
+function RailSection({ title, children, className }) {
+  return /* @__PURE__ */ jsxs("section", { className: cn("flex flex-col gap-3 py-4 first:pt-0 last:pb-0", className), children: [
+    /* @__PURE__ */ jsx("h3", { className: "font-sans text-caption font-semibold uppercase tracking-wider text-muted-foreground", children: title }),
+    children
+  ] });
+}
+var quickToneTile = {
+  neutral: "bg-foreground text-surface",
+  brand: "bg-brand text-white",
+  success: "bg-success text-white",
+  warning: "bg-warning text-white",
+  danger: "bg-danger text-white",
+  info: "bg-info text-white"
+};
+var quickToneSurface = {
+  neutral: "border-border bg-surface-muted hover:bg-surface-muted/70",
+  brand: "border-brand/20 bg-brand/5 hover:bg-brand/10",
+  success: "border-success/20 bg-success/5 hover:bg-success/10",
+  warning: "border-warning/20 bg-warning/5 hover:bg-warning/10",
+  danger: "border-danger/20 bg-danger/5 hover:bg-danger/10",
+  info: "border-info/20 bg-info/5 hover:bg-info/10"
+};
+var QuickAction = React13.forwardRef(
+  ({ icon, title, hint, tone = "neutral", className, type = "button", ...props }, ref) => /* @__PURE__ */ jsxs(
+    "button",
+    {
+      ref,
+      type,
+      className: cn(
+        "flex min-w-0 items-center gap-3 rounded-card border p-3 text-left font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-50",
+        quickToneSurface[tone],
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx("span", { className: cn("inline-flex size-8 shrink-0 items-center justify-center rounded-control [&_svg]:size-4", quickToneTile[tone]), children: icon }),
+        /* @__PURE__ */ jsxs("span", { className: "flex min-w-0 flex-col", children: [
+          /* @__PURE__ */ jsx("span", { className: cn("text-small font-semibold", tone === "danger" ? "text-danger" : "text-foreground"), children: title }),
+          hint ? /* @__PURE__ */ jsx("span", { className: "truncate text-caption text-muted-foreground", children: hint }) : null
+        ] })
+      ]
+    }
+  )
+);
+QuickAction.displayName = "QuickAction";
+function QuickActionGrid({ className, ...props }) {
+  return /* @__PURE__ */ jsx("div", { className: cn("grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2", className), ...props });
+}
+function RailRow({ label, children, empty = "\u2014" }) {
+  const hasValue = children !== void 0 && children !== null && children !== "" && children !== false;
+  return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3 font-sans text-body", children: [
+    /* @__PURE__ */ jsx("dt", { className: "shrink-0 text-muted-foreground", children: label }),
+    /* @__PURE__ */ jsx("dd", { className: "min-w-0 text-right font-medium text-foreground", children: hasValue ? children : /* @__PURE__ */ jsx("span", { className: "font-normal text-muted-foreground", children: empty }) })
+  ] });
+}
+function RailRows({ className, ...props }) {
+  return /* @__PURE__ */ jsx("dl", { className: cn("flex flex-col gap-3", className), ...props });
+}
 var noticeVariants = cva("flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-card border p-4 sm:p-5 font-sans shadow-sm dark:shadow-none", {
   variants: {
     tone: {
@@ -1787,6 +1946,6 @@ function SettingsLayout({ nav, children, className }) {
   ] });
 }
 
-export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, DataTable, DatePicker, DateRangePicker, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, RadioGroup, RadioGroupItem, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants };
+export { ActionRow, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger, AppShell, AuthLayout, Avatar, Badge, Breadcrumb, BulkActionBar, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, ConfirmDialog, ContactCard, DataTable, DatePicker, DateRangePicker, DetailCard, DetailField, DetailGrid, DetailHeader, DetailPage, DetailRail, DetailSection, DetailStack, DetailTabs, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Ellipsis, EmptyState, ErrorState, Field, FileUpload, FilterBar, FormSection, IconButton, Input, LanguageSwitcher, NoticeBanner, NotificationBellButton, PageContainer, PageHeader, Pagination, PasswordInput, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ProgressCard, QuickAction, QuickActionGrid, RadioGroup, RadioGroupItem, RailRow, RailRows, RailSection, SearchInput, SearchableSelect, SectionCard, SegmentedControl, Select, Separator2 as Separator, SettingsLayout, Sheet, SheetClose, SheetContent, SheetTrigger, Sidebar, Skeleton, Spinner, StatCard, StatusBadge, StepWizard, Stepper, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Timeline, Toaster, Tooltip, TooltipProvider, Topbar, TopbarSearch, UserMenu, ViewModeSwitcher, badgeVariants, buttonVariants, cn, textVariants };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

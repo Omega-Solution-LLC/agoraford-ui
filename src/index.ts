@@ -68,6 +68,37 @@ export {
   type NotificationBellButtonProps,
 } from "./patterns/Chrome";
 export { SectionCard, ProgressCard, type SectionCardProps, type ProgressCardProps, type ProgressRow, type ProgressTone } from "./patterns/Panels";
+export {
+  DetailPage,
+  DetailHeader,
+  DetailTabs,
+  DetailCard,
+  DetailSection,
+  DetailStack,
+  DetailGrid,
+  DetailField,
+  ContactCard,
+  DetailRail,
+  RailSection,
+  RailRows,
+  RailRow,
+  QuickAction,
+  QuickActionGrid,
+  type DetailPageProps,
+  type DetailHeaderProps,
+  type DetailTabItem,
+  type DetailTabsProps,
+  type DetailCardProps,
+  type DetailSectionProps,
+  type DetailGridProps,
+  type DetailFieldProps,
+  type ContactCardProps,
+  type DetailRailProps,
+  type RailSectionProps,
+  type RailRowProps,
+  type QuickActionProps,
+  type QuickActionTone,
+} from "./patterns/Detail";
 export { NoticeBanner, type NoticeBannerProps } from "./patterns/Notice";
 export { ActionRow, type ActionRowProps } from "./patterns/ActionRow";
 export { ConfirmDialog, type ConfirmDialogProps } from "./patterns/Dialogs";
