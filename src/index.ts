@@ -53,6 +53,17 @@ export { Breadcrumb, Pagination, Ellipsis, type BreadcrumbItem, type BreadcrumbB
 
 // Patterns
 export { DataTable, type DataTableProps, type DataTableLabels } from "./patterns/DataTable";
+export {
+  RowActions,
+  ColumnVisibilityMenu,
+  useColumnVisibility,
+  TablePagination,
+  type RowAction,
+  type RowActionsProps,
+  type ColumnOption,
+  type ColumnVisibilityMenuProps,
+  type TablePaginationProps,
+} from "./patterns/TableControls";
 export { SearchInput, FilterBar, type SearchInputProps, type FilterBarProps } from "./patterns/FilterBar";
 export { EmptyState, ErrorState, type EmptyStateProps, type ErrorStateProps } from "./patterns/States";
 export { PageHeader, FormSection, StatCard, Timeline, type PageHeaderProps, type StatCardProps, type StatTone, type TimelineItem } from "./patterns/Content";
