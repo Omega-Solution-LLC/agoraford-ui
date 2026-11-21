@@ -203,7 +203,7 @@ const gridCols = {
 } as const;
 
 export function DetailGrid({ columns = 3, className, ...props }: DetailGridProps) {
-  return <dl className={cn("grid gap-4", gridCols[columns], className)} {...props} />;
+  return <dl className={cn("grid gap-x-6 gap-y-4", gridCols[columns], className)} {...props} />;
 }
 
 export interface DetailFieldProps {
@@ -219,7 +219,7 @@ export function DetailField({ label, children, empty = "—", className }: Detai
   const hasValue = children !== undefined && children !== null && children !== "" && children !== false;
   return (
     <div className={cn("flex min-w-0 flex-col gap-1", className)}>
-      <dt className="font-sans text-small text-muted-foreground">{label}</dt>
+      <dt className="font-sans text-small font-medium text-muted-foreground">{label}</dt>
       <dd className="min-w-0 break-words font-sans text-body font-medium text-foreground">
         {hasValue ? children : <span className="font-normal text-muted-foreground">{empty}</span>}
       </dd>

@@ -5,9 +5,9 @@
     "title":    { "token": "--ui-text-title",    "size": "24px",   "weight": 700, "lineHeight": "32px" },
     "section":  { "token": "--ui-text-section",  "size": "22px",   "weight": 700, "lineHeight": "28px" },
     "subtitle": { "token": "--ui-text-subtitle", "size": "14px",   "weight": 400, "lineHeight": "20px" },
-    "body":     { "token": "--ui-text-body",     "size": "13.5px", "weight": 400, "lineHeight": "20px" },
+    "body":     { "token": "--ui-text-body",     "size": "14px",   "weight": 400, "lineHeight": "20px" },
     "control":  { "token": "--ui-text-control",  "size": "14px",   "weight": 500, "lineHeight": "20px" },
-    "small":    { "token": "--ui-text-small",    "size": "12.8px", "weight": 400, "lineHeight": "16px" },
+    "small":    { "token": "--ui-text-small",    "size": "12px",   "weight": 400, "lineHeight": "16px" },
     "caption":  { "token": "--ui-text-caption",  "size": "11.5px", "weight": 400, "lineHeight": "14px" }
   },
   "radius": {
@@ -24,7 +24,8 @@
       "One DetailHeader band per detail route",
       "Actions go in the rail when a rail exists, otherwise in the header",
       "Tabs are DetailTabs or DetailSheet tabs (underline), never segmented pills",
-      "Field labels are small/muted, values are body/medium"
+      "Field labels are small/medium/muted, values are body/medium",
+      "Rail rows always live inside RailRows (gap-3), never a bare div"
     ]
   }
 }

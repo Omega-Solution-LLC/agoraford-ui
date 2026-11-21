@@ -2,6 +2,12 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.7.1
+
+- Type scale readability: `--ui-text-body` 13.5px -> 14px, `--ui-text-small` 12.8px -> 12px (matching live MojaBoard 14px/12px hierarchy so field labels and values are clearly distinct).
+- `DetailField`: label uses `font-medium` + `text-small` (12px) above `text-body` (14px) value; `DetailGrid` uses `gap-x-6 gap-y-4`.
+- `Badge`: status tones (`success`, `warning`, `danger`, `info`) use opaque `color-mix` / `bg-brand-soft` fills so pills stay readable on `DetailHeader` (`bg-brand`) as well as `bg-surface`.
+
 ## 0.7.0
 
 - Breaking for visuals only: `StatusBadge` no longer renders a leading dot. Status is text in a pill. Dots are allowed only where they carry meaning (timeline markers, unread or presence indicators, live state) and must not sit inside a badge or tag.

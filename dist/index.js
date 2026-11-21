@@ -257,10 +257,10 @@ var badgeVariants = cva(
       tone: {
         neutral: "border-border bg-surface-muted text-muted-foreground",
         brand: "border-brand/30 bg-brand-soft text-brand",
-        success: "border-success/30 bg-success/10 text-success",
-        warning: "border-warning/30 bg-warning/10 text-warning",
-        danger: "border-danger/30 bg-danger/10 text-danger",
-        info: "border-info/30 bg-info/10 text-info"
+        success: "border-success/30 [background-color:color-mix(in_srgb,rgb(var(--ui-success))_12%,rgb(var(--ui-surface)))] text-success",
+        warning: "border-warning/30 [background-color:color-mix(in_srgb,rgb(var(--ui-warning))_12%,rgb(var(--ui-surface)))] text-warning",
+        danger: "border-danger/30 [background-color:color-mix(in_srgb,rgb(var(--ui-danger))_12%,rgb(var(--ui-surface)))] text-danger",
+        info: "border-brand/30 bg-brand-soft text-info"
       }
     },
     defaultVariants: { tone: "neutral" }
@@ -1361,12 +1361,12 @@ var gridCols = {
   3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
 };
 function DetailGrid({ columns = 3, className, ...props }) {
-  return /* @__PURE__ */ jsx("dl", { className: cn("grid gap-4", gridCols[columns], className), ...props });
+  return /* @__PURE__ */ jsx("dl", { className: cn("grid gap-x-6 gap-y-4", gridCols[columns], className), ...props });
 }
 function DetailField({ label, children, empty = "\u2014", className }) {
   const hasValue = children !== void 0 && children !== null && children !== "" && children !== false;
   return /* @__PURE__ */ jsxs("div", { className: cn("flex min-w-0 flex-col gap-1", className), children: [
-    /* @__PURE__ */ jsx("dt", { className: "font-sans text-small text-muted-foreground", children: label }),
+    /* @__PURE__ */ jsx("dt", { className: "font-sans text-small font-medium text-muted-foreground", children: label }),
     /* @__PURE__ */ jsx("dd", { className: "min-w-0 break-words font-sans text-body font-medium text-foreground", children: hasValue ? children : /* @__PURE__ */ jsx("span", { className: "font-normal text-muted-foreground", children: empty }) })
   ] });
 }
