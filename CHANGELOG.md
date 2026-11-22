@@ -2,6 +2,12 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.8.1
+
+- New: `Sidebar` collapsed rail shows a flyout panel for nav groups and a tooltip for leaf items. Visual change for apps that collapse the sidebar.
+- New: `LinkProps.title` (optional), passed to the rendered link so apps can show a native tooltip.
+- Known gap: the flyout uses arbitrary widths (`min-w-[210px]`, tracked in CONTRIBUTING known gaps) and `shadow-lg`.
+
 ## 0.8.0
 
 - New: Tailwind v4 entry point `@agoraford/ui/tailwind-v4.css`. It maps the same tokens to v4 theme variables, declares the z-index utilities, sets `dark:` to follow the `.dark` class, and scans `dist/`. The v3 preset is unchanged.
