@@ -2,6 +2,10 @@
 
 All notable changes to `@agoraford/ui`. Apps pin an exact tag, never a branch.
 
+## 0.8.2
+
+- Fixed: `DatePicker` and `DateRangePicker` calendars rendered unstyled (cramped grid, no spacing, no selected or today state). Added token-based `classNames` for react-day-picker, shared by both pickers. Visual change for every app that uses them.
+
 ## 0.8.1
 
 - New: `Sidebar` collapsed rail shows a flyout panel for nav groups and a tooltip for leaf items. Visual change for apps that collapse the sidebar.

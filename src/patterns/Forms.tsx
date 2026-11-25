@@ -33,15 +33,44 @@ export function DatePicker({ value, onValueChange, placeholder, displayFormat = 
         <DayPicker
           mode="single"
           selected={value}
+          showOutsideDays
           onSelect={(d) => {
             onValueChange(d);
             setOpen(false);
           }}
+          classNames={calendarClassNames}
         />
       </PopoverContent>
     </Popover>
   );
 }
+
+/** Token-based styling for react-day-picker v10, shared by the date pickers. */
+const calendarClassNames = {
+  root: "w-fit font-sans text-body text-foreground",
+  months: "flex flex-col gap-4",
+  month: "flex flex-col gap-4",
+  month_caption: "relative flex h-9 items-center justify-center",
+  caption_label: "text-body font-semibold text-foreground",
+  nav: "absolute inset-x-0 top-0 flex items-center justify-between",
+  button_previous:
+    "inline-flex h-9 w-9 items-center justify-center rounded-control text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+  button_next:
+    "inline-flex h-9 w-9 items-center justify-center rounded-control text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+  chevron: "size-4",
+  month_grid: "w-full border-collapse",
+  weekdays: "flex",
+  weekday: "flex h-9 w-9 items-center justify-center text-caption font-medium text-muted-foreground",
+  week: "mt-1 flex w-full",
+  day: "p-0.5 text-center text-small",
+  day_button:
+    "inline-flex h-9 w-9 items-center justify-center rounded-control text-small font-normal text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-40",
+  selected: "[&>button]:bg-brand [&>button]:font-semibold [&>button]:text-white [&>button:hover]:bg-brand-hover",
+  today: "[&>button]:border [&>button]:border-brand [&>button]:text-brand",
+  outside: "text-muted-foreground opacity-60",
+  disabled: "opacity-40",
+  hidden: "invisible",
+};
 
 export interface DateRangePickerProps {
   value?: DateRange;
@@ -73,10 +102,12 @@ export function DateRangePicker({ value, onValueChange, placeholder, displayForm
         <DayPicker
           mode="range"
           selected={value}
+          showOutsideDays
           onSelect={(r) => {
             onValueChange(r);
             if (r?.from && r?.to) setOpen(false);
           }}
+          classNames={calendarClassNames}
         />
       </PopoverContent>
     </Popover>
